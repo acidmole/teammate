@@ -1,7 +1,7 @@
 # teammate
 Basketball team's schedule and statistics app
 
-Teammate is a web application designed to assist a basketball team with their everyday calendar functions.
+Teammate is a web application designed to assist a basketball team with their everyday schedule management.
 
 Features include:
 - Admins can create practices and games with date, time and location information and a participant list. By default, only future practices and games are shown, in chronological order.
