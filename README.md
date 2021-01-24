@@ -24,7 +24,7 @@ Each player has a personal information page.
 - Includes summary of game statistics
 - Includes top game performance
 
-Game statistics
+Game statistics:
 Statistics from games.
 - Admins can include game statistics for each game
 - Summary, top performance and various lists for games, players and teams included
