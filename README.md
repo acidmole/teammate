@@ -1,3 +1,10 @@
+A small guide for peer review:
+
+- You can sign up or just use foo/bar for login, whichever suits you best
+- "Pelaajat" guides you to player list to view players' personal stats
+- "Tapahtumat" guides you to events where you can add an event (a game or a practice)
+- "Tilastot" guides you to stats page where you can view personal, team or match stats
+
 
 Known bugs and unfinished features:
 * editing or deleting events not available
@@ -11,6 +18,8 @@ Known bugs and unfinished features:
 * player attendance history not shown
 * single event view does not provide any information
 * player information editing or deleting not available
+* personal statistics page lacks statistics
+* registering into team makes one automatically a player
 
 # teammate
 Basketball team's schedule and statistics app
