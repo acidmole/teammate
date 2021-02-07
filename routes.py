@@ -47,10 +47,17 @@ def register():
 def list_events():
 
     listed_events = events.get_events()
-    sign_ups = events.get_sign_ups()
+    sign_ups = events.get_all_sign_ups()
     comments = events.get_comments()
 
     return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments)
+
+@app.route("/event/<int:id>")
+def event_info(id):
+    event = events.get_event_info(id)
+    sign_ups = events.get_sign_ups(id)
+    return render_template("event.html", event=event, sign_ups=sign_ups)
+
 
 @app.route("/add_event", methods=["GET","POST"])
 def add_event():

@@ -7,10 +7,7 @@
 
   {% for event in events %}
     <p>
-      {{ event[1] }}
-      {{ event[2] }}
-      {{ event[3] }} @
-      {{ event[5] }}
+      <a href=/event/{{ event[4] }}> {{ event[1] }} {{ event[2] }} {{ event[3] }} @ {{ event[5] }}</a>
     </p>
     <p>
       Ilmoittautuneet:
