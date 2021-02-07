@@ -44,7 +44,7 @@ CREATE TABLE comments (
 CREATE TABLE game_stats (
 	id SERIAL PRIMARY KEY,
 	event_id INTEGER REFERENCES events,
-	user_id INTEGER REFERENCES users,
+	player_id INTEGER REFERENCES users,
 	mins TIME,
 	fg INTEGER,
 	fga INTEGER,

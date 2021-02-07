@@ -119,10 +119,3 @@ def single_game_stats(id):
     player_stats = stats.get_single_game_stats(id)
     summed = stats.get_single_game_summary_stats(id)
     return render_template("game_stats.html", stats=player_stats, summed=summed)
-
-@app.route("/add_some_stats")
-def stat_adder():
-    if events.adder():
-        return redirect("/stats")
-    else:
-        return render_template("error.html", message="error")
