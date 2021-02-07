@@ -1,5 +1,5 @@
 CREATE TABLE users (
-	id INTEGER SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	username TEXT,
 	password TEXT
 	first_name TEXT,
@@ -9,7 +9,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE players (
-	id INTEGER SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users,
 	jersey_number INTEGER DEFAULT 0,
 	height INTEGER DEFAULT 0,
@@ -18,7 +18,7 @@ CREATE TABLE players (
 );
 
 CREATE TABLE events (
-	id INTEGER SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	type INTEGER DEFAULT 0,
 	day DATE,
 	h_min TIME,
@@ -27,14 +27,14 @@ CREATE TABLE events (
 );
 
 CREATE TABLE sign_ups (
-	id INTEGER SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	user_id INTEGER REFERENCES users,
 	event_id INTEGER REFERENCES events,
 	sign_up BOOLEAN
 );
 
 CREATE TABLE comments (
-	id INTEGER SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	t_stamp TIMESTAMP,
 	user_id INTEGER REFERENCES users,
 	event_id INTEGERE REFERENCES events,
@@ -42,7 +42,7 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE game_stats (
-	id INTEGER SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	event_id INTEGER REFERENCES events,
 	user_id INTEGER REFERENCES users,
 	mins TIME,
