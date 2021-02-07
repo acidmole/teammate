@@ -1,7 +1,7 @@
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
 	username TEXT,
-	password TEXT
+	password TEXT,
 	first_name TEXT,
 	last_name TEXT,
 	admin BOOLEAN DEFAULT FALSE,
@@ -37,7 +37,7 @@ CREATE TABLE comments (
 	id SERIAL PRIMARY KEY,
 	t_stamp TIMESTAMP,
 	user_id INTEGER REFERENCES users,
-	event_id INTEGERE REFERENCES events,
+	event_id INTEGER REFERENCES events,
 	message TEXT NOT NULL
 );
 
