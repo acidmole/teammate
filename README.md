@@ -1,5 +1,6 @@
 Known bugs and unfinished features:
 * new player self-registration not available
+* managing events not not available
 * adding statistics not available
 * signing up buttons for events not available
 * commenting events not working
