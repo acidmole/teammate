@@ -1,5 +1,5 @@
 Known bugs and unfinished features:
-* new player self-registration not available
+* every registrating user has admin rights (yeah, it helps peer review)
 * managing events not not available
 * adding statistics not available
 * signing up buttons for events not available
