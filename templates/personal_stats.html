@@ -1,0 +1,20 @@
+<table>
+  <tr>
+    <th>Nimi</th>
+    <th>#</th>
+    <th>Ottelut</th>
+    <th>Minuutit</th>
+    <th>Pisteet</th>
+    <th>Levypallot</th>
+  </tr>
+{% for stat in person_stats %}
+  <tr>>
+    <th> <a href=/players/{{ stat[0] }}> {{ stat[1] }} {{ stat[2] }} </a>
+    <th> {{ stat[3] }}
+    <th> {{ stat[4] }}
+    <th> {{ stat[5] }}
+    <th> {{ stat[6] }}
+    <th> {{ stat[7] }}
+  </tr>
+{% endfor %}
+</table>

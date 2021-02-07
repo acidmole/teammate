@@ -1,0 +1,9 @@
+<a href=/stats/personal>Pelaajakohtaiset tilastot</a><br>
+<a href=/stats/team>Joukkuetilastot</a><br>
+<hr>
+Uusimmat tilastot:
+<ul>
+{% for game in games %}
+    <li><a href=/stats/{{ game[0] }}> {{ game[2] }} {{ game[1] }} </a></li>
+{% endfor %}
+</ul>

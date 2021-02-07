@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+  {% for event in events %}
+    <p>
+      {{ event[1] }}
+      {{ event[2] }}
+      {{ event[3] }} @
+      {{ event[5] }}
+    </p>
+    <p>
+      Ilmoittautuneet:
+      {% for sign_up in sign_ups %}
+        {% if sign_up[1] == event[4] %}
+          <br>
+	  {{ sign_up[0] }}
+          {{ sign_up[2] }}
+        {% endif %}
+      {% endfor %}
+    </p>
+    <p>
+      Kommentit: {{ event[7] }} <br>
+      {{ event[6] }} {{ event[8] }} {{ event[9] }}
+    </p>
+    <p>
+      <form action="/events" method="post">
+        Viesti: <br>
+        <textarea name="content" rows="3" cols="40"></textarea><br>
+        <input type="submit" value="Lähetä">
+      </form>
+    </p>
+  <hr>
+{% endfor %}
+{% endblock %}

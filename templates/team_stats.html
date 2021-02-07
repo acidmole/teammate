@@ -1,0 +1,70 @@
+<h1>Joukkueen tilastoidut ottelut</h1>
+
+<table>
+  <tr>
+    <th>Ottelu</th>
+    <th>Pvm</th>
+    <th>2P</th>
+    <th>2PA</th>
+    <th>2P%</th>
+    <th>1P</th>
+    <th>1PA</th>
+    <th>1P%</th>
+    <th>3P</th>
+    <th>3PA</th>
+    <th>3P%</th>
+    <th>PL</th>
+    <th>HL</th>
+    <th>V</th>
+    <th>S</th>
+    <th>M</th>
+    <th>R</th>
+    <th>T</th>
+   
+
+  </tr>
+
+{% for stat in tstats %}
+  <tr>>
+    <th> <a href=/stats/{{ stat[0] }}> {{ stat[1] }} </a> 
+    <th> {{ stat[2] }}</th>
+    <th> {{ stat[3] }}</th>
+    <th> {{ stat[4] }}</th>
+    <th> {{ stat[5] }}</th>
+    <th> {{ stat[6] }}</th>
+    <th> {{ stat[7] }}</th>
+    <th> {{ stat[8] }}</th>
+    <th> {{ stat[9] }}</th>
+    <th> {{ stat[10] }}</th>
+    <th> {{ stat[11] }}</th>
+    <th> {{ stat[13] }}</th>
+    <th> {{ stat[14] }}</th>
+    <th> {{ stat[12] }}</th>
+    <th> {{ stat[18] }}</th>
+    <th> {{ stat[15] }}</th>
+    <th> {{ stat[16] }}</th>
+    <th> {{ stat[17] }}</th>
+  </tr>
+{% endfor %}
+  <tr>
+{% for stat in tstats_avg %}
+    <th>YHTEENSÄ</th>
+    <th></th>
+    <th> {{ stat[0] }}</th>
+    <th> {{ stat[1] }}</th>
+    <th> {{ stat[2] }}</th>
+    <th> {{ stat[3] }}</th>
+    <th> {{ stat[4] }}</th>
+    <th> {{ stat[5] }}</th>
+    <th> {{ stat[6] }}</th>
+    <th> {{ stat[7] }}</th>
+    <th> {{ stat[8] }}</th>
+    <th> {{ stat[10] }}</th>
+    <th> {{ stat[11] }}</th>
+    <th> {{ stat[9] }}</th>
+    <th> {{ stat[15] }}</th>
+    <th> {{ stat[12] }}</th>
+    <th> {{ stat[13] }}</th>
+    <th> {{ stat[14] }}</th>
+{% endfor %}
+</table>

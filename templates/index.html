@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+  <table style="table-layout: fixed; width: 320px;">
+     <tr>
+       <td><a href="/players"><i class="fas fa-running" style="font-size:96px;color:cornflowerblue;" alt="juokseva tikku-ukko"></i></a></td>
+       <td><a href="/events"><i class="fas fa-calendar-day" style="font-size:96px;color:limegreen;" alt="kalenteri"></i></a></td>
+       <td><a href="/stats"><i class="far fa-chart-bar" style="font-size:96px;color:orange;" alt="diagrammi"></i></a></td>
+    </tr>
+    <tr>
+      <td><a href="/players">Pelaajat</a></td>
+      <td><a href="/events">Tapahtumat</a></td>
+      <td><a href="/stats">Tilastot</a></td>
+    </tr>
+  </table>
+  </p>
+{% endblock %}

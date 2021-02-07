@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <title>Teammate - korisjoukkueen ilmoittautumis- ja tilastoapplikaatio</title>
+  </head>
+  {% if session.user_id %}
+    <body>
+    {% block content %}
+    {% endblock %}
+    </body>
+    <div>
+
+   <p>
+    <a href="/logout">Kirjaudu ulos</a>
+    </p>
+      <table>
+        <tr>
+          <td><a href="/players">Pelaajat</a></td>
+          <td><a href="/events">Tapahtumat</a></td>
+          <td><a href="/stats">Tilastot</a></td>
+        </tr>
+      </table>
+    </div>
+
+  {% else %}
+    <form action="/login" method="POST">
+      <p>Tunnus:<br>
+      <input type="text" name="username"></p>
+      <p>Salasana:<br>
+      <input type="password" name="password"></p>
+      <input type="submit" value="Kirjaudu">
+    </form>
+  {% endif %}
+
+
+</html>
+
