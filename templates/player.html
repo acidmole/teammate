@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block content %}
+
 <h1> pelaajan sivu </h1>
 <p>
   Etunimi: {{person_info[0]}} <br>
@@ -6,9 +9,9 @@
   Pituus: {{person_info[3]}} <br>
   Paino: {{person_info[4]}}  <br>
   Pistekeskiarvo: {{ person_info[5] }} <br>
-  Levypallokeskiarvo: {{ person_info[6] }}
-  Syöttökeskiarvo: {{ person_info[7] }}
-  Riistokeskiarvo: {{ person_info[8] }}
+  Levypallokeskiarvo: {{ person_info[6] }}<br>
+  Syöttökeskiarvo: {{ person_info[7] }}<br>
+  Riistokeskiarvo: {{ person_info[8] }}<br>
 </p>
 
 {% if comp_player %}
@@ -16,9 +19,9 @@
   Pituus: {{ comp_player[2] }} <br>
   Paino: {{ comp_player[3] }}  <br>
   Pistekeskiarvo: {{ comp_player[4] }} <br>
-  Levypallokeskiarvo: {{ comp_player[5] }}
-  Syöttökeskiarvo: {{ comp_player[6] }}
-  Riistokeskiarvo: {{ comp_player[7] }}
+  Levypallokeskiarvo: {{ comp_player[5] }}<br>
+  Syöttökeskiarvo: {{ comp_player[6] }}<br>
+  Riistokeskiarvo: {{ comp_player[7] }}<br>
 {% endif %}
 
   <h4>Parhaat suoritukset</h4>
@@ -57,3 +60,4 @@
   <input class="btn" type="submit" value="submit">
 </form>
 </p>
+{% endblock %}

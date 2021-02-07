@@ -18,6 +18,7 @@ def login():
         if users.login(username, password):
             return redirect("/")
         else:
+
             return render_template("error.html", message="Väärä tunnus tai salasana")
 
 @app.route("/logout")
@@ -25,6 +26,22 @@ def logout():
     users.logout()
     return redirect("/")
 
+@app.route("/register", methods=["GET","POST"])
+def register():
+    if request.method == "GET":
+        return render_template("register.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        first_name = request.form["first_name"]
+        last_name = request.form["last_name"]
+        jersey = request.form["jersey"]
+        height = request.form["height"]
+        weight = request.form["weight"]
+        if users.new_user(username, password, first_name, last_name, jersey, height, weight):
+            return redirect("/")
+        else:
+            return render_template("error.html",message="Rekisteröinti ei onnistunut")
 
 @app.route("/send", methods=["POST"])
 def send():

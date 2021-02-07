@@ -6,21 +6,22 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <title>Teammate - korisjoukkueen ilmoittautumis- ja tilastoapplikaatio</title>
   </head>
+  <body>
   {% if session.user_id %}
-    <body>
+
+    <p>
+      <a href="/"><i class="fas fa-home" style="font-size:64px; color:orange"></i></a><a href="/logout">Kirjaudu ulos</a>
+    </p>      
     {% block content %}
     {% endblock %}
-    </body>
-    <div>
 
-   <p>
-    <a href="/logout">Kirjaudu ulos</a>
-    </p>
+    <hr>
+    <div>
       <table>
         <tr>
-          <td><a href="/players">Pelaajat</a></td>
-          <td><a href="/events">Tapahtumat</a></td>
-          <td><a href="/stats">Tilastot</a></td>
+         <td><a href="/players"><i class="fas fa-running" style="font-size:16px;color:cornflowerblue;" alt="juokseva tikku-ukko"></i>Pelaajat</a></td>
+         <td><a href="/events"><i class="fas fa-calendar-day" style="font-size:16px;color:limegreen;" alt="kalenteri"></i>Tapahtumat</a></td>
+         <td><a href="/stats"><i class="far fa-chart-bar" style="font-size:16px;color:orange;" alt="diagrammi"></i>Tilastot</a></td>
         </tr>
       </table>
     </div>
@@ -33,8 +34,10 @@
       <input type="password" name="password"></p>
       <input type="submit" value="Kirjaudu">
     </form>
+    <p>
+      Eikö tunnuksia? <a href="/register">Rekisteröidy käyttäjäksi</a>
+    </p>
   {% endif %}
-
-
+  </body>
 </html>
 
