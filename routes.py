@@ -43,10 +43,6 @@ def register():
         else:
             return render_template("error.html",message="Rekisteröinti ei onnistunut")
 
-@app.route("/send", methods=["POST"])
-def send():
-    return redirect("/events")
-
 @app.route("/events")
 def list_events():
 
@@ -55,6 +51,22 @@ def list_events():
     comments = events.get_comments()
 
     return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments)
+
+@app.route("/add_event", methods=["GET","POST"])
+def add_event():
+    if request.method == "GET":
+        return render_template("add_event.html")
+    if request.method == "POST":
+        type = request.form["type"]
+        date = request.form["date"]
+        time = request.form["time"]
+        name = request.form["name"]
+        location = request.form["location"]
+        if events.add_event(type, date, time, name, location):
+            return redirect("/events")
+        else:
+            return render_template("error.html",message="Tapahtuman luonti ei onnistunut")
+
 
 @app.route("/players")
 def player_list():
@@ -74,7 +86,6 @@ def player_info(id):
     top_block = players.get_top_block(id)
 
     return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block)
-
 
 
 @app.route("/stats")
@@ -101,3 +112,4 @@ def single_game_stats(id):
     player_stats = stats.get_single_game_stats(id)
     summed = stats.get_single_game_summary_stats(id)
     return render_template("game_stats.html", stats=player_stats, summed=summed)
+

@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
+
+  <h1>Tulevat tapahtumat</h2>
+
+  <a href=/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
+
   {% for event in events %}
     <p>
       {{ event[1] }}

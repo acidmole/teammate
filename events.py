@@ -29,3 +29,9 @@ def get_sign_ups():
                                 "LEFT JOIN events E ON S.event_id=E.id "\
                                 "ORDER BY E.day")
     return result.fetchall()
+
+def add_event(type, day, time, name, location):
+    sql = "INSERT INTO events (type, day, h_min, name, location) VALUES (:type, :day, :time, :name, :location)"
+    db.session.execute(sql, {"type":type, "day":day, "time":time, "name":name, "location":location})
+    db.session.commit()
+    return True

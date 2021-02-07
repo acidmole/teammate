@@ -1,0 +1,12 @@
+ <form action="/add_event" method="post">
+    <label for="type">Tapahtumatyyppi:</label> 
+    <select name="type" id="type">
+      <option value="0">Harjoitukset</option>
+      <option value="1">Ottelu</option>
+    </select>
+    Päivä: <input type="date" name="date" required>
+    Aika: <input type="time" name="time" required>
+    Tapahtuman otsikko: <input type="text" name="name" required>
+    Paikka: <input type="text" name="location">
+    <input type="submit" value="Luo tapahtuma">
+  </form>
