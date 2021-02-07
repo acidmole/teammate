@@ -11,12 +11,12 @@ def get_events():
 
 
 def get_comments():
-    result = db.session.execute("SELECT C.tstamp, C.event_id, C.user_id, C.message, U.first_name, U.last_name " \
+   result = db.session.execute("SELECT C.t_stamp, C.event_id, C.user_id, C.message, U.first_name, U.last_name " \
                                 "FROM comments C " \
                                 "LEFT JOIN users U on U.id=C.user_id "\
                                 "LEFT JOIN events E on E.id=C.event_id "\
                                 "WHERE E.day >= now() "\
-                                "ORDER BY C.tstamp")
+                                "ORDER BY C.t_stamp")
 
     return result.fetchall()
 
