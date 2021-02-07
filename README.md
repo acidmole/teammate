@@ -1,3 +1,14 @@
+Known bugs and unfinished features:
+* new player self-registration not available
+* adding statistics not available
+* signing up buttons for events not available
+* commenting events not working
+* admin/user mode not separated in app
+* practice statistics lacking
+* player statistics comparison not working
+* only future events shown
+* player attendance history not shown
+
 # teammate
 Basketball team's schedule and statistics app
 
