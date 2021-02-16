@@ -1,6 +1,7 @@
 from app import app
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, flash
 from db import db
+from forms import RegistrationForm
 
 import users, events, players, stats
 
@@ -10,16 +11,16 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "GET":
-        return redirect("/")
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        if users.login(username, password):
-            return redirect("/")
-        else:
+	if request.method == "GET":
+		return redirect("/")
 
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+	if request.method == "POST":
+		username = request.form["username"]
+		password = request.form["password"]
+		if users.login(username, password):
+			return redirect("/")
+		else:
+			return render_template("error.html", message="Väärä tunnus tai salasana")
 
 @app.route("/logout")
 def logout():
@@ -28,20 +29,25 @@ def logout():
 
 @app.route("/register", methods=["GET","POST"])
 def register():
-    if request.method == "GET":
-        return render_template("register.html")
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        first_name = request.form["first_name"]
-        last_name = request.form["last_name"]
-        jersey = request.form["jersey"]
-        height = request.form["height"]
-        weight = request.form["weight"]
-        if users.new_user(username, password, first_name, last_name, jersey, height, weight):
-            return redirect("/")
-        else:
-            return render_template("error.html",message="Rekisteröinti ei onnistunut")
+	form = RegistrationForm(request.form)
+
+	if request.method == "GET":
+		return render_template("register.html", form=form)
+
+	if request.method == "POST" and form.validate():
+
+#        username = request.form["username"]
+#        password = request.form["password"]
+#        first_name = request.form["first_name"]
+#        last_name = request.form["last_name"]
+#        jersey = request.form["jersey"]
+#        height = request.form["height"]
+#        weight = request.form["weight"]
+		if users.new_user(form.username.data, form.password.data, form.first_name.data, form.last_name.data, form.jersey.data, form.height.data, form.weight.data):
+			flash ('Rekisteröityminen onnistui')
+			return redirect("/")
+		else:
+			return render_template("error.html",message="Rekisteröinti ei onnistunut")
 
 @app.route("/events")
 def list_events():

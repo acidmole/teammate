@@ -1,11 +1,41 @@
-  <form action="/register" method="post">
-    Tunnus: <input type="text" name="username" required> 
-    Salasana: <input type="password" name="password" required>
+{% from "_formhelper.html" import render_field %}
+<form action="/register" method="post">
+<!--
+  <p>Tunnus: <input type="text" name="username" required></p>
+  <p>Salasana: <input type="password" name="password" required></p>
+  <p>Salasana uudelleen: <input type="password" name="confirm" required></p>
+  <p>Etunimi: <input type="text" name="first_name" required size="16"> Sukunimi: <input type="text" name="last_name" required size="32"></p>
+  <p>Pelinumero: <input type="number" name="jersey" maxlength="2"></p>
+  <p>Pituus: <input type="number" name="height" maxlength="3"></p>
+  <p>Paino: <input type="number" name="weight" maxlength="3"></p>
+  <p><input type="submit" value="Luo tunnus"></p>
+  -->
 
-    Etunimi: <input type="text" name="first_name" required size="16">
-    Sukunimi: <input type="text" name="last_name" required size="32">
-    Pelinumero: <input type="number" name="jersey" size="2">
-    Pituus: <input type="number" name="height" size="3">
-    Weight: <input type="number" name="weight" size="3">
+<p>
+  {{ render_field(form.username) }}
+</p>
+<p>
+  {{ render_field(form.password) }}
+</p>
+<p>
+  {{ render_field(form.confirm) }}
+</p>
+<p>
+  {{ render_field(form.first_name) }} 
+</p>
+<p>
+  {{ render_field(form.last_name) }}
+</p>
+<p>
+  {{ render_field(form.jersey) }} 
+</p>
+<p>
+  {{ render_field(form.height) }} 
+</p>
+<p>
+  {{ render_field(form.weight) }}
+</p>
+<p>
+  <input type=submit value=Rekisteröidy>
+</form>
 
-    <input type="submit" value="Luo tunnus">
