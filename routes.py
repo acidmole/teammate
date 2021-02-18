@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, redirect, request, flash
 from db import db
-from forms import RegistrationForm, CommentForm, SignForm
+from forms import RegistrationForm, CommentForm, SignForm, EditEventForm
 
 import users, events, players, stats
 
@@ -78,14 +78,18 @@ def event_info(id):
 
 @app.route("/event/edit/<int:id>", methods=["GET", "POST"])
 def event_edit(id):
+	form = EditEventForm(request.form)
 	if request.method == "GET":
 		event = events.get_event_info(id)
 		sign_ups = events.get_sign_ups(id)
 		comments = events.get_single_comments(id)
-		return render_template("edit_event.html", event=event, sign_ups=sign_ups, comments=comments)
+		return render_template("edit_event.html", event=event, sign_ups=sign_ups, comments=comments, form=form)
 	if request.method == "POST":
-		events.update_event(type, date, time, name, location)
-		return redirect("event/<int:id>")
+		if form.submit.data:
+			if events.update_event(id, form.type.data, form.day.data, form.time.data, form.name.data, form.location.data):
+				return redirect("/events")
+			else:
+				return render_template("error.html",message="Virhe päivityksessä")
 
 
 @app.route("/events/add_event", methods=["GET","POST"])

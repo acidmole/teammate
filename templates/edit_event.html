@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% for ev in event %}
+<form action="/event/edit/{{ev[4]}}" method="POST"> 
+  <p>
+	{{ form.type.label }}
+	<br>
+	{% for subfield in form.type %}
+	  {{ subfield }}
+      {{ subfield.label }}
+      <br>
+    {% endfor %}
+  <p>
+  	{{ form.day(value=ev[1]) }}
+  <p>
+  	{{ form.time(value=ev[2]) }}
+  <p>
+  	{{ form.name(value=ev[3]) }}
+  <p>
+  	{{ form.location(value=ev[5]) }}
+  <p>
+	{{ form.submit }}
+</form>
+
+{% endfor %}
+
+{% endblock %}

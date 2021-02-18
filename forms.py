@@ -1,7 +1,7 @@
-from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField, SubmitField
+from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField, SubmitField, RadioField, DateField, TimeField
 
 class RegistrationForm(Form):
-	username = StringField('Käyttäjätunnus', [validators.Length(min=3, max=25)])
+	username = StringField('Käyttäjätunnus', [validators.DataRequired, validators.Length(min=3, max=25)])
 	password = PasswordField('Salasana', [validators.DataRequired(), validators.EqualTo('confirm', message='Passwords must match')])
 	confirm = PasswordField('Salasana uudelleen')
 	first_name = StringField('Etunimi', [validators.Length(min=3, max=25)])
@@ -21,3 +21,11 @@ class SignForm(Form):
 	event_id = HiddenField('event_id')
 	player_in = SubmitField(label='IN')
 	player_out = SubmitField(label='OUT')
+
+class EditEventForm(Form):
+	name = StringField('Tapahtuma', [validators.Length(min=1, max=40)])
+	type = RadioField('Tapahtumatyyppi', choices=[('0', 'Harjoitukset'), ('1', 'Ottelu')])
+	day = DateField('Päivämäärä', [validators.Required()])
+	time = TimeField('Aika', [validators.Required()])
+	location = StringField('Paikka', [validators.Length(min=1, max=40)])
+	submit = SubmitField('Tallenna muutokset')

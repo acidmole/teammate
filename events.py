@@ -23,7 +23,7 @@ def get_event_info(id):
 	  "LEFT JOIN comments C on E.id = C.event_id " \
           "WHERE E.id=:id"
     result = db.session.execute(sql, {"id":id})
-    return result.fetchone()
+    return result.fetchall()
 
 def get_comments():
     result = db.session.execute("SELECT C.t_stamp, C.event_id, C.user_id, C.message, U.first_name, U.last_name " \
@@ -40,7 +40,7 @@ def get_single_comments(id):
                                 "FROM comments C " \
                                 "LEFT JOIN users U on U.id=C.user_id "\
                                 "LEFT JOIN events E on E.id=C.event_id "\
-                                "WHERE C.event_id=:id"\
+                                "WHERE C.event_id=:id "\
                                 "ORDER BY C.t_stamp"
 	result = db.session.execute(sql, {"id":id})
 	return result.fetchall()
@@ -81,5 +81,11 @@ def add_event(type, day, time, name, location):
 def add_comment(user_id, event_id, message):
 	sql = "INSERT INTO comments (t_stamp, event_id, message, user_id) VALUES (now(), :event_id, :message, :user_id)"
 	db.session.execute(sql, {"event_id":event_id, "message":message, "user_id":user_id})
+	db.session.commit()
+	return True
+
+def update_event(id, type, day, h_min, name, location):
+	sql = "UPDATE events SET type=:type, day=:day, h_min=:h_min, name=:name, location=:location WHERE id=:id"
+	db.session.execute(sql, {"id":id, "type":type, "h_min":h_min, "name":name, "day":day, "location":location})
 	db.session.commit()
 	return True
