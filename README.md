@@ -9,11 +9,9 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/ (not updated to gi
 
 
 Known bugs and unfinished features:
-* requirements.txt missing stuff
 * editing or deleting events not available
 * adding statistics not available
 * signing up buttons for events not available
-* commenting events not working
 * admin/user mode not separated in app
 * practice statistics lacking
 * player statistics comparison not working
