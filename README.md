@@ -1,6 +1,6 @@
 A small guide for peer review:
 
-The app can be tested at http://tsoha-teammate.herokuapp.com/
+The app can be tested at http://tsoha-teammate.herokuapp.com/ (not updated to github version, sorry!)
 
 - You can sign up or just use foo/bar for login, whichever suits you best
 - "Pelaajat" guides you to player list to view players' personal stats
@@ -9,6 +9,7 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/
 
 
 Known bugs and unfinished features:
+* requirements.txt missing stuff
 * editing or deleting events not available
 * adding statistics not available
 * signing up buttons for events not available
