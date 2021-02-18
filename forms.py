@@ -11,9 +11,10 @@ class RegistrationForm(Form):
 	weight = IntegerField('Paino', [validators.NumberRange(min=0, max=300)])
 
 class CommentForm(Form):
-	message = TextField([validators.InputRequired()])
+	message = TextField([validators.DataRequired()])
 	event_id = HiddenField('event_id')
 	user_id = HiddenField('user_id')
+	submit = SubmitField('Kommentoi')
 
 class SignForm(Form):
 	user_id = HiddenField('user_id')

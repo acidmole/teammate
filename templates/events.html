@@ -3,7 +3,7 @@
 
   <h1>Tulevat tapahtumat</h2>
 
-  <a href=/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
+  <a href=/events/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
 
   {% for event in events %}
     <p>
@@ -43,15 +43,19 @@
 	  {% endfor %}
     </p>
 
-{% from "_formhelper.html" import render_field %}
 	<form action="/events" method="post">
 	    <p>
- 		  {{ render_field(form.message) }}
+ 		  {{ (form.message) }}
 	 	</p>
 	 	  {{ form.event_id(value=event[4]) }}
 	 	  {{ form.user_id(value=session.user_id) }}
-		<input type="submit" value="Lisää kommentti">
+	 	  {{ form.submit }}
 	</form>
+	<p>
+	  <a href=/events/edit/{{event[4]}}><i class="far fa-edit" font-size:32px;></i>Muokkaa</a>
+	  <a href=/events/delete/{{event[4]}}><i class="far fa-trash-alt" font-size:32px;></i>Poista</a>
+	</p>
+
   <hr>
 {% endfor %}
 {% endblock %}

@@ -1,9 +1,12 @@
 from db import db
 import users
 
-def sign_up():
-	sql = "INSERT INTO sign_ups(user_id, event_id, sign_up) VALUES (user_id, event_id, sign_up)"
-	db.session.execute()
+def sign_up(user_id, event_id, sign_up):
+	sql = "DELETE FROM sign_ups WHERE user_id=" + user_id + " AND event_id=" + event_id
+	db.session.execute(sql)
+	db.session.commit()
+	sql = "INSERT INTO sign_ups(user_id, event_id, sign_up) VALUES (" + user_id + "," + event_id + "," + "'" + sign_up + "')"
+	db.session.execute(sql)
 	db.session.commit()
 	return True
 
@@ -31,6 +34,16 @@ def get_comments():
                                 "ORDER BY C.t_stamp")
 
     return result.fetchall()
+
+def get_single_comments(id):
+	sql = "SELECT C.t_stamp, C.event_id, C.user_id, C.message, U.first_name, U.last_name " \
+                                "FROM comments C " \
+                                "LEFT JOIN users U on U.id=C.user_id "\
+                                "LEFT JOIN events E on E.id=C.event_id "\
+                                "WHERE C.event_id=:id"\
+                                "ORDER BY C.t_stamp"
+	result = db.session.execute(sql, {"id":id})
+	return result.fetchall()
 
 
 def get_all_sign_ups():

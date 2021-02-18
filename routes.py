@@ -51,23 +51,24 @@ def list_events():
 		comments = events.get_comments()
 		return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form, s_form=s_form)
 
-	if request.method == "POST" and form.validate():
-		if events.add_comment(form.user_id.data, form.event_id.data, form.message.data):
-			return redirect("/events")
-		else:
-			return render_template("error.html", message="Kommentin lisääminen ei onnistunut")
+	if request.method == "POST":
 
-	if request.method == "POST" and s_form.validate():
-		if s_form.player_in.data:
-			if events.sign_up(s_form.user_id.data, s_form.event_id.sata, "t"):
+		if form.submit.data and form.validate():
+			if events.add_comment(form.user_id.data, form.event_id.data, form.message.data):
+				return redirect("/events")
+			else:
+				return render_template("error.html", message="Kommentin lisääminen ei onnistunut")
+
+		if s_form.validate() and s_form.player_in.data:
+			if events.sign_up(s_form.user_id.data, s_form.event_id.data, "t"):
 				return redirect("/events")
 			else:
 				return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
-		else: 
-			if events.sign_up(s_form.user_id.data, s_form.event_id.sata, "f"):
-				return redirect("/events")
-			else:
-				return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
+		elif s_form.validate() and s_form.player_out.data:
+				if events.sign_up(s_form.user_id.data, s_form.event_id.data, "f"):
+					return redirect("/events")
+				else:
+					return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
 
 @app.route("/event/<int:id>")
 def event_info(id):
@@ -75,8 +76,19 @@ def event_info(id):
     sign_ups = events.get_sign_ups(id)
     return render_template("event.html", event=event, sign_ups=sign_ups)
 
+@app.route("/event/edit/<int:id>", methods=["GET", "POST"])
+def event_edit(id):
+	if request.method == "GET":
+		event = events.get_event_info(id)
+		sign_ups = events.get_sign_ups(id)
+		comments = events.get_single_comments(id)
+		return render_template("edit_event.html", event=event, sign_ups=sign_ups, comments=comments)
+	if request.method == "POST":
+		events.update_event(type, date, time, name, location)
+		return redirect("event/<int:id>")
 
-@app.route("/add_event", methods=["GET","POST"])
+
+@app.route("/events/add_event", methods=["GET","POST"])
 def add_event():
     if request.method == "GET":
         return render_template("add_event.html")
