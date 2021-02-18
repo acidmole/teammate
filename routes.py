@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, redirect, request, flash
 from db import db
-from forms import RegistrationForm, CommentForm
+from forms import RegistrationForm, CommentForm, SignForm
 
 import users, events, players, stats
 
@@ -44,17 +44,30 @@ def register():
 @app.route("/events", methods=["GET", "POST"])
 def list_events():
 	form = CommentForm(request.form)
+	s_form = SignForm(request.form)
 	if request.method == "GET":
 		listed_events = events.get_events()
 		sign_ups = events.get_all_sign_ups()
 		comments = events.get_comments()
-		return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form)
+		return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form, s_form=s_form)
 
 	if request.method == "POST" and form.validate():
 		if events.add_comment(form.user_id.data, form.event_id.data, form.message.data):
 			return redirect("/events")
 		else:
 			return render_template("error.html", message="Kommentin lisääminen ei onnistunut")
+
+	if request.method == "POST" and s_form.validate():
+		if s_form.player_in.data:
+			if events.sign_up(s_form.user_id.data, s_form.event_id.sata, "t"):
+				return redirect("/events")
+			else:
+				return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
+		else: 
+			if events.sign_up(s_form.user_id.data, s_form.event_id.sata, "f"):
+				return redirect("/events")
+			else:
+				return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
 
 @app.route("/event/<int:id>")
 def event_info(id):

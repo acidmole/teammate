@@ -9,25 +9,35 @@
     <p>
       <a href=/event/{{ event[4] }}> {{ event[1] }} {{ event[2] }} {{ event[3] }} @ {{ event[5] }}</a>
     </p>
-    <p>
-      Ilmoittautuneet:
+    
+    <p>Ilmoittautuneet:
       {% for sign_up in sign_ups %}
         {% if sign_up[1] == event[4] %}
           <br>
-	  {{ sign_up[0] }}
+	  	  {{ sign_up[0] }}
           {{ sign_up[2] }}
         {% endif %}
       {% endfor %}
     </p>
-    <p>
 
+    <p>
+      <form action="/events" method="post">
+        Ilmoittaudu:
+	 	{{ s_form.user_id(value=session.user_id) }}
+        {{ s_form.event_id(value=event[4]) }}
+        {{ s_form.player_in }}
+        {{ s_form.player_out }}
+      </form>
+	</p>
+
+    <p>
 	  Kommentit: <br>
       {% for comment in comments %}
       
 	  {% if comment[1] == event[4] %}
 	  <p>
-	  {{ comment[0] }} {{ comment[4] }} {{ comment[5] }} <br>
-	  {{ comment[3] }}<br>
+	    {{ comment[0] }} {{ comment[4] }} {{ comment[5] }} <br>
+	    {{ comment[3] }}<br>
 	  </p>
 	  {% endif %}
 	  {% endfor %}
@@ -38,13 +48,9 @@
 	    <p>
  		  {{ render_field(form.message) }}
 	 	</p>
-	 	<p>
 	 	  {{ form.event_id(value=event[4]) }}
-		</p>
-	 	<p>
 	 	  {{ form.user_id(value=session.user_id) }}
-		</p>
-		<input type=submit value=Lisää kommentti>
+		<input type="submit" value="Lisää kommentti">
 	</form>
   <hr>
 {% endfor %}

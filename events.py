@@ -1,6 +1,12 @@
 from db import db
 import users
 
+def sign_up():
+	sql = "INSERT INTO sign_ups(user_id, event_id, sign_up) VALUES (user_id, event_id, sign_up)"
+	db.session.execute()
+	db.session.commit()
+	return True
+
 def get_events():
     result = db.session.execute("SELECT E.type, E.day, E.h_min, E.name, E.id, E.location "\
                                 "FROM events E " \

@@ -1,4 +1,4 @@
-from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField
+from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField, SubmitField
 
 class RegistrationForm(Form):
 	username = StringField('Käyttäjätunnus', [validators.Length(min=3, max=25)])
@@ -14,3 +14,9 @@ class CommentForm(Form):
 	message = TextField([validators.InputRequired()])
 	event_id = HiddenField('event_id')
 	user_id = HiddenField('user_id')
+
+class SignForm(Form):
+	user_id = HiddenField('user_id')
+	event_id = HiddenField('event_id')
+	player_in = SubmitField(label='IN')
+	player_out = SubmitField(label='OUT')
