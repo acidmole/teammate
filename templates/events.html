@@ -20,16 +20,32 @@
       {% endfor %}
     </p>
     <p>
-      Kommentit: {{ event[7] }} <br>
-      {{ event[6] }} {{ event[8] }} {{ event[9] }}
+
+	  Kommentit: <br>
+      {% for comment in comments %}
+      
+	  {% if comment[1] == event[4] %}
+	  <p>
+	  {{ comment[0] }} {{ comment[4] }} {{ comment[5] }} <br>
+	  {{ comment[3] }}<br>
+	  </p>
+	  {% endif %}
+	  {% endfor %}
     </p>
-    <p>
-      <form action="/events" method="post">
-        Viesti: <br>
-        <textarea name="content" rows="3" cols="40"></textarea><br>
-        <input type="submit" value="Lähetä">
-      </form>
-    </p>
+
+{% from "_formhelper.html" import render_field %}
+	<form action="/events" method="post">
+	    <p>
+ 		  {{ render_field(form.message) }}
+	 	</p>
+	 	<p>
+	 	  {{ form.event_id(value=event[4]) }}
+		</p>
+	 	<p>
+	 	  {{ form.user_id(value=session.user_id) }}
+		</p>
+		<input type=submit value=Lisää kommentti>
+	</form>
   <hr>
 {% endfor %}
 {% endblock %}

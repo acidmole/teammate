@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, redirect, request, flash
 from db import db
-from forms import RegistrationForm
+from forms import RegistrationForm, CommentForm
 
 import users, events, players, stats
 
@@ -35,28 +35,26 @@ def register():
 		return render_template("register.html", form=form)
 
 	if request.method == "POST" and form.validate():
-
-#        username = request.form["username"]
-#        password = request.form["password"]
-#        first_name = request.form["first_name"]
-#        last_name = request.form["last_name"]
-#        jersey = request.form["jersey"]
-#        height = request.form["height"]
-#        weight = request.form["weight"]
 		if users.new_user(form.username.data, form.password.data, form.first_name.data, form.last_name.data, form.jersey.data, form.height.data, form.weight.data):
 			flash ('Rekisteröityminen onnistui')
 			return redirect("/")
 		else:
 			return render_template("error.html",message="Rekisteröinti ei onnistunut")
 
-@app.route("/events")
+@app.route("/events", methods=["GET", "POST"])
 def list_events():
+	form = CommentForm(request.form)
+	if request.method == "GET":
+		listed_events = events.get_events()
+		sign_ups = events.get_all_sign_ups()
+		comments = events.get_comments()
+		return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form)
 
-    listed_events = events.get_events()
-    sign_ups = events.get_all_sign_ups()
-    comments = events.get_comments()
-
-    return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments)
+	if request.method == "POST" and form.validate():
+		if events.add_comment(form.user_id.data, form.event_id.data, form.message.data):
+			return redirect("/events")
+		else:
+			return render_template("error.html", message="Kommentin lisääminen ei onnistunut")
 
 @app.route("/event/<int:id>")
 def event_info(id):

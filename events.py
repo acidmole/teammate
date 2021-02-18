@@ -59,3 +59,8 @@ def add_event(type, day, time, name, location):
     db.session.commit()
     return True
 
+def add_comment(user_id, event_id, message):
+	sql = "INSERT INTO comments (t_stamp, event_id, message, user_id) VALUES (now(), :event_id, :message, :user_id)"
+	db.session.execute(sql, {"event_id":event_id, "message":message, "user_id":user_id})
+	db.session.commit()
+	return True
