@@ -16,7 +16,6 @@ Known bugs and unfinished features:
 * practice statistics lacking
 * player statistics comparison not working
 * only future events shown in not very chronological order
-* player attendance history not shown
 * single event view does not provide any information
 * player information editing or deleting not available
 * personal statistics page lacks statistics
