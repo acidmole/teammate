@@ -10,7 +10,7 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/ (not updated to gi
 
 Known bugs and unfinished features:
 * deleting events not available
-* editing events can not save event's starting time
+* editing events troubles saving starting time
 * adding statistics unavailable
 * admin/user mode not separated in app
 * practice statistics lacking
@@ -19,7 +19,6 @@ Known bugs and unfinished features:
 * single event view does not provide any information
 * player information editing or deleting not available
 * personal statistics page lacks statistics
-* registering into team makes one automatically a player
 
 # teammate
 Basketball team's schedule and statistics app

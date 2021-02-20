@@ -1,14 +1,16 @@
-from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField, SubmitField, RadioField, DateField, TimeField
+from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField, SubmitField, RadioField, DateField, TimeField, BooleanField, SelectField
 
 class RegistrationForm(Form):
-	username = StringField('Käyttäjätunnus', [validators.DataRequired, validators.Length(min=3, max=25)])
+	username = StringField('Käyttäjätunnus', [validators.DataRequired(), validators.Length(min=3, max=25)])
 	password = PasswordField('Salasana', [validators.DataRequired(), validators.EqualTo('confirm', message='Passwords must match')])
 	confirm = PasswordField('Salasana uudelleen')
 	first_name = StringField('Etunimi', [validators.Length(min=3, max=25)])
 	last_name = StringField('Sukunimi', [validators.Length(min=3, max=40)])
-	jersey = IntegerField('Pelinumero', [validators.NumberRange(min=0, max=99)])
-	height = IntegerField('Pituus', [validators.NumberRange(min=0, max=300)])
-	weight = IntegerField('Paino', [validators.NumberRange(min=0, max=300)])
+	player = BooleanField('Olen pelaaja')
+	jersey = IntegerField('Pelinumero', [validators.NumberRange(min=0, max=99)], default=0)
+	height = IntegerField('Pituus', [validators.NumberRange(min=0, max=300)], default=0)
+	weight = IntegerField('Paino', [validators.NumberRange(min=0, max=300)], default=0)
+	position = SelectField('Pelipaikka', choices=[('G','Takamies'), ('F','Laituri'), ('C','Sentteri')])
 
 class CommentForm(Form):
 	message = TextField([validators.DataRequired()])

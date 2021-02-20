@@ -1,11 +1,29 @@
+
 <table>
   <tr>
     <th>Nimi</th>
-    <th>#</th>
+    <th>No.</th>
     <th>Ottelut</th>
-    <th>Minuutit</th>
-    <th>Pisteet</th>
-    <th>Levypallot</th>
+    <th>Min</th>
+    <th>2P</th>
+    <th>2PA</th>
+    <th>2P%</th>
+    <th>3P</th>
+    <th>3PA</th>
+    <th>3P%</th>
+    <th>1P</th>
+    <th>1PA</th>
+    <th>1P%</th>
+    <th>PL</th>
+    <th>HL</th>
+    <th>LP</th>
+    <th>S</th>
+    <th>M</th>
+    <th>R</th>
+    <th>T</th>
+    <th>B</th>
+    <th>P</th>
+    
   </tr>
 {% for stat in person_stats %}
   <tr>>
@@ -15,6 +33,23 @@
     <th> {{ stat[5] }}
     <th> {{ stat[6] }}
     <th> {{ stat[7] }}
+    <th> {{ stat[8] }}
+    <th> {{ stat[9] }}
+    <th> {{ stat[10] }}
+    <th> {{ stat[11] }}
+    <th> {{ stat[12] }}
+    <th> {{ stat[13] }}
+    <th> {{ stat[14] }}
+    <th> {{ stat[15] }}
+    <th> {{ stat[16] }}
+    <th> {{ stat[17] }}
+    <th> {{ stat[18] }}
+    <th> {{ stat[19] }}
+    <th> {{ stat[20] }}
+    <th> {{ stat[21] }}
+    <th> {{ stat[22] }}
+    <th> {{ stat[23] }}
+    <th> {{ stat[24] }}
   </tr>
 {% endfor %}
 </table>

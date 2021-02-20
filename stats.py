@@ -1,3 +1,4 @@
+
 from db import db
 
 #returns a list of games with stats
@@ -9,16 +10,18 @@ def get_games():
 
 #returns a list of all players' personal average stats
 def get_personal_stats():
-    result = db.session.execute("SELECT G.player_id, U.first_name, U.last_name, P.jersey_number, COUNT(G.player_id), TO_CHAR(AVG(G.mins), 'MI:SS'), ROUND(AVG (2*G.fg + G.ft + 3*G.three),1), "\
-                                "ROUND(AVG(G.dreb+G.oreb),1) "\
-                                "FROM game_stats G " \
-                                "LEFT JOIN players P ON G.player_id = P.id " \
-                                "LEFT JOIN users U ON P.user_id = U.id " \
-                                "GROUP BY G.player_id, U.first_name, U.last_name, P.jersey_number " \
-                                "ORDER BY P.jersey_number")
+    result = db.session.execute("SELECT G.player_id, U.first_name, U.last_name, P.jersey_number, COUNT(G.player_id), TO_CHAR(AVG(G.mins),'MI:SS'), ROUND(AVG(G.fg),1), "\
+	"ROUND(AVG(G.fg_a),1), ROUND(AVG(G.three),1), ROUND(AVG(G.three_a),1), ROUND(AVG(G.ft),1), "\
+	"ROUND(AVG(G.ft_a),1), ROUND(AVG(G.dreb),1), ROUND(AVG(G.oreb),1), ROUND(AVG(G.dreb + G.oreb),1), ROUND(AVG(G.foul),1), ROUND(AVG(G.ass),1), "\
+	"ROUND(AVG(G.tover),1), ROUND(AVG(G.steal),1), ROUND(AVG(G.block),1), ROUND(AVG(2*G.fg + 3*G.three + G.ft),1) "\
+	"FROM game_stats G " \
+	"LEFT JOIN players P ON G.player_id = P.id " \
+	"LEFT JOIN users U ON P.user_id = U.id " \
+	"GROUP BY G.player_id, U.first_name, U.last_name, P.jersey_number " \
+	"ORDER BY P.jersey_number")
     return result.fetchall()
 
-# returns a list of separated game stats
+# returns a list of game stats separated
 def get_game_stats():
     result = db.session.execute("SELECT E.id, E.name, E.day, SUM(fg), SUM(fg_a), ROUND(100.0 * SUM (G.fg) / SUM(G.fg_a),1), SUM(ft), SUM(ft_a), "\
                                 "ROUND(100.0 * SUM (G.ft) / SUM(G.ft_a),1), SUM(three), SUM(three_a), ROUND(100.0 * SUM (G.three) / SUM(G.three_a),1), "\
@@ -41,10 +44,10 @@ def get_team_stats():
     return result.fetchall()
 
 
-#returns a single game's separated stats
+#returns a single game's separated player stats
 def get_single_game_stats(id):
     sql = ("SELECT U.first_name, U.last_name, P.jersey_number, G.mins, G.fg, G.fg_a, ROUND (100.0* G.fg / NULLIF(G.fg_a,0),1), G.ft, G.ft_a, " \
-           "ROUND(100.0* G.ft / NULLIF(G.ft_a, 0),1), G.three, G.three_a, ROUND(100.0*G.ft / NULLIF(G.ft_a, 0)), G.dreb, G.oreb, G.foul, G.ass, G.tover, G.steal, G.block, "\
+           "ROUND(100.0* G.ft / NULLIF(G.ft_a, 0),1), G.three, G.three_a, ROUND(100.0*G.ft / NULLIF(G.ft_a, 0)), G.dreb, G.oreb, (G.dreb + G.oreb), G.foul, G.ass, G.tover, G.steal, G.block, "\
            "(2*fg + ft + 3*three) "\
            "FROM game_stats G "\
            "LEFT JOIN players P ON G.player_id = P.id "\
@@ -59,15 +62,17 @@ def get_single_game_stats(id):
 def get_single_game_summary_stats(id):
     sql = ("SELECT SUM(mins), SUM(fg), SUM(fg_a), ROUND(100.0 * SUM (fg) / NULLIF(SUM(fg_a),0),1), SUM(ft), SUM(ft_a), "\
           "ROUND(100.0 * SUM(ft) / NULLIF(SUM(ft_a),0),1), SUM(three), SUM(three_a), ROUND(100.0 * SUM (three) / NULLIF(SUM(three_a),0),1), "\
-          "SUM(dreb), SUM(oreb), SUM(foul), SUM(ass), SUM(tover), SUM(steal), SUM(block), SUM(2*fg + ft + 3*three) "\
+          "SUM(dreb), SUM(oreb), SUM(G.dreb+G.oreb), SUM(foul), SUM(ass), SUM(tover), SUM(steal), SUM(block), SUM(2*fg + ft + 3*three) "\
           "FROM game_stats "\
           "WHERE event_id=:id")
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()
 
+# adds game stats to database
 def add_game_stats(e_id, p_id, mins, fg, fga, three, three_a, ft, ft_a, dreb, oreb, foul, ass, tover, steal, block):
     sql = "INSERT INTO game_stats (p_id, e_id, mins, fg, fga, three, three_a, ft, ft_a, dreb, oreb, foul, ass, tover, steal, block) "\
           "VALUES (:p_id, :e_id, :mins, :fg, :fga, :three, :three_a, :ft, :ft_a, :dreb, :oreb, :foul, :ass, :tover, :steal, :block)"
-    db.session.execute(sql, {"p_id":p_id, "e_id":e_id, "mins":mins, "fg":fg, "fg_a":fg_a, "three":three, "three_a":three_a, "ft":ft, "ft_a":ft_a, "dreb":dreb, "oreb":oreb, "foul":foul, "ass":ass, "tover":tover, "steal":steal, "block":block})
+    db.session.execute(sql, {"p_id":p_id, "e_id":e_id, "mins":mins, "fg":fg, "fg_a":fg_a, "three":three, "three_a":three_a, "ft":ft,
+    "ft_a":ft_a, "dreb":dreb, "oreb":oreb, "foul":foul, "ass":ass, "tover":tover, "steal":steal, "block":block})
     db.session.commit()
     return True

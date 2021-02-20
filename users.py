@@ -21,15 +21,19 @@ def user_id():
 def logout():
     del session["user_id"]
 
-def new_user(username, password, first_name, last_name, jersey, height, weight):
+def new_user(username, password, first_name, last_name):
     hash_value = generate_password_hash(password)
     sql = "INSERT INTO users (username, password, first_name, last_name) VALUES (:username, :password, :first_name, :last_name)"
     db.session.execute(sql, {"username":username, "password":hash_value, "first_name":first_name, "last_name":last_name})
     db.session.commit()
+    return True
+
+
+def new_player(username, jersey, height, weight, position):
     sql = "SELECT id FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
-    sql = "INSERT INTO players (user_id, jersey_number, height, weight) VALUES ('" + str(user[0]) + "', :jersey, :height, :weight)"
-    db.session.execute(sql, {"jersey":jersey, "height":height, "weight":weight})
+    sql = "INSERT INTO players (user_id, jersey_number, height, weight, position) VALUES ('" + str(user[0]) + "', :jersey, :height, :weight, :position)"
+    db.session.execute(sql, {"jersey":jersey, "height":height, "weight":weight, "position":position})
     db.session.commit()
     return True

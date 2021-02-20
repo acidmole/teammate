@@ -35,11 +35,17 @@ def register():
 		return render_template("register.html", form=form)
 
 	if request.method == "POST" and form.validate():
-		if users.new_user(form.username.data, form.password.data, form.first_name.data, form.last_name.data, form.jersey.data, form.height.data, form.weight.data):
+		if users.new_user(form.username.data, form.password.data, form.first_name.data, form.last_name.data):
 			flash ('Rekisteröityminen onnistui')
-			return redirect("/")
+			if (form.player.data == True):
+				if users.new_player(form.username.data, form.jersey.data, form.height.data, form.weight.data, form.position.data):
+					return redirect("/")
+				else: render_template("error.html",message="Rekisteröinti ei onnistunut")
+			else:
+					return redirect("/")
 		else:
 			return render_template("error.html",message="Rekisteröinti ei onnistunut")
+
 
 @app.route("/events", methods=["GET", "POST"])
 def list_events():
