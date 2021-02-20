@@ -12,10 +12,8 @@
     
     <p>Ilmoittautuneet:
       {% for sign_up in sign_ups %}
-        {% if sign_up[1] == event[4] %}
-          <br>
+        {% if sign_up[1] == event[4] %}<br>
 	  	  {{ sign_up[0] }}
-          {{ sign_up[2] }}
         {% endif %}
       {% endfor %}
     </p>

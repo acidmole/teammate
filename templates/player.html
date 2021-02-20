@@ -14,16 +14,9 @@
   Riistokeskiarvo: {{ person_info[8] }}<br>
 </p>
 
-{% if comp_player %}
-<h4> Vertailtava pelaaja: {{comp_player[0] }} {{ comp_player[1] }} </h4>
-  Pituus: {{ comp_player[2] }} <br>
-  Paino: {{ comp_player[3] }}  <br>
-  Pistekeskiarvo: {{ comp_player[4] }} <br>
-  Levypallokeskiarvo: {{ comp_player[5] }}<br>
-  Syöttökeskiarvo: {{ comp_player[6] }}<br>
-  Riistokeskiarvo: {{ comp_player[7] }}<br>
-{% endif %}
 
+
+<p>
   <h4>Parhaat suoritukset</h4>
 <table>  
   <tr>
@@ -47,6 +40,7 @@
     <td> ({{ top_block[1] }} {{top_block[2] }})</td>
   </tr>
 </table>
+</p>
 
 <p>
   Vertaile tilastoja toiseen pelaajaan:
@@ -60,4 +54,26 @@
   <input class="btn" type="submit" value="submit">
 </form>
 </p>
+
+{% if comp_player %}
+<h4>Vertailtava pelaaja: {{comp_player[0] }} {{ comp_player[1] }} </h4>
+  Pituus: {{ comp_player[2] }} <br>
+  Paino: {{ comp_player[3] }}  <br>
+  Pistekeskiarvo: {{ comp_player[4] }} <br>
+  Levypallokeskiarvo: {{ comp_player[5] }}<br>
+  Syöttökeskiarvo: {{ comp_player[6] }}<br>
+  Riistokeskiarvo: {{ comp_player[7] }}<br>
+{% endif %}
+
+<p>
+  <h4>Viimeisimmät ilmoittautumiset:</h4>
+	<ul>
+  	{% for att in attendance %}
+	<li>{{ att[0] }} {{ att[1] }} {{ att[2] }}</li>
+    {% endfor %}
+    </ul>
+  
+</p>
+
+
 {% endblock %}

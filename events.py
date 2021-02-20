@@ -25,7 +25,8 @@ def get_event_info(id):
     result = db.session.execute(sql, {"id":id})
     return result.fetchall()
 
-def get_comments():
+# returns every event's comments
+def get_all_comments():
     result = db.session.execute("SELECT C.t_stamp, C.event_id, C.user_id, C.message, U.first_name, U.last_name " \
                                 "FROM comments C " \
                                 "LEFT JOIN users U on U.id=C.user_id "\
@@ -35,7 +36,8 @@ def get_comments():
 
     return result.fetchall()
 
-def get_single_comments(id):
+# returns single event's comments
+def get_comments(id):
 	sql = "SELECT C.t_stamp, C.event_id, C.user_id, C.message, U.first_name, U.last_name " \
                                 "FROM comments C " \
                                 "LEFT JOIN users U on U.id=C.user_id "\
@@ -45,7 +47,7 @@ def get_single_comments(id):
 	result = db.session.execute(sql, {"id":id})
 	return result.fetchall()
 
-
+# returns every event's ins and outs
 def get_all_sign_ups():
 
     result = db.session.execute("SELECT U.first_name, S.event_id, S.sign_up "\
@@ -55,6 +57,7 @@ def get_all_sign_ups():
                                 "ORDER BY E.day")
     return result.fetchall()
 
+# returns single event's ins and outs
 def get_sign_ups(id):
     sql = "SELECT U.first_name, S.event_id, S.sign_up "\
                                 "FROM users U "\

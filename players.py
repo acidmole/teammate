@@ -11,16 +11,26 @@ def get_players():
 
 # returns a summary of a single player
 def get_player(id):
-    sql = ("SELECT U.first_name, U.last_name, P.jersey_number, P.height, P.weight, ROUND(AVG(2*G.fg + G.ft + 3*G.three),1), ROUND(AVG(dreb + oreb),1), ROUND(AVG(ass),1), "\
-            "ROUND(AVG(steal),1) "
-            "FROM players P "\
-            "LEFT JOIN users U ON U.id=P.user_id "\
-            "LEFT JOIN game_stats G ON G.player_id = P.id "\
-            "WHERE P.id=:id " \
-            "GROUP BY U.first_name, U.last_name, P.jersey_number, P.height, P.weight, P.id")
+	sql = "SELECT U.first_name, U.last_name, P.jersey_number, P.height, P.weight, ROUND(AVG(2*G.fg + G.ft + 3*G.three),1), ROUND(AVG(dreb + oreb),1), ROUND(AVG(ass),1), ROUND(AVG(steal),1) " \
+	"FROM players P "\
+	"LEFT JOIN users U ON U.id=P.user_id "\
+	"LEFT JOIN game_stats G ON G.player_id = P.id "\
+	"WHERE P.id=:id " \
+	"GROUP BY U.first_name, U.last_name, P.jersey_number, P.height, P.weight, P.id"
 
-    result = db.session.execute(sql, {"id":id})
-    return result.fetchone()
+	result = db.session.execute(sql, {"id":id})
+	return result.fetchone()
+
+# returns player's 5 last attendance
+def get_player_attendance(id):
+	sql = "SELECT E.day, E.h_min, E.name FROM sign_ups S "\
+			"LEFT JOIN events E ON E.id=S.event_id "\
+			"LEFT JOIN users U ON U.id=S.user_id "\
+			"LEFT JOIN players P ON U.id=P.user_id "\
+			"WHERE P.id=:id "\
+			"ORDER BY S.id DESC LIMIT 5";
+	result = db.session.execute(sql, {"id":id})
+	return result.fetchall()
 
 
 # returns a list of all except one

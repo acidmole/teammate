@@ -48,7 +48,7 @@ def list_events():
 	if request.method == "GET":
 		listed_events = events.get_events()
 		sign_ups = events.get_all_sign_ups()
-		comments = events.get_comments()
+		comments = events.get_all_comments()
 		return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form, s_form=s_form)
 
 	if request.method == "POST":
@@ -82,7 +82,7 @@ def event_edit(id):
 	if request.method == "GET":
 		event = events.get_event_info(id)
 		sign_ups = events.get_sign_ups(id)
-		comments = events.get_single_comments(id)
+		comments = events.get_comments(id)
 		return render_template("edit_event.html", event=event, sign_ups=sign_ups, comments=comments, form=form)
 	if request.method == "POST":
 		if form.submit.data:
@@ -124,8 +124,10 @@ def player_info(id):
     top_ass = players.get_top_ass(id)
     top_steal = players.get_top_steal(id)
     top_block = players.get_top_block(id)
+    attendance = players.get_player_attendance(id)
 
-    return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block)
+    return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
+    attendance=attendance)
 
 
 @app.route("/stats")
