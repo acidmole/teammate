@@ -8,9 +8,11 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/
 - "Tapahtumat" guides you to events to view events. Admins can also add and modify events.
 - "Tilastot" guides you to stats page where you can view personal or team match stats, or practice stats
 
+A short guide for Finnish basketball stat acronyms: 2P/A = 2 points shots made/attempted (1P = free throws, 3P = threepointers), PL = puolustuslevypallo = defensive rebound, HL = hyökkäyslevypallo = offensive rebound, V = virhe = foul, S = syöttö = assist, M = menetys = turnover, R = riisto = steal, B = blokki = block, P = pisteet = points.
+
 Known bugs and unfinished features:
 * deleting events not available
-* attending doesn't separate ins and outs
+* attending event doesn't separate ins and outs
 * editing events has troubles with saving starting time
 * adding statistics unavailable
 * practice statistics lacking
