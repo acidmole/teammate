@@ -2,9 +2,10 @@ A small guide for peer review:
 
 The app can be tested at http://tsoha-teammate.herokuapp.com/
 
-- You can sign up or just use foo/bar for login, whichever suits you best
-- "Pelaajat" guides you to player list to view players' personal stats
-- "Tapahtumat" guides you to events where you can add or modify an event (a game or a practice)
+- For admin rights, use foo/bar for login
+- For user rights, just register
+- "Pelaajat" guides you to player list to view players' personal information
+- "Tapahtumat" guides you to events to view events. Admins can also add and modify events.
 - "Tilastot" guides you to stats page where you can view personal or team match stats, or practice stats
 
 Known bugs and unfinished features:
