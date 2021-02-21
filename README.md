@@ -19,6 +19,7 @@ Known bugs and unfinished features:
 * events filtering not working
 * single event view does not provide any information
 * player information editing or deleting not available
+* player information does not list player position anywhere
 * personal statistics page missing shot percentages
 * awful appearance
 * all templates are not extended from layout.html
