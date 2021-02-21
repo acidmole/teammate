@@ -9,6 +9,7 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/
 
 Known bugs and unfinished features:
 * deleting events not available
+* attending doesn't separate ins and outs
 * editing events has troubles with saving starting time
 * adding statistics unavailable
 * practice statistics lacking
