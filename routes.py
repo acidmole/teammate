@@ -120,20 +120,29 @@ def player_list():
     return render_template("players.html", players=player_list)
 
 
-@app.route("/players/<int:id>")
+@app.route("/players/<int:id>", methods=["GET", "POST"])
 def player_info(id):
-    # compare_to = request.args["compare_to"]
-    player_list = players.get_players_without(id)
-    player = players.get_player(id)
-    top_points = players.get_top_points(id)
-    top_rebs = players.get_top_rebs(id)
-    top_ass = players.get_top_ass(id)
-    top_steal = players.get_top_steal(id)
-    top_block = players.get_top_block(id)
-    attendance = players.get_player_attendance(id)
+	if request.method == "GET":
+		compared_id = request.args.get('compare_to', None)
+		player_list = players.get_players_without(id)
+		player = players.get_player(id)
+		top_points = players.get_top_points(id)
+		top_rebs = players.get_top_rebs(id)
+		top_ass = players.get_top_ass(id)
+		top_steal = players.get_top_steal(id)
+		top_block = players.get_top_block(id)
+		attendance = players.get_player_attendance(id)
 
-    return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
-    attendance=attendance)
+		compared_player = players.get_player(compared_id)
+		#	return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
+		#	attendance=attendance, compared_player=compared_player)
+		#else:
+		return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
+		attendance=attendance, compared_player=compared_player)
+
+
+	if reques.method == "POST":
+		return redirect("/")
 
 
 @app.route("/stats")

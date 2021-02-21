@@ -51,18 +51,18 @@
     <option value="{{ player[0] }}"> {{ player[1] }} {{ player[2] }} {{ player[3] }}</option>
     {% endfor %}
   </select>
-  <input class="btn" type="submit" value="submit">
+  <input class="btn" type="submit" value="Vertaile">
 </form>
 </p>
 
-{% if comp_player %}
-<h4>Vertailtava pelaaja: {{comp_player[0] }} {{ comp_player[1] }} </h4>
-  Pituus: {{ comp_player[2] }} <br>
-  Paino: {{ comp_player[3] }}  <br>
-  Pistekeskiarvo: {{ comp_player[4] }} <br>
-  Levypallokeskiarvo: {{ comp_player[5] }}<br>
-  Syöttökeskiarvo: {{ comp_player[6] }}<br>
-  Riistokeskiarvo: {{ comp_player[7] }}<br>
+{% if compared_player %}
+<h4>Vertailtava pelaaja: {{compared_player[0] }} {{ compared_player[1] }} </h4>
+  Pituus: {{ compared_player[2] }} <br>
+  Paino: {{ compared_player[3] }}  <br>
+  Pistekeskiarvo: {{ compared_player[4] }} <br>
+  Levypallokeskiarvo: {{ compared_player[5] }}<br>
+  Syöttökeskiarvo: {{ compared_player[6] }}<br>
+  Riistokeskiarvo: {{ compared_player[7] }}<br>
 {% endif %}
 
 <p>

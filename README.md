@@ -18,7 +18,6 @@ Known bugs and unfinished features:
 * only future events shown in not very chronological order
 * single event view does not provide any information
 * player information editing or deleting not available
-* personal statistics page lacks statistics
 
 # teammate
 Basketball team's schedule and statistics app
