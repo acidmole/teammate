@@ -4,8 +4,8 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/ (not updated to gi
 
 - You can sign up or just use foo/bar for login, whichever suits you best
 - "Pelaajat" guides you to player list to view players' personal stats
-- "Tapahtumat" guides you to events where you can add an event (a game or a practice)
-- "Tilastot" guides you to stats page where you can view personal, team or match stats
+- "Tapahtumat" guides you to events where you can add or modify an event (a game or a practice)
+- "Tilastot" guides you to stats page where you can view personal or team match stats, or practice stats
 
 
 Known bugs and unfinished features:
@@ -17,6 +17,9 @@ Known bugs and unfinished features:
 * single event view does not provide any information
 * player information editing or deleting not available
 * personal statistics page missing shot percentages
+* awful appearance
+* null/missing stats shows None or something else weird
+* events should be HH:MM and stats MM:SS, not always the case
 
 # teammate
 Basketball team's schedule and statistics app
