@@ -42,16 +42,15 @@
 </table>
 </p>
 
-<p>
-  Vertaile tilastoja toiseen pelaajaan:
-<form>
-  <select name="compare_to">
-    <option disabled selected>Pelaaja</option>
-    {% for player in players %}
-    <option value="{{ player[0] }}"> {{ player[1] }} {{ player[2] }} {{ player[3] }}</option>
-    {% endfor %}
-  </select>
-  <input class="btn" type="submit" value="Vertaile">
+<p>Vertaile tilastoja toiseen pelaajaan:
+  <form>
+    <select name="compare_to">
+      <option disabled selected>Pelaaja</option>
+      {% for player in players %}
+      <option value="{{ player[0] }}"> {{ player[1] }} {{ player[2] }} {{ player[3] }}</option>
+      {% endfor %}
+    </select>
+    <input class="btn" type="submit" value="Vertaile">
 </form>
 </p>
 

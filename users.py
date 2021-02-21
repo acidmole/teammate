@@ -16,7 +16,15 @@ def login(username, password):
             return False
 
 def user_id():
-    return session.get("user_id",0)
+	return session.get("user_id",0)
+
+def is_admin():
+	result = db.session.execute("SELECT admin FROM users WHERE id=" + str(user_id()))
+	user_type = result.fetchone()
+	if user_type[0] == True:
+		return True
+	else:
+		return False
 
 def logout():
     del session["user_id"]

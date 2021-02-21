@@ -12,12 +12,11 @@ Known bugs and unfinished features:
 * deleting events not available
 * editing events has troubles with saving starting time
 * adding statistics unavailable
-* admin/user mode not separated in app
 * practice statistics lacking
-* only future events shown in not very chronological order
+* events filtering not working
 * single event view does not provide any information
 * player information editing or deleting not available
-* personal statistics page missing shoot percentages
+* personal statistics page missing shot percentages
 
 # teammate
 Basketball team's schedule and statistics app

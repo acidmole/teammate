@@ -49,13 +49,24 @@ def register():
 
 @app.route("/events", methods=["GET", "POST"])
 def list_events():
+
+	ts = request.args.get('timespan', 1)
+	if ts == 2:
+		ts_req = "(E.day::date - now()::date) >= 0 AND (E.day::date - now()::date) <= 7"
+	elif ts == 3:
+		ts_req = "EXTRACT(MONTH FROM now())=EXTRACT(MONTH FROM E.day) AND EXTRACT(YEAR FROM now())=EXTRACT(YEAR FROM E.day)"
+	elif ts == 4:
+		ts_req = "E.day < now()"
+	else:
+		ts_req = "E.day >= now()"
+
 	form = CommentForm(request.form)
 	s_form = SignForm(request.form)
 	if request.method == "GET":
-		listed_events = events.get_events()
-		sign_ups = events.get_all_sign_ups()
-		comments = events.get_all_comments()
-		return render_template("events.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form, s_form=s_form)
+		listed_events = events.get_all_events(ts_req)
+		sign_ups = events.get_all_sign_ups(ts_req)
+		comments = events.get_all_comments(ts_req)
+		return render_template("events_list.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form, s_form=s_form)
 
 	if request.method == "POST":
 
@@ -65,7 +76,7 @@ def list_events():
 			else:
 				return render_template("error.html", message="Kommentin lisääminen ei onnistunut")
 
-		if s_form.validate() and s_form.player_in.data:
+		if s_form.player_in.data and s_form.validate():
 			if events.sign_up(s_form.user_id.data, s_form.event_id.data, "t"):
 				return redirect("/events")
 			else:
@@ -84,35 +95,41 @@ def event_info(id):
 
 @app.route("/event/edit/<int:id>", methods=["GET", "POST"])
 def event_edit(id):
-	form = EditEventForm(request.form)
-	if request.method == "GET":
-		event = events.get_event_info(id)
-		sign_ups = events.get_sign_ups(id)
-		comments = events.get_comments(id)
-		return render_template("edit_event.html", event=event, sign_ups=sign_ups, comments=comments, form=form)
-	if request.method == "POST":
-		if form.submit.data:
-			if events.update_event(id, form.type.data, form.day.data, form.time.data, form.name.data, form.location.data):
-				return redirect("/events")
-			else:
-				return render_template("error.html",message="Virhe päivityksessä")
+
+	if users.is_admin():
+		form = EditEventForm(request.form)
+		if request.method == "GET":
+			event = events.get_event_info(id)
+			sign_ups = events.get_sign_ups(id)
+			comments = events.get_comments(id)
+			return render_template("edit_event.html", event=event, sign_ups=sign_ups, comments=comments, form=form)
+		if request.method == "POST":
+			if form.submit.data:
+				if events.update_event(id, form.type.data, form.day.data, form.time.data, form.name.data, form.location.data):
+					return redirect("/events")
+				else:
+					return render_template("error.html",message="Virhe päivityksessä")
+	else:
+		return render.template("error.html", message="Ei oikeutta")
 
 
 @app.route("/events/add_event", methods=["GET","POST"])
 def add_event():
-    if request.method == "GET":
-        return render_template("add_event.html")
-    if request.method == "POST":
-        type = request.form["type"]
-        date = request.form["date"]
-        time = request.form["time"]
-        name = request.form["name"]
-        location = request.form["location"]
-        if events.add_event(type, date, time, name, location):
-            return redirect("/events")
-        else:
-            return render_template("error.html",message="Tapahtuman luonti ei onnistunut")
-
+	if users.is_admin():
+		if request.method == "GET":
+			return render_template("add_event.html")
+		if request.method == "POST":
+			type = request.form["type"]
+			date = request.form["date"]
+			time = request.form["time"]
+			name = request.form["name"]
+			location = request.form["location"]
+			if events.add_event(type, date, time, name, location):
+				return redirect("/events")
+			else:
+				return render_template("error.html",message="Tapahtuman luonti ei onnistunut")
+	else:
+		return render_template("error.html")
 
 @app.route("/players")
 def player_list():
@@ -120,29 +137,21 @@ def player_list():
     return render_template("players.html", players=player_list)
 
 
-@app.route("/players/<int:id>", methods=["GET", "POST"])
+@app.route("/players/<int:id>")
 def player_info(id):
-	if request.method == "GET":
-		compared_id = request.args.get('compare_to', None)
-		player_list = players.get_players_without(id)
-		player = players.get_player(id)
-		top_points = players.get_top_points(id)
-		top_rebs = players.get_top_rebs(id)
-		top_ass = players.get_top_ass(id)
-		top_steal = players.get_top_steal(id)
-		top_block = players.get_top_block(id)
-		attendance = players.get_player_attendance(id)
+	compared_id = request.args.get('compare_to', None)
+	player_list = players.get_players_without(id)
+	player = players.get_player(id)
+	top_points = players.get_top_points(id)
+	top_rebs = players.get_top_rebs(id)
+	top_ass = players.get_top_ass(id)
+	top_steal = players.get_top_steal(id)
+	top_block = players.get_top_block(id)
+	attendance = players.get_player_attendance(id)
 
-		compared_player = players.get_player(compared_id)
-		#	return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
-		#	attendance=attendance, compared_player=compared_player)
-		#else:
-		return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
-		attendance=attendance, compared_player=compared_player)
-
-
-	if reques.method == "POST":
-		return redirect("/")
+	compared_player = players.get_player(compared_id)
+	return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
+	attendance=attendance, compared_player=compared_player)
 
 
 @app.route("/stats")

@@ -5,6 +5,20 @@
 
   <a href=/events/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
 
+<p>
+  <form>
+    <label for="timespan">Suodata tapahtumia ajan perusteella:</label>
+    <select name="timespan">
+      <option selected disabled>Valitse</option>
+      <option value="1">Kaikki tulevat</option>
+      <option value="2">Seuraavan viikon ajan</option>
+      <option value="3">Tässä kuussa</option>
+      <option value="4">Menneet</option>
+    </select>
+    <input class="btn" type="submit" value="Valitse">
+  </form>
+</p>
+
   {% for event in events %}
     <p>
       <a href=/event/{{ event[4] }}> {{ event[1] }} {{ event[2] }} {{ event[3] }} @ {{ event[5] }}</a>

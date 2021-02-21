@@ -10,11 +10,12 @@ def sign_up(user_id, event_id, sign_up):
 	db.session.commit()
 	return True
 
-def get_events():
-    result = db.session.execute("SELECT E.type, E.day, E.h_min, E.name, E.id, E.location "\
-                                "FROM events E " \
-                                "WHERE E.day >= now() " \
-                                "ORDER BY E.day DESC LIMIT 10")
+def get_all_events(timespan):
+    sql = "SELECT E.type, E.day, E.h_min, E.name, E.id, E.location "\
+    "FROM events E " \
+	"WHERE " + str(timespan) + " "\
+	"ORDER BY E.day DESC LIMIT 10"
+    result = db.session.execute(sql)
     return result.fetchall()
 
 def get_event_info(id):
@@ -26,14 +27,14 @@ def get_event_info(id):
     return result.fetchall()
 
 # returns every event's comments
-def get_all_comments():
-    result = db.session.execute("SELECT C.t_stamp, C.event_id, C.user_id, C.message, U.first_name, U.last_name " \
-                                "FROM comments C " \
-                                "LEFT JOIN users U on U.id=C.user_id "\
-                                "LEFT JOIN events E on E.id=C.event_id "\
-                                "WHERE E.day >= now() "\
-                                "ORDER BY C.t_stamp")
-
+def get_all_comments(timespan):
+    sql = "SELECT C.t_stamp, C.event_id, C.user_id, C.message, U.first_name, U.last_name " \
+	"FROM comments C " \
+	"LEFT JOIN users U on U.id=C.user_id "\
+	"LEFT JOIN events E on E.id=C.event_id "\
+	"WHERE " + str(timespan) + " "\
+	"ORDER BY C.t_stamp"
+    result = db.session.execute(sql)
     return result.fetchall()
 
 # returns single event's comments
@@ -48,14 +49,16 @@ def get_comments(id):
 	return result.fetchall()
 
 # returns every event's ins and outs
-def get_all_sign_ups():
+def get_all_sign_ups(timespan):
 
-    result = db.session.execute("SELECT U.first_name, S.event_id, S.sign_up "\
-                                "FROM users U "\
-                                "LEFT JOIN sign_ups S ON S.user_id=U.id "\
-                                "LEFT JOIN events E ON S.event_id=E.id "\
-                                "ORDER BY E.day")
-    return result.fetchall()
+	sql = "SELECT U.first_name, S.event_id, S.sign_up "\
+	"FROM users U "\
+	"LEFT JOIN sign_ups S ON S.user_id=U.id "\
+	"LEFT JOIN events E ON S.event_id=E.id "\
+	"WHERE " + str(timespan) + " "
+	"ORDER BY E.day"
+	result = db.session.execute(sql)
+	return result.fetchall()
 
 # returns single event's ins and outs
 def get_sign_ups(id):
