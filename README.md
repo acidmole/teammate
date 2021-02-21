@@ -21,6 +21,7 @@ Known bugs and unfinished features:
 * player information editing or deleting not available
 * personal statistics page missing shot percentages
 * awful appearance
+* all templates are not extended from layout.html
 * null/missing stats shows None or something else weird
 * events should be HH:MM and stats MM:SS, not always the case
 
