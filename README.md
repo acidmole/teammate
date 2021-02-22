@@ -2,22 +2,27 @@ A small guide for peer review:
 
 The app can be tested at http://tsoha-teammate.herokuapp.com/
 
-- You can sign up or just use foo/bar for login, whichever suits you best
-- "Pelaajat" guides you to player list to view players' personal stats
-- "Tapahtumat" guides you to events where you can add or modify an event (a game or a practice)
+- For admin rights, use foo/bar for login
+- For user rights, just register
+- "Pelaajat" guides you to player list to view players' personal information
+- "Tapahtumat" guides you to events to view events. Admins can also add and modify events.
 - "Tilastot" guides you to stats page where you can view personal or team match stats, or practice stats
+
+A short guide for Finnish basketball stat acronyms: 2P/A = 2 points shots made/attempted (1P = free throws, 3P = threepointers), PL = puolustuslevypallo = defensive rebound, HL = hyökkäyslevypallo = offensive rebound, V = virhe = foul, S = syöttö = assist, M = menetys = turnover, R = riisto = steal, B = blokki = block, P = pisteet = points.
 
 Known bugs and unfinished features:
 * deleting events not available
-* attending doesn't separate ins and outs
+* attending event doesn't separate ins and outs
 * editing events has troubles with saving starting time
 * adding statistics unavailable
 * practice statistics lacking
 * events filtering not working
 * single event view does not provide any information
 * player information editing or deleting not available
+* player information does not list player position anywhere
 * personal statistics page missing shot percentages
 * awful appearance
+* all templates are not extended from layout.html
 * null/missing stats shows None or something else weird
 * events should be HH:MM and stats MM:SS, not always the case
 
