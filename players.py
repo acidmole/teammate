@@ -107,3 +107,22 @@ def get_top_block(id):
     result = db.session.execute(sql, {"id": id})
     return result.fetchone()
 
+def get_player_id(user_id):
+	sql = "SELECT player_id FROM players WHERE user_id=:user_id"
+	result = db.session.execute(sql, {"user_id":user_id})
+	return result.fetchone()
+
+
+def update_player(player_id, jersey, height, weight, position):
+	sql = "UPDATE players SET jersey=:jersey, height=:height, weight=:weight, position=:position"
+	db.session.execute(sql, {"jersey":jersey, "height":height, "weight":weight, "position":position})
+	return True
+
+def new_player(username, jersey, height, weight, position):
+	sql = "SELECT id FROM users WHERE username=:username"
+	result = db.session.execute(sql, {"username":username})
+	user = result.fetchone()
+	sql = "INSERT INTO players (user_id, jersey_number, height, weight, position) VALUES ('" + str(user[0]) + "', :jersey, :height, :weight, :position)"
+	db.session.execute(sql, {"jersey":jersey, "height":height, "weight":weight, "position":position})
+	db.session.commit()
+	return True

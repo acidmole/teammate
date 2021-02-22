@@ -63,10 +63,13 @@
 	 	  {{ form.user_id(value=session.user_id) }}
 	 	  {{ form.submit }}
 	</form>
+
+	{% if mod_rights %}
 	<p>
 	  <a href=/event/edit/{{event[4]}}><i class="far fa-edit" font-size:32px;></i>Muokkaa</a>
 	  <a href=/event/delete/{{event[4]}}><i class="far fa-trash-alt" font-size:32px;></i>Poista</a>
 	</p>
+	{% endif %}
 
   <hr>
 {% endfor %}

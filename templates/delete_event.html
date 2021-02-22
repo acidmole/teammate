@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+<h4>Varmistus </h4>
+{% for ev in event %}
+<p> Haluatko varmasti poistaa tapahtuman {{ ev[3] }} {{ ev[1] }} {{ ev[2] }} {{ ev[5] }}? Tietoja ei voida palauttaa.</p>
+<form action="/event/delete/{{ev[4]}}" method="POST">
+<p> {{ form.confirm }} {{ form.cancel }} </p>
+</form>
+{% endfor %}
+{% endblock %}

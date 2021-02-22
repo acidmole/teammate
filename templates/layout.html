@@ -20,7 +20,9 @@
   {% if session.user_id %}
 
     <p>
-      <a href="/"><i class="fas fa-home" style="font-size:64px; color:orange"></i></a><a href="/logout">Kirjaudu ulos</a>
+      <a href="/"><i class="fas fa-home" style="font-size:64px; color:orange"></i></a>
+      <a href="/players/edit?user={{ session.user_id }}"> Muokkaa tietojasi</a>
+      <a href="/logout">Kirjaudu ulos</a>
     </p>      
     {% block content %}
     {% endblock %}

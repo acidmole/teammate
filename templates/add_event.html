@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block content %}
+
  <form action="/events/add_event" method="POST">
     <label for="type">Tapahtumatyyppi:</label> 
     <select name="type" id="type">
@@ -10,3 +13,5 @@
     Paikka: <input type="text" name="location">
     <input type="submit" value="Luo tapahtuma">
   </form>
+
+{% endblock %}

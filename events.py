@@ -95,3 +95,18 @@ def update_event(id, type, day, h_min, name, location):
 	db.session.execute(sql, {"id":id, "type":type, "h_min":h_min, "name":name, "day":day, "location":location})
 	db.session.commit()
 	return True
+
+def delete_event(id):
+	sql = "DELETE FROM sign_ups WHERE event_id=:id"
+	db.session.execute(sql, {"id":id})
+	db.session.commit()
+	sql = "DELETE FROM game_stats WHERE event_id=:id"
+	db.session.execute(sql, {"id":id})
+	db.session.commit()
+	sql = "DELETE FROM comments WHERE event_id=:id"
+	db.session.execute(sql, {"id":id})
+	db.session.commit()
+	sql = "DELETE FROM events WHERE id=:id"
+	db.session.execute(sql, {"id":id})
+	db.session.commit()
+	return True

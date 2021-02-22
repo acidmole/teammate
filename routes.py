@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, redirect, request, flash
 from db import db
-from forms import RegistrationForm, CommentForm, SignForm, EditEventForm
+from forms import RegistrationForm, CommentForm, SignForm, EditEventForm, DeleteEventForm
 
 import users, events, players, stats
 
@@ -38,7 +38,7 @@ def register():
 		if users.new_user(form.username.data, form.password.data, form.first_name.data, form.last_name.data):
 			flash ('Rekisteröityminen onnistui')
 			if (form.player.data == True):
-				if users.new_player(form.username.data, form.jersey.data, form.height.data, form.weight.data, form.position.data):
+				if players.new_player(form.username.data, form.jersey.data, form.height.data, form.weight.data, form.position.data):
 					return redirect("/")
 				else: render_template("error.html",message="Rekisteröinti ei onnistunut")
 			else:
@@ -46,10 +46,11 @@ def register():
 		else:
 			return render_template("error.html",message="Rekisteröinti ei onnistunut")
 
-
+# for listing future or past events
 @app.route("/events", methods=["GET", "POST"])
 def list_events():
 
+	# selected timespan for events. by default only future events
 	ts = request.args.get('timespan', 1)
 	if ts == 2:
 		ts_req = "(E.day::date - now()::date) >= 0 AND (E.day::date - now()::date) <= 7"
@@ -62,11 +63,16 @@ def list_events():
 
 	form = CommentForm(request.form)
 	s_form = SignForm(request.form)
+
 	if request.method == "GET":
 		listed_events = events.get_all_events(ts_req)
 		sign_ups = events.get_all_sign_ups(ts_req)
 		comments = events.get_all_comments(ts_req)
-		return render_template("events_list.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form, s_form=s_form)
+		if users.is_admin():
+			mod_rights = True
+		else:
+			mod_rights =  False
+		return render_template("events_list.html", events=listed_events, sign_ups=sign_ups, comments=comments, form=form, s_form=s_form, mod_rights=mod_rights)
 
 	if request.method == "POST":
 
@@ -131,10 +137,30 @@ def add_event():
 	else:
 		return render_template("error.html")
 
+@app.route("/event/delete/<int:id>", methods=["GET", "POST"])
+def delete_event(id):
+	if users.is_admin():
+		form = DeleteEventForm(request.form)
+		if request.method == "GET":
+			event = events.get_event_info(id)
+			return render_template("delete_event.html", event=event, form=form)
+		if request.method == "POST":
+			if form.confirm.data:
+				if events.delete_event(id):
+					return redirect("/events")
+				else: return render_template("error.html", message="Tapahtuman poisto ei onnistunut")
+			else:
+				return redirect("/events")
+
 @app.route("/players")
 def player_list():
-    player_list = players.get_players()
-    return render_template("players.html", players=player_list)
+
+	if users.is_admin():
+		mod_rights = True
+	else:
+		mod_rights =  False
+	player_list = players.get_players()
+	return render_template("player_list.html", players=player_list, mod_rights=mod_rights)
 
 
 @app.route("/players/<int:id>")
@@ -152,6 +178,23 @@ def player_info(id):
 	compared_player = players.get_player(compared_id)
 	return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
 	attendance=attendance, compared_player=compared_player)
+
+@app.route("/players/edit/", methods=["GET", "POST"])
+def edit_players():
+	player_id = request.args.get('player_id', None)
+	if users.is_admin() or users.user_id == player_id:
+		if request.method == "GET":
+			user = users.get(user_id)
+			player_id = players.get_player_id(user_id)
+			player = players.get_player(player_id[0])
+			return render_template("edit_player.html", user=user, player=player)
+		if request.method == "POST":
+			if users.update_user(user_id, form.first_name.data, form.last_name.data):
+				return redirect("/players")
+			else:
+				render.template("error.html", message="Päivitys ei onnistunut")
+	else:
+		return render.template("error.html", message="Ei oikeutta")
 
 
 @app.route("/stats")
@@ -174,7 +217,15 @@ def team_stats():
 
 @app.route("/stats/<int:id>")
 def single_game_stats(id):
+	player_stats = stats.get_single_game_stats(id)
+	summed = stats.get_single_game_summary_stats(id)
+	return render_template("game_stats.html", stats=player_stats, summed=summed)
 
-    player_stats = stats.get_single_game_stats(id)
-    summed = stats.get_single_game_summary_stats(id)
-    return render_template("game_stats.html", stats=player_stats, summed=summed)
+@app.route("/stats/add_stats", methods=["GET", "POST"])
+def add_stats():
+	if users.is_admin():
+		form = EditEventForm(request.form)
+		if request.method=="GET":
+			games = stats.get_games()
+			stats = stats.get_game_stats()
+		return redirect("/")

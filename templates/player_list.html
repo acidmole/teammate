@@ -4,6 +4,9 @@
 <hr>
 {% for player in players %}
 <a href=/players/{{player[3]}}>{{ player[0] }} {{ player[1] }} {{ player[2] }}</a>
+{% if mod_rights %} 
+<a href=players/edit?player_id={{player[3]}}><i class="far fa-edit"></i>Muokkaa</a>
+{% endif %}
 <hr>
 {% endfor %}
 {% endblock %}

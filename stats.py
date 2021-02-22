@@ -1,4 +1,3 @@
-
 from db import db
 
 #returns a list of games with stats
@@ -47,7 +46,7 @@ def get_team_stats():
 #returns a single game's separated player stats
 def get_single_game_stats(id):
     sql = ("SELECT U.first_name, U.last_name, P.jersey_number, G.mins, G.fg, G.fg_a, ROUND (100.0* G.fg / NULLIF(G.fg_a,0),1), G.ft, G.ft_a, " \
-           "ROUND(100.0* G.ft / NULLIF(G.ft_a, 0),1), G.three, G.three_a, ROUND(100.0*G.ft / NULLIF(G.ft_a, 0)), G.dreb, G.oreb, (G.dreb + G.oreb), G.foul, G.ass, G.tover, G.steal, G.block, "\
+           "ROUND(100.0* G.ft / NULLIF(G.ft_a, 0),1), G.three, G.three_a, ROUND(100.0*G.ft / NULLIF(G.ft_a, 0)), G.dreb, G.oreb, (G.dreb+G.oreb), G.foul, G.ass, G.tover, G.steal, G.block, "\
            "(2*fg + ft + 3*three) "\
            "FROM game_stats G "\
            "LEFT JOIN players P ON G.player_id = P.id "\
@@ -62,7 +61,7 @@ def get_single_game_stats(id):
 def get_single_game_summary_stats(id):
     sql = ("SELECT SUM(mins), SUM(fg), SUM(fg_a), ROUND(100.0 * SUM (fg) / NULLIF(SUM(fg_a),0),1), SUM(ft), SUM(ft_a), "\
           "ROUND(100.0 * SUM(ft) / NULLIF(SUM(ft_a),0),1), SUM(three), SUM(three_a), ROUND(100.0 * SUM (three) / NULLIF(SUM(three_a),0),1), "\
-          "SUM(dreb), SUM(oreb), SUM(G.dreb+G.oreb), SUM(foul), SUM(ass), SUM(tover), SUM(steal), SUM(block), SUM(2*fg + ft + 3*three) "\
+          "SUM(dreb), SUM(oreb), SUM(dreb + oreb), SUM(foul), SUM(ass), SUM(tover), SUM(steal), SUM(block), SUM(2*fg + ft + 3*three) "\
           "FROM game_stats "\
           "WHERE event_id=:id")
     result = db.session.execute(sql, {"id":id})

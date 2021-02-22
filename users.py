@@ -45,3 +45,16 @@ def new_player(username, jersey, height, weight, position):
     db.session.execute(sql, {"jersey":jersey, "height":height, "weight":weight, "position":position})
     db.session.commit()
     return True
+
+def get_user(user_id):
+	sql = "SELECT :user_id, first_name, last_name FROM users"
+	result = db.session.execute(sql, {"user_id":user_id})
+	return result.fetchone()
+
+def update_user(user_id, first_name, last_name):
+	sql = "UPDATE users SET first_name=:first_name, last_name=:last_name WHERE id=:user_id"
+	result = db.session.execute(sql, {"user_id":user_id, "first_name":first_name, "last_name":last_name})
+	return True
+
+def change_password(new_password):
+	return null
