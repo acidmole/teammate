@@ -75,3 +75,18 @@ def add_game_stats(e_id, p_id, mins, fg, fga, three, three_a, ft, ft_a, dreb, or
     "ft_a":ft_a, "dreb":dreb, "oreb":oreb, "foul":foul, "ass":ass, "tover":tover, "steal":steal, "block":block})
     db.session.commit()
     return True
+
+# returns all players' attendance ranked
+def get_attendance_stats():
+	result = db.session.execute("SELECT U.first_name, COUNT(sign_up) AS ins, U.id FROM sign_ups S LEFT JOIN users U ON u.id=S.user_id "\
+	"WHERE S.sign_up='t' GROUP BY U.first_name, S.sign_up, U.id ORDER BY ins DESC")
+	return result.fetchall()
+
+# returns most attended events ranked
+def get_attendance_pct():
+	result = db.session.execute("SELECT E.id, E.name, E.day, COUNT(S.sign_up), ROUND(100.0*COUNT(S.sign_up)/(SELECT COUNT(id) "\
+	"FROM users),1) AS pct FROM events E LEFT JOIN sign_ups S ON E.id=S.event_id LEFT JOIN users U ON U.id=S.user_id "\
+	"WHERE S.sign_up='t' GROUP BY E.id ORDER BY pct DESC")
+	return result.fetchall()
+
+

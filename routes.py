@@ -106,9 +106,7 @@ def event_edit(id):
 		form = EditEventForm(request.form)
 		if request.method == "GET":
 			event = events.get_event_info(id)
-			sign_ups = events.get_sign_ups(id)
-			comments = events.get_comments(id)
-			return render_template("edit_event.html", event=event, sign_ups=sign_ups, comments=comments, form=form)
+			return render_template("edit_event.html", event=event, form=form)
 		if request.method == "POST":
 			if form.submit.data:
 				if events.update_event(id, form.type.data, form.day.data, form.time.data, form.name.data, form.location.data):
@@ -229,3 +227,9 @@ def add_stats():
 			games = stats.get_games()
 			stats = stats.get_game_stats()
 		return redirect("/")
+
+@app.route("/stats/practice")
+def practice_stats():
+	most_in = stats.get_attendance_stats()
+	pop_event = stats.get_attendance_pct()
+	return render_template("practice_stats.html", most_in=most_in, pop_event=pop_event)

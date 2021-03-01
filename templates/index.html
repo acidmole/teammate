@@ -1,20 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
 
-  <h1>Teammate</h1>
-  <h2>Koripallojoukkueen apusivusto</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-lg">
+      <h1>Teammate</h1>
+      <h2>Koripallojoukkueen apusivusto</h2>
+    </div>
+  </div>
+</div>
 
-  <table style="table-layout: fixed; width: 320px;">
-     <tr>
-       <td><a href="/players"><i class="fas fa-running" style="font-size:96px;color:cornflowerblue;" alt="juokseva tikku-ukko"></i></a></td>
-       <td><a href="/events"><i class="fas fa-calendar-day" style="font-size:96px;color:limegreen;" alt="kalenteri"></i></a></td>
-       <td><a href="/stats"><i class="far fa-chart-bar" style="font-size:96px;color:orange;" alt="diagrammi"></i></a></td>
-    </tr>
-    <tr>
-      <td><a href="/players">Pelaajat</a></td>
-      <td><a href="/events">Tapahtumat</a></td>
-      <td><a href="/stats">Tilastot</a></td>
-    </tr>
-  </table>
-  </p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <a href="/players"><i class="fas fa-running" style="font-size:96px;color:cornflowerblue;" alt="juokseva tikku-ukko"></i></a>
+      <br><a href="/players">Pelaajat</a>
+    </div>
+    <div class="col-sm">
+      <a href="/events"><i class="fas fa-calendar-day" style="font-size:96px;color:limegreen;" alt="kalenteri"></i></a>
+      <br><a href="/events">Tapahtumat</a>
+    </div>
+    <div class="col-sm">
+      <a href="/stats"><i class="far fa-chart-bar" style="font-size:96px;color:orange;" alt="diagrammi"></i></a>
+      <br><a href="/stats">Tilastot</a>
+    </div>
+  </div>
+</div>
 {% endblock %}

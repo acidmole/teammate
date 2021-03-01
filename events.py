@@ -21,7 +21,6 @@ def get_all_events(timespan):
 def get_event_info(id):
     sql = "SELECT E.type, E.day, E.h_min, E.name, E.id, E.location "\
           "FROM events E " \
-	  "LEFT JOIN comments C on E.id = C.event_id " \
           "WHERE E.id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchall()

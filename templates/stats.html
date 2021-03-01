@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<a href=/stats/personal>Pelaajakohtaiset tilastot</a><br>
-<a href=/stats/team>Joukkuetilastot</a><br>
+<p>
+  <a href=/stats/personal>Pelaajakohtaiset tilastot</a><br>
+  <a href=/stats/team>Joukkuetilastot</a><br>
+  <a href=/stats/practice>Harjoittelutilastot<a>
+</p>
 <hr>
 Uusimmat tilastot:
 <ul>
@@ -10,4 +13,6 @@ Uusimmat tilastot:
     <li><a href=/stats/{{ game[0] }}> {{ game[2] }} {{ game[1] }} </a></li>
 {% endfor %}
 </ul>
+
+
 {% endblock %}

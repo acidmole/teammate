@@ -1,23 +1,32 @@
 {% extends "layout.html" %}
 {% block content %}
 
-  <h1>Tulevat tapahtumat</h2>
-
-  <a href=/events/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
-
-<p>
-  <form>
-    <label for="timespan">Suodata tapahtumia ajan perusteella:</label>
-    <select name="timespan">
-      <option selected disabled>Valitse</option>
-      <option value="1">Kaikki tulevat</option>
-      <option value="2">Seuraavan viikon ajan</option>
-      <option value="3">Tässä kuussa</option>
-      <option value="4">Menneet</option>
-    </select>
-    <input class="btn" type="submit" value="Valitse">
-  </form>
-</p>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+  		<h2>Tulevat tapahtumat</h2>
+	  </div>
+	</div>
+  </div>
+ 
+  <div class="container">
+    <div class="row">
+      <div class="col">
+  		<form>
+    	  <label for="timespan">Suodata tapahtumia ajan perusteella:</label>
+    	  <select name="timespan">
+      	  	<option selected disabled>Valitse</option>
+      	  	<option value="1">Kaikki tulevat</option>
+      	  	<option value="2">Seuraavan viikon ajan</option>
+      	  	<option value="3">Tässä kuussa</option>
+      	  	<option value="4">Menneet</option>
+    	  </select>
+    	  <input class="btn" type="submit" value="Valitse">
+  	  	</form>
+	  </div>
+	</div>
+  </div>
+ <a href=/events/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
 
   {% for event in events %}
     <p>
