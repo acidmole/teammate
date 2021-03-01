@@ -88,5 +88,3 @@ def get_attendance_pct():
 	"FROM users),1) AS pct FROM events E LEFT JOIN sign_ups S ON E.id=S.event_id LEFT JOIN users U ON U.id=S.user_id "\
 	"WHERE S.sign_up='t' GROUP BY E.id ORDER BY pct DESC")
 	return result.fetchall()
-
-

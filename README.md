@@ -14,8 +14,6 @@ Known bugs and unfinished features:
 * attending event doesn't separate ins and outs
 * editing events has troubles with saving starting time
 * adding statistics unavailable
-* practice statistics lacking
-* events filtering not working
 * single event view does not provide any information
 * player information editing or deleting not available
 * player information does not list player position anywhere

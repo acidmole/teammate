@@ -51,23 +51,19 @@ def register():
 def list_events():
 
 	# selected timespan for events. by default only future events
-	ts = request.args.get('timespan', 1)
-	if ts == 2:
-		ts_req = "(E.day::date - now()::date) >= 0 AND (E.day::date - now()::date) <= 7"
-	elif ts == 3:
-		ts_req = "EXTRACT(MONTH FROM now())=EXTRACT(MONTH FROM E.day) AND EXTRACT(YEAR FROM now())=EXTRACT(YEAR FROM E.day)"
-	elif ts == 4:
-		ts_req = "E.day < now()"
-	else:
-		ts_req = "E.day >= now()"
+	ts = int(request.args.get('timespan', 1))-1
+	ts_req= ["E.day >= now()", "(E.day::date - now()::date) >= 0 AND (E.day::date - now()::date) <= 7",\
+	"EXTRACT(MONTH FROM now())=EXTRACT(MONTH FROM E.day) AND EXTRACT(YEAR FROM now())=EXTRACT(YEAR FROM E.day)",\
+	"E.day < now()"]
+
 
 	form = CommentForm(request.form)
 	s_form = SignForm(request.form)
 
 	if request.method == "GET":
-		listed_events = events.get_all_events(ts_req)
-		sign_ups = events.get_all_sign_ups(ts_req)
-		comments = events.get_all_comments(ts_req)
+		listed_events = events.get_all_events(ts_req[ts])
+		sign_ups = events.get_all_sign_ups(ts_req[ts])
+		comments = events.get_all_comments(ts_req[ts])
 		if users.is_admin():
 			mod_rights = True
 		else:
