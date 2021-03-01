@@ -34,9 +34,15 @@
     </p>
     
     <p>Ilmoittautuneet:
+      <table><tr>
       {% for sign_up in sign_ups %}
         {% if sign_up[1] == event[4] %}<br>
-	  	  {{ sign_up[0] }}
+	  	  {{ sign_up[2] }}
+	  	  {% if sign_up[2] == "True" %}
+	  	  	<td style="background-color:MediumSeaGreen;">{{ sign_up[0] }}</td>
+          {% else %}
+   	  	  	<td style="background-color:red;">{{ sign_up[0] }}</td></tr></table>
+          {% endif %}
         {% endif %}
       {% endfor %}
     </p>

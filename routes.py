@@ -89,11 +89,41 @@ def list_events():
 				else:
 					return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
 
-@app.route("/event/<int:id>")
+@app.route("/event/<int:id>", methods=["GET", "POST"])
 def event_info(id):
-    event = events.get_event_info(id)
-    sign_ups = events.get_sign_ups(id)
-    return render_template("event.html", event=event, sign_ups=sign_ups)
+
+	form = CommentForm(request.form)
+	s_form = SignForm(request.form)
+
+	if request.method == "GET":
+		event = events.get_event_info(id)
+		sign_ups = events.get_sign_ups(id)
+		comments = events.get_comments(id)
+		if users.is_admin():
+			mod_rights = True
+		else:
+			mod_rights =  False
+
+	if request.method == "POST":
+
+		if form.submit.data and form.validate():
+			if events.add_comment(form.user_id.data, form.event_id.data, form.message.data):
+				return redirect("/events")
+			else:
+				return render_template("error.html", message="Kommentin lisääminen ei onnistunut")
+
+		if s_form.player_in.data and s_form.validate():
+			if events.sign_up(s_form.user_id.data, s_form.event_id.data, "t"):
+				return redirect("/events")
+			else:
+				return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
+		elif s_form.validate() and s_form.player_out.data:
+				if events.sign_up(s_form.user_id.data, s_form.event_id.data, "f"):
+					return redirect("/events")
+				else:
+					return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
+
+	return render_template("event.html", event=event, sign_ups=sign_ups, comments=comments, form=form, s_form=s_form, mod_rights=mod_rights)
 
 @app.route("/event/edit/<int:id>", methods=["GET", "POST"])
 def event_edit(id):
