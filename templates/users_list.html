@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <table>
+	<tr>
+	  <td>id</td>
+	  <td>Etunimi</td>
+	  <td>Sukunimi</td>
+	</tr>
+	{% for user in userlist %}
+	  <tr>
+	    <td>{{ user[0] }}</td>
+	    <td>{{ user[1] }}</td>
+	    <td>{{ user[2] }}</td>
+	    {% if mod_rights %}
+	      <td><a href="/users/edit/{{ user[0] }}">Muokkaa</a> <a href="/users/delete/{{ user[0] }}">Poista</a></td>
+	    {% endif %}
+	  </tr>
+    {% endfor %}
+  </table>
+
+{% endblock %}

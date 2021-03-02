@@ -8,7 +8,8 @@
     <title>Teammate - korisjoukkueen ilmoittautumis- ja tilastoapplikaatio</title>
 	<div class="container">
       <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: orange">
-      	<a class="navbar-brand" href="/"><i class="fas fa-home" style="font-size:64px; color:white"></i></a>
+      	<a class="navbar-brand" href="/"><i class="fas fa-home" style="font-size:64px; color:white"></i>Teammate</a>
+		{% if session.user_id %}
       	<ul class="navbar-nav">
       	<li class="nav-item">
       	  <a class="nav-link" href="/players"><i class="fas fa-running" style="font-size:16px;color:cornflowerblue;" alt="juokseva tikku-ukko"></i>Pelaajat</a>
@@ -20,9 +21,11 @@
       	  <a class="nav-link" href="/stats"><i class="far fa-chart-bar" style="font-size:16px;color:white;" alt="diagrammi"></i>Tilastot</a>
         </li>
 
-		{% if session.user_id %}
           <li class="nav-item">
-            <a class="nav-link" href="/players/edit?user={{ session.user_id }}">Muokkaa tietojasi</a>
+            <a class="nav-link" href="/users/edit/{{ session.user_id }}">Muokkaa tietojasi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users">Käyttäjät</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/logout">Kirjaudu ulos</a>

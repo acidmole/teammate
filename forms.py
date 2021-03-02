@@ -12,6 +12,16 @@ class RegistrationForm(Form):
 	weight = IntegerField('Paino', [validators.NumberRange(min=0, max=300)], default=0)
 	position = SelectField('Pelipaikka', choices=[('G','Takamies'), ('F','Laituri'), ('C','Sentteri')])
 
+class EditInfoForm(Form):
+	first_name = StringField('Etunimi', [validators.Length(min=3, max=25)])
+	last_name = StringField('Sukunimi', [validators.Length(min=3, max=40)])
+	jersey = IntegerField('Pelinumero', [validators.DataRequired(), validators.NumberRange(min=0, max=99)], default=0)
+	height = IntegerField('Pituus', [validators.NumberRange(min=0, max=300)], default=0)
+	weight = IntegerField('Paino', [validators.NumberRange(min=0, max=300)], default=0)
+	position = SelectField('Pelipaikka', choices=[('G','Takamies'), ('F','Laituri'), ('C','Sentteri')])
+	submit = SubmitField('Tallenna muutokset')
+	cancel = SubmitField('Hylkää muutokset')
+
 class CommentForm(Form):
 	message = TextField([validators.DataRequired()])
 	event_id = HiddenField('event_id')
@@ -50,9 +60,6 @@ class StatForm(Form):
 	steal = IntegerField('R', [validators.Required()], default=0)
 	block = IntegerField('B', [validators.Required()], default=0)
 
-class TeamClassForm(Form):
-	stats = FieldList(FormField(StatForm))
-
-class DeleteEventForm(Form):
+class ConfirmDeleteForm(Form):
 	confirm = SubmitField('KYLLÄ')
 	cancel = SubmitField('EI')

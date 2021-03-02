@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+	<h4>Muokkaa käyttäjää</h4>
+  
+  <form action="/users/edit" method="post">
+	<p> Etunimi {{ form.first_name(value=user[1]) }}
+	<p> Sukunimi {{ form.last_name(value=user[2]) }}
+	{% if player %}
+	<p> Pelinumero {{ form.jersey(value=player[2]) }}
+	<p> Pituus {{ form.height(value=player[3]) }}
+	<p> Paino {{ form.weight(value=player[4]) }}
+	<p> Pelipaikka {{ form.position(value=player[9]) }}
+	{% endif %}
+	<p> {{ form.submit }} {{ form.cancel }}
+  </form>
+
+
+{% endblock %}

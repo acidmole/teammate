@@ -48,14 +48,33 @@ def new_player(username, jersey, height, weight, position):
     return True
 
 def get_user(user_id):
-	sql = "SELECT :user_id, first_name, last_name FROM users"
+	sql = "SELECT id, first_name, last_name, username FROM users WHERE id=:user_id"
 	result = db.session.execute(sql, {"user_id":user_id})
 	return result.fetchone()
 
 def update_user(user_id, first_name, last_name):
 	sql = "UPDATE users SET first_name=:first_name, last_name=:last_name WHERE id=:user_id"
-	result = db.session.execute(sql, {"user_id":user_id, "first_name":first_name, "last_name":last_name})
+	db.session.execute(sql, {"user_id":user_id, "first_name":first_name, "last_name":last_name})
+	db.session.commit()
 	return True
 
-def change_password(new_password):
-	return null
+def delete_user(id):
+	sql = "UPDATE users SET visible='f' WHERE id=:id"
+	db.session.execute(sql, {"id":id})
+	db.session.commit()
+	return True
+
+def get_all_users():
+	result = db.session.execute("SELECT id, first_name, last_name, admin FROM users WHERE visible='t' ORDER BY last_name")
+	return result.fetchall()
+
+def get_all_deleted_users():
+	result = db.session.execute("SELECT id, first_name, last_name, admin FROM users WHERE visible='f'")
+	return result.fetchall()
+
+
+def is_visible(id):
+	sql = "SELECT visible FROM users WHERE id=:id"
+	result = db.session.execute(sql, {"id":id})
+	visible = result.fetchone()
+	return visible[0]

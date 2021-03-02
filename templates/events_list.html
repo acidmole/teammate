@@ -26,7 +26,9 @@
 	  </div>
 	</div>
   </div>
- <a href=/events/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
+ {% if mod_rights %} 
+   <a href=/events/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
+ {% endif %}
 
   {% for event in events %}
     <p>

@@ -11,12 +11,8 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/
 A short guide for Finnish basketball stat acronyms: 2P/A = 2 points shots made/attempted (1P = free throws, 3P = threepointers), PL = puolustuslevypallo = defensive rebound, HL = hyökkäyslevypallo = offensive rebound, V = virhe = foul, S = syöttö = assist, M = menetys = turnover, R = riisto = steal, B = blokki = block, P = pisteet = points.
 
 Known bugs and unfinished features:
-* attending event doesn't separate ins and outs
 * editing events has troubles with saving starting time
 * adding statistics unavailable
-* single event view does not provide any information
-* player information editing or deleting not available
-* player information does not list player position anywhere
 * personal statistics page missing shot percentages
 * awful appearance
 * all templates are not extended from layout.html
