@@ -6,12 +6,12 @@
 		{% for stat_form in form.statistics %}
 			<p>
 				{% for field in stat_form %}
-				{{ field }}
+					{{ field }}
 				{% endfor %}
 			</p>
 		{% endfor %}
 		<p>
-			{{ form.confirm }} {{ form.cancel }}
+			{{ form.submit }} {{ form.cancel }}
 		</p>
 	</form>
 

@@ -311,14 +311,16 @@ def single_game_stats(id):
 @app.route("/stats/add_stats", methods=["GET", "POST"])
 def add_stats():
 	if users.is_admin():
-		form = InsertStatForm()
 
 		if request.method == "GET":
+			form = InsertStatForm()
 			return render_template("add_stats.html", form=form)
 
 		if request.method == "POST":
+			form = InsertStatForm(request.form)
 			for stat_line in form.statistics.data:
-				print(stat_line)
+				for s in stat_line.values():
+					print(s)
 			return redirect("/stats")
 		else:
 			return render_template("error.html", message="Virhe tilastoiden syöttämisessä")

@@ -73,7 +73,7 @@ class InsertStatForm(Form):
 	games_list.append([0, "Valitse ottelu"])
 	statistics = FieldList(FormField(StatForm), min_entries=12, max_entries=12)
 	event_id = SelectField('event_id', choices=games_list, default=0)
-	confirm = SubmitField('LÄHETÄ')
+	submit = SubmitField('LÄHETÄ')
 	cancel = SubmitField('PERUUTA')
 
 class ConfirmDeleteForm(Form):
