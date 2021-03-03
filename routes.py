@@ -210,8 +210,7 @@ def player_info(id):
 
 @app.route("/users/edit/<int:id>")
 def edit_user(id):
-
-	if users.is_admin() or users.user_id == id:
+	if users.is_admin() or users.user_id() == id:
 		form = EditInfoForm(request.form)
 		if request.method == "GET":
 			user = users.get_user(id)
@@ -227,22 +226,24 @@ def edit_user(id):
 @app.route("/users/edit", methods=["POST"])
 def user_edit_post():
 	form = EditInfoForm(request.form)
-	id = users.user_id()
-	if users.is_admin() or users.user_id == id:
-		if users.update_user(id, form.first_name.data, form.last_name.data):
-			player_id = players.get_player_id(id)
-			if players.update_player(player_id[0], form.jersey.data, form.height.data, form.weight.data, form.position.data):
-				return redirect("/users")
+	if form.submit.data and form.validate():
+		id = int(form.user_id.data)
+		if users.is_admin() or users.user_id() == id:
+			id = form.user_id.data
+			if users.update_user(id, form.first_name.data, form.last_name.data):
+				player_id = players.get_player_id(id)
+				if players.update_player(player_id[0], form.jersey.data, form.height.data, form.weight.data, form.position.data):
+					return redirect("/users")
+				else:
+					render_template("error.html", message="Päivitys ei onnistunut")
 			else:
 				render_template("error.html", message="Päivitys ei onnistunut")
 		else:
-			render_template("error.html", message="Päivitys ei onnistunut")
-	else:
-		return render_template("error.html", message="Ei oikeutta")
+			return render_template("error.html", message="Ei oikeutta")
 
 @app.route("/users/delete/<int:id>", methods=["GET", "POST"])
 def delete_user(id):
-	if users.is_admin() or users.user_id == id:
+	if users.is_admin() or users.user_id() == id:
 		form = ConfirmDeleteForm(request.form)
 
 		if request.method == "GET":
@@ -258,6 +259,10 @@ def delete_user(id):
 				return redirect("/users")
 	else:
 		return render_template("error.html", message="Ei oikeutta")
+
+# deleted players go here
+@app.route("/graveyard")
+def graveyard():
 
 
 @app.route("/users")

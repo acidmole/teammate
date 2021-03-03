@@ -19,6 +19,7 @@ class EditInfoForm(Form):
 	height = IntegerField('Pituus', [validators.NumberRange(min=0, max=300)], default=0)
 	weight = IntegerField('Paino', [validators.NumberRange(min=0, max=300)], default=0)
 	position = SelectField('Pelipaikka', choices=[('G','Takamies'), ('F','Laituri'), ('C','Sentteri')])
+	user_id = HiddenField('user_id')
 	submit = SubmitField('Tallenna muutokset')
 	cancel = SubmitField('Hylkää muutokset')
 
