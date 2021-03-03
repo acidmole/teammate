@@ -1,4 +1,5 @@
 from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField, SubmitField, RadioField, DateField, TimeField, BooleanField, SelectField, FieldList, FormField
+import players, events
 
 class RegistrationForm(Form):
 	username = StringField('Käyttäjätunnus', [validators.DataRequired(), validators.Length(min=3, max=25)])
@@ -44,22 +45,36 @@ class EditEventForm(Form):
 	submit = SubmitField('Tallenna muutokset')
 
 class StatForm(Form):
-	event_id = HiddenField('event_id')
-	player_id = HiddenField('player_id')
-	min = TimeField('min', [validators.Required()], format='%M:%S', default=0)
-	fg = IntegerField('2P', [validators.Required()], default=0)
-	fg_a = IntegerField('2PA', [validators.Required()], default=0)
-	ft = IntegerField('1P', [validators.Required()], default=0)
-	ft_a = IntegerField('1PA', [validators.Required()], default=0)
-	three = IntegerField('3P', [validators.Required()], default=0)
-	three_a = IntegerField('3PA', [validators.Required()], default=0)
-	dreb = IntegerField('PL', [validators.Required()], default=0)
-	oreb = IntegerField('HL', [validators.Required()], default=0)
-	foul = IntegerField('V', [validators.Required()], default=0)
-	ass = IntegerField('S', [validators.Required()], default=0)
-	tover = IntegerField('M', [validators.Required()], default=0)
-	steal = IntegerField('R', [validators.Required()], default=0)
-	block = IntegerField('B', [validators.Required()], default=0)
+
+	pl_list = players.get_players()
+	player_list = [(pl[3], (str(pl[2]) + " " + pl[0] + " " + pl[1])) for pl in pl_list]
+	player_list.append([0, "Valitse pelaaja"])
+
+	player_id = SelectField('player_id', choices=player_list, default=0)
+	min = TimeField('min', format='%M:%S')
+	fg = IntegerField('2P', default=0)
+	fg_a = IntegerField('2PA', default=0)
+	ft = IntegerField('1P', default=0)
+	ft_a = IntegerField('1PA', default=0)
+	three = IntegerField('3P', default=0)
+	three_a = IntegerField('3PA', default=0)
+	dreb = IntegerField('PL', default=0)
+	oreb = IntegerField('HL', default=0)
+	foul = IntegerField('V',  default=0)
+	ass = IntegerField('S', default=0)
+	tover = IntegerField('M', default=0)
+	steal = IntegerField('R', default=0)
+	block = IntegerField('B', default=0)
+
+class InsertStatForm(Form):
+
+	games = events.get_games()
+	games_list =  [(g[2], (str(g[0]) + " " + g[1])) for g in games]
+	games_list.append([0, "Valitse ottelu"])
+	statistics = FieldList(FormField(StatForm), min_entries=12, max_entries=12)
+	event_id = SelectField('event_id', choices=games_list, default=0)
+	confirm = SubmitField('LÄHETÄ')
+	cancel = SubmitField('PERUUTA')
 
 class ConfirmDeleteForm(Form):
 	confirm = SubmitField('KYLLÄ')

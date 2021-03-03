@@ -94,7 +94,7 @@ def get_sign_outs(id):
 
 # returns a list of every game type event
 def get_games():
-    result = db.session.execute("SELECT E.day, E.name"\
+    result = db.session.execute("SELECT E.day, E.name, E.id "\
                                 "FROM events E " \
                                 "WHERE E.type='1'")
     return result.fetchall()

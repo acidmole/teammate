@@ -3,8 +3,8 @@ from db import db
 # returns a list of all players excluding graveyard
 def get_players():
     result = db.session.execute("SELECT U.first_name, U.last_name, P.jersey_number, P.id "\
-                                "FROM users U "\
-                                "LEFT JOIN players P ON P.user_id=U.id "\
+                                "FROM players P "\
+                                "LEFT JOIN users U ON P.user_id=U.id "\
                                 "WHERE U.visible='t' "\
                                 "ORDER BY P.jersey_number")
     return result.fetchall()

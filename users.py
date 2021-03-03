@@ -78,3 +78,15 @@ def is_visible(id):
 	result = db.session.execute(sql, {"id":id})
 	visible = result.fetchone()
 	return visible[0]
+
+# returns a list of all players in graveyard
+def get_graveyard():
+	result = db.session.execute("SELECT id, first_name, last_name FROM users WHERE visible='f'")
+	return result.fetchall()
+
+# brings a player back from graveyard
+def raise_dead(id):
+	sql = "UPDATE users SET visible='t' WHERE id=:id"
+	db.session.execute(sql, {"id":id})
+	db.session.commit()
+	return True

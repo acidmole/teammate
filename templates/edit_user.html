@@ -7,10 +7,10 @@
 	<p> Etunimi {{ form.first_name(value=user[1]) }}
 	<p> Sukunimi {{ form.last_name(value=user[2]) }}
 	{% if player %}
-	<p> Pelinumero {{ form.jersey(value=player[2]) }}
-	<p> Pituus {{ form.height(value=player[3]) }}
-	<p> Paino {{ form.weight(value=player[4]) }}
-	<p> Pelipaikka {{ form.position(value=player[9]) }}
+	<p> {{ form.jersey.label }} {{ form.jersey(value=player[2]) }}
+	<p> {{ form.height.label }} {{ form.height(value=player[3]) }}
+	<p> {{ form.weight.label }} {{ form.weight(value=player[4]) }}
+	<p> {{ form.position.label }} {{ form.position(value=player[9]) }}
 	{% endif %}
 	<p> {{ form.submit }} {{ form.cancel }}
 	{{ form.user_id(value=user[0]) }}

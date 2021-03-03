@@ -1,1 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
 
+	<form action="/stats/add_stats" method="post">
+		{{ form.event_id }}
+		{% for stat_form in form.statistics %}
+			<p>
+				{% for field in stat_form %}
+				{{ field }}
+				{% endfor %}
+			</p>
+		{% endfor %}
+		<p>
+			{{ form.confirm }} {{ form.cancel }}
+		</p>
+	</form>
+
+{% endblock %}

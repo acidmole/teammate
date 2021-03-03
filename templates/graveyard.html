@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <h4>Käyttäjien hautuumaa</h4>
+  <table>
+    <tr>
+      <td>id</td>
+      <td>Etunimi</td>
+      <td>Sukunimi</td>
+    </tr>
+    {% for user in buried %}
+      <tr>
+        <td>{{ user[0] }}</td>
+        <td>{{ user[1] }}</td>
+        <td>{{ user[2] }}</td>
+          <td><a href="/graveyard?resurrect={{ user[0] }}">Tuo takaisin</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+
+{% endblock %}

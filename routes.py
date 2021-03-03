@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, redirect, request, flash
 from db import db
-from forms import RegistrationForm, CommentForm, SignForm, EditEventForm, ConfirmDeleteForm, EditInfoForm
+from forms import RegistrationForm, CommentForm, SignForm, EditEventForm, ConfirmDeleteForm, EditInfoForm, InsertStatForm, StatForm
 
 import users, events, players, stats
 
@@ -50,7 +50,7 @@ def register():
 @app.route("/events", methods=["GET", "POST"])
 def list_events():
 
-	# selected timespan for events. by default only future events
+	# selected timespan for events. by default ([0]) set to future events
 	# [1] = next week
 	# [2] = this month
 	# [3] = everything in the past
@@ -260,10 +260,20 @@ def delete_user(id):
 	else:
 		return render_template("error.html", message="Ei oikeutta")
 
-# deleted players go here
+# deleted players rest here
 @app.route("/graveyard")
 def graveyard():
-
+	if users.is_admin():
+		user = request.args.get('resurrect', 0)
+		if user == 0:
+			buried = users.get_graveyard()
+			return render_template("graveyard.html", buried=buried)
+		else:
+			if users.raise_dead(user):
+				return redirect("/users")
+			else:
+				return render_template("error.html", message="Virhe pelaajan poistossa")
+	else: return render_template("error.html", message="Ei oikeutta")
 
 @app.route("/users")
 def list_users():
@@ -301,11 +311,19 @@ def single_game_stats(id):
 @app.route("/stats/add_stats", methods=["GET", "POST"])
 def add_stats():
 	if users.is_admin():
-		form = EditEventForm(request.form)
-		if request.method=="GET":
-			games = stats.get_games()
-			stats = stats.get_game_stats()
-		return redirect("/")
+		form = InsertStatForm()
+
+		if request.method == "GET":
+			return render_template("add_stats.html", form=form)
+
+		if request.method == "POST":
+			for stat_line in form.statistics.data:
+				print(stat_line)
+			return redirect("/stats")
+		else:
+			return render_template("error.html", message="Virhe tilastoiden syöttämisessä")
+	else:
+		return render_template("error.html", message="Ei oikeutta")
 
 @app.route("/stats/practice")
 def practice_stats():
