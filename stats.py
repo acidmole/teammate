@@ -9,16 +9,16 @@ def get_games():
 
 #returns a list of all players' personal average stats
 def get_personal_stats():
-    result = db.session.execute("SELECT G.player_id, U.first_name, U.last_name, P.jersey_number, COUNT(G.player_id), TO_CHAR(AVG(G.mins),'MI:SS'), ROUND(AVG(G.fg),1), "\
-	"ROUND(AVG(G.fg_a),1), ROUND(AVG(G.three),1), ROUND(AVG(G.three_a),1), ROUND(AVG(G.ft),1), "\
-	"ROUND(AVG(G.ft_a),1), ROUND(AVG(G.dreb),1), ROUND(AVG(G.oreb),1), ROUND(AVG(G.dreb + G.oreb),1), ROUND(AVG(G.foul),1), ROUND(AVG(G.ass),1), "\
-	"ROUND(AVG(G.tover),1), ROUND(AVG(G.steal),1), ROUND(AVG(G.block),1), ROUND(AVG(2*G.fg + 3*G.three + G.ft),1) "\
+	result = db.session.execute("SELECT G.player_id, U.first_name, U.last_name, P.jersey_number, COUNT(G.player_id), TO_CHAR(AVG(G.mins),'MI:SS'), ROUND(AVG(G.fg),1), "\
+	"ROUND(AVG(G.fg_a),1), ROUND(100.0*AVG(G.fg)/NULLIF(AVG(G.fg_a),0),1), ROUND(AVG(G.three),1), ROUND(AVG(G.three_a),1), ROUND(100.0*AVG(G.three)/NULLIF(AVG(G.three_a),0),1), "\
+	"ROUND(AVG(G.ft),1), ROUND(AVG(G.ft_a),1), ROUND(100.0*AVG(G.ft)/NULLIF(AVG(G.ft_a),0),1), ROUND(AVG(G.dreb),1), ROUND(AVG(G.oreb),1), ROUND(AVG(G.dreb + G.oreb),1), ROUND(AVG(G.foul),1), "\
+	"ROUND(AVG(G.ass),1), ROUND(AVG(G.tover),1), ROUND(AVG(G.steal),1), ROUND(AVG(G.block),1), ROUND(AVG(2*G.fg + 3*G.three + G.ft),1) "\
 	"FROM game_stats G " \
 	"LEFT JOIN players P ON G.player_id = P.id " \
 	"LEFT JOIN users U ON P.user_id = U.id " \
 	"GROUP BY G.player_id, U.first_name, U.last_name, P.jersey_number " \
 	"ORDER BY P.jersey_number")
-    return result.fetchall()
+	return result.fetchall()
 
 # returns a list of game stats separated
 def get_game_stats():
@@ -43,7 +43,7 @@ def get_team_stats():
     return result.fetchall()
 
 
-#returns a single game's separated player stats
+#returns a single game's stats
 def get_single_game_stats(id):
     sql = ("SELECT U.first_name, U.last_name, P.jersey_number, G.mins, G.fg, G.fg_a, ROUND (100.0* G.fg / NULLIF(G.fg_a,0),1), G.ft, G.ft_a, " \
            "ROUND(100.0* G.ft / NULLIF(G.ft_a, 0),1), G.three, G.three_a, ROUND(100.0*G.ft / NULLIF(G.ft_a, 0)), G.dreb, G.oreb, (G.dreb+G.oreb), G.foul, G.ass, G.tover, G.steal, G.block, "\

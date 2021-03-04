@@ -9,7 +9,8 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/
 can be commented but comments can't be removed. For each event all users can declare themselves either "in" or "out".
 - "Tilastot" guides you to stats page where you can view personal or team match stats, or practice stats. Stats can be added. In case of a typo or other error stat can be input, for the app will 
 update any stat line it finds.
-- "Käyttäjät" shows every user. Admins can edit or delete any user. Deleting a user takes them to Graveyard where they can be resurrected ie. brought back.
+- "Käyttäjät" shows every user. Admins can edit or delete any user. Deleting a user takes them to Graveyard where they can be resurrected ie. brought back. Users in graveyard can not log in 
+and are not shown in player list but are visible in statistics for coherence.
 - "Muokkaa tietojani" brings you to edit your information
 - "Kirjaudu ulos" for logout
 
@@ -17,8 +18,6 @@ A short guide for Finnish basketball stat acronyms: 2P/A = 2 points shots made/a
 
 Known bugs and unfinished features:
 * editing events has troubles with saving starting time
-* adding statistics unavailable
-* personal statistics page missing shot percentages
 * awful appearance
 * all templates are not extended from layout.html
 * null/missing stats shows None or something else weird
