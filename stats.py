@@ -67,14 +67,23 @@ def get_single_game_summary_stats(id):
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()
 
-# adds game stats to database
-def add_game_stats(e_id, p_id, mins, fg, fga, three, three_a, ft, ft_a, dreb, oreb, foul, ass, tover, steal, block):
-    sql = "INSERT INTO game_stats (p_id, e_id, mins, fg, fga, three, three_a, ft, ft_a, dreb, oreb, foul, ass, tover, steal, block) "\
-          "VALUES (:p_id, :e_id, :mins, :fg, :fga, :three, :three_a, :ft, :ft_a, :dreb, :oreb, :foul, :ass, :tover, :steal, :block)"
-    db.session.execute(sql, {"p_id":p_id, "e_id":e_id, "mins":mins, "fg":fg, "fg_a":fg_a, "three":three, "three_a":three_a, "ft":ft,
-    "ft_a":ft_a, "dreb":dreb, "oreb":oreb, "foul":foul, "ass":ass, "tover":tover, "steal":steal, "block":block})
-    db.session.commit()
-    return True
+# adds or updates game stats in the database
+def add_game_stats(event_id, player_id, mins, fg, fg_a, three, three_a, ft, ft_a, dreb, oreb, foul, ass, tover, steal, block):
+	sql = "SELECT player_id FROM game_stats WHERE player_id=:player_id AND event_id=:event_id"
+	result = db.session.execute(sql, {"player_id":player_id, "event_id":event_id})
+	if result.fetchone() != None:
+		sql = "UPDATE game_stats SET mins=:mins, fg=:fg, fg_a=:fg_a, three=:three, three_a=:three_a, ft=:ft, ft_a=:ft_a, dreb=:dreb, oreb=:oreb, "\
+		"foul=:foul, ass=:ass, tover=:tover, steal=:steal, block=:block"
+		db.session.execute(sql, {"mins":mins, "fg":fg, "fg_a":fg_a, "three":three, "three_a":three_a, "ft":ft,
+		"ft_a":ft_a, "dreb":dreb, "oreb":oreb, "foul":foul, "ass":ass, "tover":tover, "steal":steal, "block":block})
+		db.session.commit()
+	else:
+		sql = "INSERT INTO game_stats (player_id, event_id, mins, fg, fg_a, three, three_a, ft, ft_a, dreb, oreb, foul, ass, tover, steal, block) "\
+		"VALUES (:player_id, :event_id, :mins, :fg, :fg_a, :three, :three_a, :ft, :ft_a, :dreb, :oreb, :foul, :ass, :tover, :steal, :block)"
+		db.session.execute(sql, {"player_id":player_id, "event_id":event_id, "mins":mins, "fg":fg, "fg_a":fg_a, "three":three, "three_a":three_a, "ft":ft,
+		"ft_a":ft_a, "dreb":dreb, "oreb":oreb, "foul":foul, "ass":ass, "tover":tover, "steal":steal, "block":block})
+		db.session.commit()
+	return True
 
 # returns all players' attendance ranked
 def get_attendance_stats():

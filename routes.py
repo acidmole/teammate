@@ -318,9 +318,14 @@ def add_stats():
 
 		if request.method == "POST":
 			form = InsertStatForm(request.form)
-			for stat_line in form.statistics.data:
-				for s in stat_line.values():
-					print(s)
+			if form.submit.data:
+				for stat in form.statistics.data:
+					stat_line = []
+					for s in stat.values():
+						stat_line.append(s)
+					if stat_line[0] != "0":
+						stats.add_game_stats(form.event_id.data, stat_line[0], stat_line[1], stat_line[2], stat_line[3], stat_line[4], stat_line[5], stat_line[6], stat_line[7], stat_line[8],
+						stat_line[9], stat_line[10], stat_line[11], stat_line[12], stat_line[13], stat_line[14])
 			return redirect("/stats")
 		else:
 			return render_template("error.html", message="Virhe tilastoiden syöttämisessä")
