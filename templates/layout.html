@@ -1,10 +1,12 @@
 <!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Teammate - korisjoukkueen ilmoittautumis- ja tilastoapplikaatio</title>
+</head>
+</html>
 {% if session.user_id %}
 {% extends "bootstrap/base.html" %}
-  <head>
-	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Teammate - korisjoukkueen ilmoittautumis- ja tilastoapplikaatio</title>
-  </head>
 	{% block scripts %}
 	{{ super() }}
 	<script src="https://kit.fontawesome.com/bad4aeaed6.js" crossorigin="anonymous"></script>
@@ -12,7 +14,7 @@
 	{% block navbar %}
       <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: orange">
    		<div class="container">
-      	  <a class="navbar-brand" href="/"><i class="fas fa-home" style="font-size:32px; color:white;" alt="house"></i> Teammate</a>
+      	  <a class="navbar-brand" href="/"><i class="fas fa-home" style="font-size:32px; color:white" alt="house"></i> Teammate</a>
   		</div>
       	<div class="container" style="font-size: 16px;">
       	    <a class="nav-link" href="/players"><i class="fas fa-running" style="color:cornflowerblue; padding-left:8px; padding-right:4px;" alt="juokseva tikku-ukko">

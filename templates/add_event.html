@@ -1,17 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
 
- <form action="/events/add_event" method="POST">
-    <label for="type">Tapahtumatyyppi:</label> 
-    <select name="type" id="type">
-      <option value="0">Harjoitukset</option>
-      <option value="1">Ottelu</option>
-    </select>
-    Päivä: <input type="date" name="date" required>
-    Aika: <input type="time" name="time" required>
-    Tapahtuman otsikko: <input type="text" name="name" required>
-    Paikka: <input type="text" name="location">
-    <input type="submit" value="Luo tapahtuma">
-  </form>
+ <div class="container">
+   <div class="row">
+     <div class="col-md-4">
+ 		<form action="/events/add_event" method="POST">
+    	  <label for="type">Tapahtumatyyppi:</label> 
+    	  <select name="type" id="type">
+      	    <option value="0">Harjoitukset</option>
+      	    <option value="1">Ottelu</option>
+    	  </select>
+    	  <p>Päivä: <input type="date" name="date" required></p>
+    	  <p>Aika: <input type="time" name="time" required></p>
+    	  <p>Tapahtuman otsikko: <input type="text" name="name" required></p>
+    	  <p>Paikka: <input type="text" name="location"></p>
+    	  <input type="submit" value="Luo tapahtuma">
+  		</form>
+  	  </div>
+  	</div>
+  </div>
 
 {% endblock %}

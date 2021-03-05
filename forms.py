@@ -1,4 +1,8 @@
-from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField, SubmitField, RadioField, DateField, TimeField, BooleanField, SelectField, FieldList, FormField
+from wtforms import Form, IntegerField, StringField, PasswordField, validators, TextField, HiddenField, SubmitField, RadioField
+from wtforms import DateField, TimeField, BooleanField, SelectField, FieldList, FormField
+from wtforms.fields.html5 import IntegerField
+from wtforms.widgets.html5 import NumberInput
+from db import db
 import players, events
 
 class RegistrationForm(Form):
@@ -38,7 +42,7 @@ class SignForm(Form):
 
 class EditEventForm(Form):
 	name = StringField('Tapahtuma', [validators.Length(min=1, max=40)])
-	type = RadioField('Tapahtumatyyppi', choices=[('0', 'Harjoitukset'), ('1', 'Ottelu')])
+	type = RadioField('Tapahtumatyyppi', choices=[('0', 'Harjoitukset'), ('1', 'Ottelu')], default=0)
 	day = DateField('Päivämäärä', [validators.Required()])
 	time = TimeField('Aika', [validators.Required()], format='%H:%M')
 	location = StringField('Paikka', [validators.Length(min=1, max=40)])
@@ -46,13 +50,10 @@ class EditEventForm(Form):
 
 class StatForm(Form):
 
-	pl_list = players.get_players()
-	player_list = [(pl[3], (str(pl[2]) + " " + pl[0] + " " + pl[1])) for pl in pl_list]
-	player_list.append([0, "Valitse pelaaja"])
+	player_id = SelectField('Player_id', default=0)
 
-	player_id = SelectField('player_id', choices=player_list, default=0)
 	min = TimeField('min', format='%M:%S')
-	fg = IntegerField('2P', default=0)
+	fg = IntegerField('2P', [validators.NumberRange(min=0, max=200)], widget=NumberInput(step=1), default=0)
 	fg_a = IntegerField('2PA', default=0)
 	ft = IntegerField('1P', default=0)
 	ft_a = IntegerField('1PA', default=0)
@@ -64,13 +65,14 @@ class StatForm(Form):
 	ass = IntegerField('S', default=0)
 	tover = IntegerField('M', default=0)
 	steal = IntegerField('R', default=0)
-	block = IntegerField('B', default=0)
+	block = IntegerField('T', default=0)
 
 class InsertStatForm(Form):
 
 	games = events.get_games()
 	games_list =  [(g[2], (str(g[0]) + " " + g[1])) for g in games]
 	games_list.append([0, "Valitse ottelu"])
+	s_form = StatForm()
 	statistics = FieldList(FormField(StatForm), min_entries=12, max_entries=12)
 	event_id = SelectField('event_id', choices=games_list, default=0)
 	submit = SubmitField('LÄHETÄ')
@@ -79,3 +81,4 @@ class InsertStatForm(Form):
 class ConfirmDeleteForm(Form):
 	confirm = SubmitField('KYLLÄ')
 	cancel = SubmitField('EI')
+

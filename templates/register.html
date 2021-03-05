@@ -1,16 +1,14 @@
-{% from "_formhelper.html" import render_field %}
 <form action="/register" method="post">
-  <p> {{ render_field(form.username) }} </p>
-  <p> {{ render_field(form.password) }}
-  <p> {{ render_field(form.confirm) }}
-  <p> {{ render_field(form.first_name) }}
-  <p> {{ render_field(form.last_name) }}
-  <p> {{ render_field(form.player) }}
-  <p> {{ render_field(form.jersey) }}
-  <p> {{ render_field(form.height) }}
-  <p> {{ render_field(form.weight) }}
-  <p> {{ render_field(form.position) }}
-  <p>
+  <p> {{ form.username.label }} {{ form.username }}</p>
+  <p> {{ form.password.label }} {{ form.password }}</p>
+  <p> {{ form.confirm.label }} {{ form.confirm }}</p>
+  <p> {{ form.first_name.label }} {{ form.first_name }}</p>
+  <p> {{ form.last_name.label }} {{ form.last_name }}</p>
+  <p> {{ form.player.label }} {{ form.player }}</p>
+  <p> {{ form.jersey.label }} {{ form.jersey }}</p>
+  <p> {{ form.height.label }} {{ form.height }}</p>
+  <p> {{ form.weight.label }} {{ form.weight }}</p>
+  <p> {{ form.position.label }} {{ form.position }}</p>
   	<input type=submit value=Rekisteröidy>
 </form>
 

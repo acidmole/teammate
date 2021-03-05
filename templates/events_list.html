@@ -3,15 +3,13 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-12">
-  		<h2>Tulevat tapahtumat</h2>
+      <div class="col-md-4">
+  		<h2>Joukkueen tapahtumat</h2>
 	  </div>
 	</div>
-  </div>
  
-  <div class="container">
     <div class="row">
-      <div class="col">
+      <div class="col-md-4">
   		<form>
     	  <label for="timespan">Suodata tapahtumia ajan perusteella:</label>
     	  <select name="timespan">
@@ -21,73 +19,81 @@
       	  	<option value="3">Tässä kuussa</option>
       	  	<option value="4">Menneet</option>
     	  </select>
-    	  <input class="btn" type="submit" value="Valitse">
-  	  	</form>
+    	<input class="btn btn-primary" type="submit" value="Suodata">
+  	  </form>
+	</div>
+	{% if mod_rights %} 
+	  <div class="col-md-4">
+    	<h4><a href=/events/add_event> <i class="far fa-plus-square"> Lisää tapahtuma</i></a></h4>
+  	  </div>
+    {% endif %}
+  </div>
+  <br>
+
+    {% for event in events %}
+	  <div class="row">
+          <h3><a style="padding-left:16px;" href=/event/{{ event[4] }}> {{ event[1] }} {{ event[2] }} {{ event[3] }} @ {{ event[5] }}</a></h3>
+      </div>    
+      <div class="row">
+        <div class="col-md-4">
+    	  <h4>Ilmoittautuneet:</h4>
+      	  <table class=table>
+      		<tr>
+      		  {% for sign_up in sign_ups %}
+        	    {% if sign_up[1] == event[4] %}<br>
+	  	  	      {{ sign_up[2] }}
+	  	  		  {% if sign_up[2] == "True" %}
+	  	  		    <td style="background-color:MediumSeaGreen;">{{ sign_up[0] }}</td>
+          		  {% else %}
+   	  	  		  <td style="background-color:red;">{{ sign_up[0] }}</td>
+          		  {% endif %}
+        	    {% endif %}
+      		  {% endfor %}
+            </tr>
+          </table>
+      	  <form action="/events" method="post">
+        	<h4>Ilmoittaudu:</h4>
+	 		{{ s_form.user_id(value=session.user_id) }}
+        	{{ s_form.event_id(value=event[4]) }}
+        	{{ s_form.player_in }}
+        	{{ s_form.player_out }}
+      	  </form>
+       </div>
+       <div class="col-md-4">
+	  	<h4>Kommentit:</h4>
+	      {% for comment in comments %}
+      	  	{% if comment[1] == event[4] %}
+	  		  <p>
+	    	    {{ comment[0] }} {{ comment[4] }} {{ comment[5] }}<br>
+	    	    {{ comment[3] }}
+	  		  </p>
+	  	    {% endif %}
+	  	  {% endfor %}
+		<form action="/events" method="post">
+
+	      <p>
+ 		  	{{ (form.message) }}
+	 	  <br>
+	 	  	{{ form.event_id(value=event[4]) }}
+	 	  	{{ form.user_id(value=session.user_id) }}
+	 	  	{{ form.submit }}
+	 	  </p>
+		</form>
 	  </div>
 	</div>
-  </div>
- {% if mod_rights %} 
-   <a href=/events/add_event> <i class="far fa-plus-square" font-size: 32px;></i> Lisää tapahtuma</a>
- {% endif %}
-
-  {% for event in events %}
-    <p>
-      <a href=/event/{{ event[4] }}> {{ event[1] }} {{ event[2] }} {{ event[3] }} @ {{ event[5] }}</a>
-    </p>
-    
-    <p>Ilmoittautuneet:
-      <table><tr>
-      {% for sign_up in sign_ups %}
-        {% if sign_up[1] == event[4] %}<br>
-	  	  {{ sign_up[2] }}
-	  	  {% if sign_up[2] == "True" %}
-	  	  	<td style="background-color:MediumSeaGreen;">{{ sign_up[0] }}</td>
-          {% else %}
-   	  	  	<td style="background-color:red;">{{ sign_up[0] }}</td></tr></table>
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-    </p>
-
-    <p>
-      <form action="/events" method="post">
-        Ilmoittaudu:
-	 	{{ s_form.user_id(value=session.user_id) }}
-        {{ s_form.event_id(value=event[4]) }}
-        {{ s_form.player_in }}
-        {{ s_form.player_out }}
-      </form>
-	</p>
-
-    <p>
-	  Kommentit: <br>
-      {% for comment in comments %}
-      
-	  {% if comment[1] == event[4] %}
-	  <p>
-	    {{ comment[0] }} {{ comment[4] }} {{ comment[5] }} <br>
-	    {{ comment[3] }}<br>
-	  </p>
-	  {% endif %}
-	  {% endfor %}
-    </p>
-
-	<form action="/events" method="post">
-	    <p>
- 		  {{ (form.message) }}
-	 	</p>
-	 	  {{ form.event_id(value=event[4]) }}
-	 	  {{ form.user_id(value=session.user_id) }}
-	 	  {{ form.submit }}
-	</form>
 
 	{% if mod_rights %}
-	<p>
-	  <a href=/event/edit/{{event[4]}}><i class="far fa-edit" font-size:32px;></i>Muokkaa</a>
-	  <a href=/event/delete/{{event[4]}}><i class="far fa-trash-alt" font-size:32px;></i>Poista</a>
-	</p>
+	  <div class="row">
+	    <div class="col-md-4">
+	      <a href=/event/edit/{{event[4]}}><i class="far fa-edit"> Muokkaa</i></a>
+	      <a href=/event/delete/{{event[4]}}><i class="far fa-trash-alt">Poista</i></a>
+	  	</div>
+	  </div>
 	{% endif %}
 
-  <hr>
-{% endfor %}
+	<hr style="border: solid grey;">
+
+    {% endfor %}
+  </div>
+
 {% endblock %}

@@ -1,78 +1,95 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h1> pelaajan sivu </h1>
-<p>
-  Etunimi: {{person_info[0]}} <br>
-  Sukunimi: {{person_info[1]}} <br>
-  Pelinumero: {{person_info[2]}} <br>
-  Pituus: {{person_info[3]}} <br>
-  Paino: {{person_info[4]}}  <br>
-  Pistekeskiarvo: {{ person_info[5] }} <br>
-  Levypallokeskiarvo: {{ person_info[6] }}<br>
-  Syöttökeskiarvo: {{ person_info[7] }}<br>
-  Riistokeskiarvo: {{ person_info[8] }}<br>
-</p>
+  <div class="container">
+	<div class="row">
+	  <div class="col-md-4">
+		<h1> Pelaajan sivu </h1>
+	  </div>
+	</div>
 
+	<div class="row">
+	  <div class="col-md-4">
+	    <h4>Pelaajan tiedot</h4>
+	    <table class="table table-striped">
+			<tr><td>Etunimi:</td><td>{{person_info[0]}}</td></tr>
+			<tr><td>Sukunimi:</td><td> {{person_info[1]}}</td></tr>
+			<tr><td>Pelinumero:</td><td>{{person_info[2]}}</td></tr>
+			<tr><td>Pituus:</td><td>{{person_info[3]}}</td></tr>
+			<tr><td>Paino:</td><td> {{person_info[4]}}</td></tr>
+			<tr><td>Pistekeskiarvo:</td><td>{{ person_info[5] }}</td></tr>
+			<tr><td>Levypallokeskiarvo:</td><td>{{ person_info[6] }}</td></tr>
+			<tr><td>Syöttökeskiarvo:</td><td>{{ person_info[7] }}</td></tr>
+			<tr><td>Riistokeskiarvo:</td><td>{{ person_info[8] }}</td></tr>
+		</table>
+		<p>Vertaile tilastoja toiseen pelaajaan:</p>
+  		<form>
+    	  <select name="compare_to">
+      	    <option disabled selected>Pelaaja</option>
+      		{% for player in players %}
+      		   <option value="{{ player[0] }}"> {{ player[1] }} {{ player[2] }} {{ player[3] }}</option>
+      		{% endfor %}
+    	  </select>
+    	  <input class="btn btn-primary" type="submit" value="Vertaile" style="border">
+		</form>
+	  </div>
 
+	{% if compared_player %}
+	  <div class="col-md-4">
+		<h4>Vertailtava pelaaja</h4>
+	    <table class="table table-striped">
+			<tr><td>Etunimi:</td><td>{{compared_player[0]}}</td></tr>
+			<tr><td>Sukunimi:</td><td> {{compared_player[1]}}</td></tr>
+			<tr><td>Pelinumero:</td><td>{{compared_player[2]}}</td></tr>
+			<tr><td>Pituus:</td><td>{{compared_player[3]}}</td></tr>
+			<tr><td>Paino:</td><td>{{compared_player[4]}}</td></tr>
+			<tr><td>Pistekeskiarvo:</td><td>{{ compared_player[5] }}</td></tr>
+			<tr><td>Levypallokeskiarvo:</td><td>{{ compared_player[6] }}</td></tr>
+			<tr><td>Syöttökeskiarvo:</td><td>{{ compared_player[7] }}</td></tr>
+			<tr><td>Riistokeskiarvo:</td><td>{{ compared_player[8] }}</td></tr>
+		</table>
+	  </div>
+	{% endif %}
+    </div>
 
-<p>
-  <h4>Parhaat suoritukset</h4>
-<table>  
-  <tr>
-    <td>Pisteet: {{ top_points[0] }}</td>
-    <td>({{ top_points[1] }} {{top_points[2] }})</td>
-  </tr>
-  <tr>
-    <td>Levypallot: {{ top_rebs[0] }}</td>
-    <td>({{ top_rebs[1] }} {{top_rebs[2] }})</td>
-  </tr>
-  <tr>
-    <td>Syötöt: {{ top_ass[0] }}</td>
-    <td> ({{ top_ass[1] }} {{top_ass[2] }})</td>
-  </tr>
-  <tr>
-    <td>Riistot: {{ top_steal[0] }}</td>
-    <td>({{ top_steal[1] }} {{top_steal[2] }})</td>
-  </tr>
-  <tr>
-    <td>Torjunnat: {{ top_block[0] }}</td>
-    <td> ({{ top_block[1] }} {{top_block[2] }})</td>
-  </tr>
-</table>
-</p>
+	<hr style="border: solid grey;>
 
-<p>Vertaile tilastoja toiseen pelaajaan:
-  <form>
-    <select name="compare_to">
-      <option disabled selected>Pelaaja</option>
-      {% for player in players %}
-      <option value="{{ player[0] }}"> {{ player[1] }} {{ player[2] }} {{ player[3] }}</option>
-      {% endfor %}
-    </select>
-    <input class="btn" type="submit" value="Vertaile">
-</form>
-</p>
+	<div class="row">
+	  <div class="col-md-4">
+  		<h4>Parhaat suoritukset</h4>
+	    <table class="table">  
+  		  <tr>
+    	    <td>Pisteet: {{ top_points[0] }}</td>
+    		<td>({{ top_points[1] }} {{top_points[2] }})</td>
+  		  </tr>
+  		  <tr>
+    	  	<td>Levypallot: {{ top_rebs[0] }}</td>
+    		<td>({{ top_rebs[1] }} {{top_rebs[2] }})</td>
+  		  </tr>
+  		  <tr>
+    		<td>Syötöt: {{ top_ass[0] }}</td>
+    		<td> ({{ top_ass[1] }} {{top_ass[2] }})</td>
+  		  </tr>
+  		  <tr>
+    		<td>Riistot: {{ top_steal[0] }}</td>
+    		<td>({{ top_steal[1] }} {{top_steal[2] }})</td>
+  		  </tr>
+  		  <tr>
+    		<td>Torjunnat: {{ top_block[0] }}</td>
+    		<td> ({{ top_block[1] }} {{top_block[2] }})</td>
+  		  </tr>
+		</table>
+	  </div>
 
-{% if compared_player %}
-<h4>Vertailtava pelaaja: {{compared_player[0] }} {{ compared_player[1] }} </h4>
-  Pituus: {{ compared_player[2] }} <br>
-  Paino: {{ compared_player[3] }}  <br>
-  Pistekeskiarvo: {{ compared_player[4] }} <br>
-  Levypallokeskiarvo: {{ compared_player[5] }}<br>
-  Syöttökeskiarvo: {{ compared_player[6] }}<br>
-  Riistokeskiarvo: {{ compared_player[7] }}<br>
-{% endif %}
-
-<p>
-  <h4>Viimeisimmät ilmoittautumiset:</h4>
-	<ul>
-  	{% for att in attendance %}
-	<li>{{ att[0] }} {{ att[1] }} {{ att[2] }}</li>
-    {% endfor %}
-    </ul>
-  
-</p>
-
+	  <div class="col-md-4">
+	  	<h4>Viimeisimmät ilmoittautumiset:</h4>
+	  	<ul>
+  	  	  {% for att in attendance %}
+			<li>{{ att[0] }} {{ att[1] }} {{ att[2] }}</li>
+      	  {% endfor %}
+      	</ul>
+      </div>
+ 	</div>
+  </div>
 
 {% endblock %}

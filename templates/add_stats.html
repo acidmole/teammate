@@ -1,18 +1,43 @@
-{% extends "layout.html" %}
+'{% extends "layout.html" %}
 {% block content %}
 
-	<form action="/stats/add_stats" method="post">
-		{{ form.event_id }}
-		{% for stat_form in form.statistics %}
-			<p>
-				{% for field in stat_form %}
-					{{ field }}
-				{% endfor %}
-			</p>
-		{% endfor %}
+  <div class="container">
+    <div class="row">
+      <form action="/stats/add_stats" method="post" >
+      <div class="col-md-4">
+     </div>
+   </div>
+   <div class="row">
+	  <div class="col-md-4">
+		 <table class="table table-bordered">
+		 	<thead><tr>
+			  <th>Pelaaja></th>
+			  <th>Min</th>
+			  <th>2P</th>
+			  <th>2PA</th>
+			  <th>1P</th>
+			  <th>1PA</th>
+			  <th>3P</th>
+			  <th>3PA</th>
+			  <th>PL</th>
+			  <th>HL</th>
+			  <th>V</th>
+			  <th>S</th>
+			  <th>M</th>
+			  <th>R</th>
+			  <th>T</th>
+		    </tr></thead>
+			    {% for field in s_form %}
+				  <td>{{ field }}</td>
+			  	{% endfor %}
+			  </tr>
+		  </table>
 		<p>
-			{{ form.submit }} {{ form.cancel }}
 		</p>
-	</form>
+		</form>
+		</div>
+	  </div>
+  	</div>
+  </div>
 
 {% endblock %}

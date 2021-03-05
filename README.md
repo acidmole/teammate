@@ -18,10 +18,19 @@ A short guide for Finnish basketball stat acronyms: 2P/A = 2 points shots made/a
 
 Known bugs and unfinished features:
 * editing events has troubles with saving starting time
-* awful appearance
-* all templates are not extended from layout.html
 * null/missing stats shows None or something else weird
 * events should be HH:MM and stats MM:SS, not always the case
+
+todo:
+* tilastojen syöttö dynaamiseksi
+* uuden pelaajan lisääminen?
+* turvatarkastus
+* bugit
+* top performance joukkueelle
+* set_admin
+* title näkymään kaikkialle
+* ehditkö flashi messaget?
+* käyttäjätietojen muutos ei onnistunut foo/bar
 
 # teammate
 Basketball team's schedule and statistics app

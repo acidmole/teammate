@@ -1,58 +1,67 @@
 {% extends "layout.html" %}
 {% block content %}
-<table>
-  <tr>
-    <th>Nimi</th>
-    <th>No.</th>
-    <th>Ottelut</th>
-    <th>Min</th>
-    <th>2P</th>
-    <th>2PA</th>
-    <th>2P%</th>
-    <th>3P</th>
-    <th>3PA</th>
-    <th>3P%</th>
-    <th>1P</th>
-    <th>1PA</th>
-    <th>1P%</th>
-    <th>PL</th>
-    <th>HL</th>
-    <th>LP</th>
-    <th>S</th>
-    <th>M</th>
-    <th>R</th>
-    <th>T</th>
-    <th>B</th>
-    <th>P</th>
-    
-  </tr>
-{% for stat in person_stats %}
-  <tr>>
-    <th> <a href=/players/{{ stat[0] }}> {{ stat[1] }} {{ stat[2] }} </a>
-    <th> {{ stat[3] }}
-    <th> {{ stat[4] }}
-    <th> {{ stat[5] }}
-    <th> {{ stat[6] }}
-    <th> {{ stat[7] }}
-    <th> {{ stat[8] }}
-    <th> {{ stat[9] }}
-    <th> {{ stat[10] }}
-    <th> {{ stat[11] }}
-    <th> {{ stat[12] }}
-    <th> {{ stat[13] }}
-    <th> {{ stat[14] }}
-    <th> {{ stat[15] }}
-    <th> {{ stat[16] }}
-    <th> {{ stat[17] }}
-    <th> {{ stat[18] }}
-    <th> {{ stat[19] }}
-    <th> {{ stat[20] }}
-    <th> {{ stat[21] }}
-    <th> {{ stat[22] }}
-    <th> {{ stat[23] }}
-    <th> {{ stat[24] }}
-  </tr>
-{% endfor %}
-</table>
+
+  <div class="container">
+	<div class="row">
+	  <h1 style="padding-left:16px;">Pelaajakohtaiset keskiarvot</h1>
+	</div>
+
+	<div class="row">
+	  <div class="col-md-4">
+  		<table class="table table-striped table-bordered">
+    	  <thead>
+    		<tr>
+    		  <th>Nimi</th>
+ 			  <th>No.</th>
+    		  <th>Ottelut</th>
+		      <th>Min</th>
+		      <th>2P</th>
+		      <th>2PA</th>
+		      <th>2P%</th>
+		      <th>3P</th>
+		      <th>3PA</th>
+		      <th>3P%</th>
+		      <th>1P</th>
+		      <th>1PA</th>
+	   	      <th>1P%</th>
+		      <th>PL</th>
+		      <th>HL</th>
+		      <th>LP</th>
+		      <th>S</th>
+		      <th>M</th>
+		      <th>R</th>
+	  	      <th>T</th>
+		      <th>B</th>
+		      <th>Pisteet</th>
+  			</tr>
+		  </thead>
+
+		  {% for stat in person_stats %}
+  			<tr>
+    		  <td> <a href=/players/{{ stat[0] }}> {{ stat[1] }} {{ stat[2] }}</a></td>
+    		  <td>{{ stat[3] }}</td>
+			  <td>{{ stat[4] }}</td>
+			  <td>{{ stat[5] }}</td>
+			  <td>{{ stat[6] }}</td>
+			  <td>{{ stat[7] }}</td>
+			  <td>{{ stat[8] }}</td>
+			  <td>{{ stat[9] }}</td>
+			  <td>{{ stat[10] }}</td>
+			  <td>{{ stat[11] }}</td>
+			  <td>{{ stat[12] }}</td>
+			  <td>{{ stat[13] }}</td>
+		      <td>{{ stat[14] }}</td>
+		      <td>{{ stat[15] }}</td>
+		      <td>{{ stat[16] }}</td>
+		      <td>{{ stat[17] }}</td>
+		      <td>{{ stat[18] }}</td>
+		      <td>{{ stat[19] }}</td>
+		      <td>{{ stat[20] }}</td>
+		      <td>{{ stat[21] }}</td>
+		      <td>{{ stat[22] }}</td>
+		      <td>{{ stat[23] }}</td>
+  			</tr>
+		  {% endfor %}
+		</table>
 
 {% endblock %}

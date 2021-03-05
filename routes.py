@@ -1,9 +1,10 @@
+
 from app import app
 from flask import render_template, redirect, request, flash
 from db import db
-from forms import RegistrationForm, CommentForm, SignForm, EditEventForm, ConfirmDeleteForm, EditInfoForm, InsertStatForm, StatForm
+from forms import RegistrationForm, CommentForm, SignForm, EditEventForm, ConfirmDeleteForm, EditInfoForm, StatForm, InsertStatForm
 
-import users, events, players, stats
+import users, events, players, stats, forms
 
 @app.route("/")
 def index():
@@ -45,6 +46,9 @@ def register():
 					return redirect("/")
 		else:
 			return render_template("error.html",message="Rekisteröinti ei onnistunut")
+	else:
+		return render_template("error.html",message="Rekisteröinti ei onnistunut")
+
 
 # lists future or past events
 @app.route("/events", methods=["GET", "POST"])
@@ -306,15 +310,22 @@ def team_stats():
 def single_game_stats(id):
 	player_stats = stats.get_single_game_stats(id)
 	summed = stats.get_single_game_summary_stats(id)
-	return render_template("game_stats.html", stats=player_stats, summed=summed)
+	event = events.get_event_info(id)
+	return render_template("game_stats.html", stats=player_stats, summed=summed, event=event)
 
 @app.route("/stats/add_stats", methods=["GET", "POST"])
 def add_stats():
 	if users.is_admin():
 
 		if request.method == "GET":
-			form = InsertStatForm()
-			return render_template("add_stats.html", form=form)
+			games = events.get_games()
+			pl_list = players.get_players()
+			player_list = [(pl[3], (str(pl[2]) + " " + pl[0] + " " + pl[1])) for pl in pl_list]
+			player_list.append([0, "Valitse pelaaja"])
+
+			form = InsertStatForm(request.form)
+			print(form.entries)
+			return render_template("add_stats.html", form=form, games=games, player_list=player_list)
 
 		if request.method == "POST":
 			form = InsertStatForm(request.form)

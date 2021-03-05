@@ -23,7 +23,7 @@ def get_event_info(id):
           "FROM events E " \
           "WHERE E.id=:id"
     result = db.session.execute(sql, {"id":id})
-    return result.fetchall()
+    return result.fetchone()
 
 # returns every event's comments
 def get_all_comments(timespan):

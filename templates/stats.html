@@ -1,20 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<p><a href=stats/add_stats>Lisää tilasto</a></p>
-
-<p>
-  <a href=/stats/personal>Pelaajakohtaiset tilastot</a><br>
-  <a href=/stats/team>Joukkuetilastot</a><br>
-  <a href=/stats/practice>Harjoittelutilastot<a>
-</p>
-<hr>
-Uusimmat tilastot:
-<ul>
-{% for game in games %}
-    <li><a href=/stats/{{ game[0] }}> {{ game[2] }} {{ game[1] }} </a></li>
-{% endfor %}
-</ul>
-
+  <div class="container">
+	<div class="row">
+	  <div class="col-md-4">
+		<p><a href=stats/add_stats><i class="far fa-plus-square"> Lisää tilasto</i></a></p>
+	  </div>
+  	  <div class="col-md-4">
+  	    <a href=/stats/personal>Pelaajakohtaiset tilastot</a><br>
+  		<a href=/stats/team>Joukkuetilastot</a><br>
+  		<a href=/stats/practice>Harjoittelutilastot<a>
+  	  </div>
+  	</div>
+  	  
+	<div class="row">
+	  <div class="col-md-4">
+	    <p>Uusimmat tilastot:
+		  <ul>
+		    {% for game in games %}
+    		  <li><a href=/stats/{{ game[0] }}> {{ game[2] }} {{ game[1] }} </a></li>
+			{% endfor %}
+		  </ul>
+		</p>
+	  </di>
+    </div>
+  </div>
 
 {% endblock %}

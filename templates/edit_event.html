@@ -1,28 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
 
-{% for ev in event %}
-<form action="/event/edit/{{ev[4]}}" method="POST"> 
-  <p>
-	{{ form.type.label }}
-	<br>
-	{% for subfield in form.type %}
-	  {{ subfield }}
-      {{ subfield.label }}
-      <br>
-    {% endfor %}
-  <p>
-  	{{ form.day(value=ev[1]) }}
-  <p>
-  	{{ form.time(value=ev[2]) }}
-  <p>
-  	{{ form.name(value=ev[3]) }}
-  <p>
-  	{{ form.location(value=ev[5]) }}
-  <p>
-	{{ form.submit }}
-</form>
-
-{% endfor %}
+  <div class="container">
+    <div class="row">
+      <h1 style="left-padding: 16px;">Muokkaa tapahtumaa</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+		<form action="/event/edit/{{event[4]}}" method="POST"> 
+  		  <p>
+	  		{{ form.type.label }}<br>
+ 	  		{% for subfield in form.type %}
+	  		  {{ subfield }} {{ subfield.label }} <br>
+      		{% endfor %}
+    	  </p>
+    	  <p>{{ form.day.label }} {{ form.day(value=event[1]) }}</p>
+  		  <p>{{ form.time.label }} {{ form.time(value=event[2]) }}</p>
+  		  <p>{{ form.name.label }} {{ form.name(value=event[3]) }}</p>
+  		  <p>{{ form.location.label }} {{ form.location(value=event[5]) }}</p>
+  		  <p>{{ form.submit }}</p>
+  		</form>
+     </div>
+   </div>
+ </div>
 
 {% endblock %}

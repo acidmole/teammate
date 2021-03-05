@@ -20,11 +20,11 @@ def get_personal_stats():
 	"ORDER BY P.jersey_number")
 	return result.fetchall()
 
-# returns a list of game stats separated
+# returns a list of each game's summed stats
 def get_game_stats():
     result = db.session.execute("SELECT E.id, E.name, E.day, SUM(fg), SUM(fg_a), ROUND(100.0 * SUM (G.fg) / SUM(G.fg_a),1), SUM(ft), SUM(ft_a), "\
                                 "ROUND(100.0 * SUM (G.ft) / SUM(G.ft_a),1), SUM(three), SUM(three_a), ROUND(100.0 * SUM (G.three) / SUM(G.three_a),1), "\
-                                "SUM(foul), sum(dreb), sum(oreb), sum(tover), sum(steal), sum(block), sum(ass) "\
+                                "SUM(foul), sum(dreb), sum(oreb), sum(tover), sum(steal), sum(block), sum(ass), (2*SUM(fg)+SUM(ft)+3*SUM(three)) "\
                                 "FROM game_stats G "\
                                 "LEFT JOIN events E ON E.id=G.event_id "\
                                 "GROUP BY E.id, E.name, E.day "\
@@ -38,7 +38,7 @@ def get_team_stats():
                                 "ROUND(1.0*SUM(three) / COUNT(DISTINCT G.event_id),1), ROUND(1.0* SUM(three_a) / COUNT(DISTINCT G.event_id),1), ROUND(100.0 * SUM (three) / NULLIF(SUM(three_a),0),1), "\
                                 "ROUND(1.0*SUM(foul) / COUNT(DISTINCT G.event_id),1), ROUND(1.0*SUM(dreb) / COUNT(DISTINCT G.event_id),1), ROUND(1.0*SUM(oreb) / COUNT(DISTINCT G.event_id),1), " \
                                 "ROUND(1.0*SUM(tover) / COUNT(DISTINCT G.event_id),1), ROUND(1.0*SUM(steal) / COUNT(DISTINCT G.event_id),1), ROUND(1.0*SUM(block) / COUNT(DISTINCT G.event_id),1), "\
-                                "ROUND(1.0*SUM(ass) / COUNT(DISTINCT G.event_id),1) " \
+                                "ROUND(1.0*SUM(ass) / COUNT(DISTINCT G.event_id),1), ROUND(1.0*SUM(2*fg + ft + 3*three)/COUNT(DISTINCT G.event_id),1) " \
                                 "FROM game_stats G")
     return result.fetchall()
 
@@ -47,12 +47,12 @@ def get_team_stats():
 def get_single_game_stats(id):
     sql = ("SELECT U.first_name, U.last_name, P.jersey_number, G.mins, G.fg, G.fg_a, ROUND (100.0* G.fg / NULLIF(G.fg_a,0),1), G.ft, G.ft_a, " \
            "ROUND(100.0* G.ft / NULLIF(G.ft_a, 0),1), G.three, G.three_a, ROUND(100.0*G.ft / NULLIF(G.ft_a, 0)), G.dreb, G.oreb, (G.dreb+G.oreb), G.foul, G.ass, G.tover, G.steal, G.block, "\
-           "(2*fg + ft + 3*three) "\
+           "(2*fg + ft + 3*three), P.id "\
            "FROM game_stats G "\
            "LEFT JOIN players P ON G.player_id = P.id "\
            "LEFT JOIN users U ON P.user_id = U.id "\
            "WHERE G.event_id=:id "\
-           "GROUP BY U.first_name, U.last_name, P.jersey_number, G.mins, G.fg, G.fg_a, G.ft, G.ft_a, G.three, G.three_a, G.dreb, G.oreb, G.foul, G.ass, G.tover, G.steal, G.block "\
+           "GROUP BY U.first_name, U.last_name, P.jersey_number, G.mins, G.fg, G.fg_a, G.ft, G.ft_a, G.three, G.three_a, G.dreb, G.oreb, G.foul, G.ass, G.tover, G.steal, G.block, P.id "\
            "ORDER BY P.jersey_number")
     result = db.session.execute(sql, {"id":id})
     return result.fetchall()
@@ -95,5 +95,7 @@ def get_attendance_stats():
 def get_attendance_pct():
 	result = db.session.execute("SELECT E.id, E.name, E.day, COUNT(S.sign_up), ROUND(100.0*COUNT(S.sign_up)/(SELECT COUNT(id) "\
 	"FROM users),1) AS pct FROM events E LEFT JOIN sign_ups S ON E.id=S.event_id LEFT JOIN users U ON U.id=S.user_id "\
-	"WHERE S.sign_up='t' GROUP BY E.id ORDER BY pct DESC")
+	"WHERE S.sign_up='t' "\
+	"GROUP BY E.id "\
+	"ORDER BY pct DESC")
 	return result.fetchall()

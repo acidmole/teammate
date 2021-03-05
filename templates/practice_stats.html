@@ -1,34 +1,47 @@
 {% extends "layout.html" %}
 {% block content %}
-	<p>
-	  <h4>Eniten osallistuneet:</h4>
-	  <table>
-	    <tr>
-	  	  <th>Pelaaja</th>
-	  	  <th>Ilmoittautumisten määrä</th>
-	  	</tr>
+
+ <div class="container">
+	<div class="row">
+	  <h1 style="padding-left:16px;">Harjoittelutilastoja</h1>
+	</div>
+	<div class="row">
+	  <div class="col-md-4">
+		<h4>Eniten osallistuneet:</h4>
+	  	  <table class="table table-striped">
+	    	<thead>
+	    	  <tr>
+	  	  		<th>Pelaaja</th>
+	  	  		<th>Ilmoittautumisten määrä</th>
+	  		  </tr>
+  		    </thead>
   		  {% for player in most_in %}
-	  	<tr>
-		  <th><a href=/players/{{ player[2] }}> {{ player[0] }}</a></th>
-		  <th>{{ player[1] }}</th>
-		</tr>
+	  		<tr>
+		  	  <td><a href=/players/{{ player[2] }}>{{ player[0] }}</a></td>
+		  	  <td>{{ player[1] }}</td>
+			</tr>
 	  	  {% endfor %}
-	  <table>
-	</p>
-	<p>
-	  <h4>Suosituimmat tapahtumat:</h4>
-	  <table>
-	    <tr>
-	  	  <th>Tapahtuma</th>
-	  	  <th>Osallistujaprosentti</th>
-	  	</tr>
-  		  {% for event in pop_event %}
-	  	<tr>
-		  <th><a href=/event/{{ event[0] }}> {{ event[1] }} ({{ event[2] }}</a></th>
-		  <th>{{ event[4] }}</th>
-		</tr>
-	  	  {% endfor %}
-	  <table>
-	</p>
+	  	</table>
+	  </div>
+	  
+	  <div class="col-md-4">
+	  	<h4>Suosituimmat tapahtumat:</h4>
+	  	  <table>
+	  	  	<thead>
+	    	  <tr>
+	  	  		<th>Tapahtuma</th>
+	  	  		<th>Osallistujaprosentti</th>
+	  		  </tr>
+  		 	</thead>
+  		  	{% for event in pop_event %}
+	  		  <tr>
+		  		<td><a href=/event/{{ event[0] }}> {{ event[1] }} ({{ event[2] }}</a></td>
+		  		<td>{{ event[4] }}</td>
+			  </tr>
+	  	    {% endfor %}
+	  	  <table>
+	  </div>
+    </div>	 
+  </div>
 
 {% endblock %}

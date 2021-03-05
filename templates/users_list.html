@@ -1,23 +1,40 @@
 {% extends "layout.html" %}
 {% block content %}
-  <h4>Käyttäjät</h4>
-  <p>Poistetut käyttäjät loytyvät <a href="/graveyard">hautuumaalta</a>.</p>
-  <table>
-	<tr>
-	  <td>id</td>
-	  <td>Etunimi</td>
-	  <td>Sukunimi</td>
-	</tr>
-	{% for user in userlist %}
-	  <tr>
-	    <td>{{ user[0] }}</td>
-	    <td>{{ user[1] }}</td>
-	    <td>{{ user[2] }}</td>
-	    {% if mod_rights %}
-	      <td><a href="/users/edit/{{ user[0] }}">Muokkaa</a> <a href="/users/delete/{{ user[0] }}">Poista</a></td>
-	    {% endif %}
-	  </tr>
-    {% endfor %}
-  </table>
+
+  <div class="container">
+    <div class="row">
+      <h1 style="padding-left:16px";>Käyttäjät</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <p>Poistetut käyttäjät loytyvät <a href="/graveyard">hautuumaalta</a>.</p>
+      </div>
+        <table class="table table-striped" style="font-size 50%";>
+          <thead>
+        	<tr>
+	  		  <th>id</th>
+			  <th>Etunimi</th>
+	  		  <th>Sukunimi</th>
+	    	  {% if mod_rights %}
+	    	    <th></th>
+	    	    <th></th>
+	    	  {% endif %}
+	 		</tr>
+		  </thead>
+		  {% for user in userlist %}
+	  	    <tr>
+	    	  <td>{{ user[0] }}</td>
+	    	  <td>{{ user[1] }}</td>
+	    	  <td>{{ user[2] }}</td>
+	    	  {% if mod_rights %}
+	      	  	<td><a href="/users/edit/{{ user[0] }}">Muokkaa</a></td>
+	      	  	<td> <a href="/users/delete/{{ user[0] }}">Poista</a></td>
+	    	  {% endif %}
+	  		</tr>
+    	  {% endfor %}
+  		</table>
+  	  </div>
+	</div>
+  </div>	
 
 {% endblock %}

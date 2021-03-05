@@ -1,13 +1,37 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<hr>
-{% for player in players %}
-<a href=/players/{{player[3]}}>{{ player[0] }} {{ player[1] }} {{ player[2] }}</a>
-{% if mod_rights %} 
-<a href=/users/edit/{{player[3]}}><i class="far fa-edit"></i>Muokkaa</a>
-<a href=/users/delete/{{player[3]}}><i class="far fa-trash-alt"></i>Poista</a>
-{% endif %}
-<hr>
-{% endfor %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Aktiiviset pelaajat</h1>
+	  </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-4">
+  		<table class="table table-striped">
+		  <thead>
+			<tr>
+			  <th scope="col">No.</th>
+			  <th scope="col">Nimi</th>
+			  {% if mod_rights %} 
+			    <th scope="col"></th>
+			    <th scope="col"></th>
+			  {% endif %}
+			</tr>
+		  </thead>
+		  {% for player in players %}
+		    <tr>
+		  	  <td><a href=/players/{{player[3]}}>{{ player[2] }}</a></td>
+			  <td><a href=/players/{{player[3]}}>{{ player[0] }} {{ player[1] }}</a></td>
+			  {% if mod_rights %} 
+			    <td><a href=/users/edit/{{player[3]}}><i class="far fa-edit"></i>Muokkaa</a></td>
+			    <td><a href=/users/delete/{{player[3]}}><i class="far fa-trash-alt"></i>Poista</a></td>
+			  {% endif %}
+		    </tr>
+		  {% endfor %}
+		</table>
+	  </div>
+	</div>
+  </div>
 {% endblock %}
