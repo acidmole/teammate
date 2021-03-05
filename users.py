@@ -24,8 +24,12 @@ def is_admin():
 	user_type = result.fetchone()
 	if user_type[0] == True:
 		return True
-	else:
-		return False
+	return False
+
+def make_admin(id):
+	sql = "UPDATE users SET admin='t' WHERE id=:id"
+	db.session.execute(sql, {"id":id})
+	db.session.commit()
 
 def logout():
     del session["user_id"]
