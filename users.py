@@ -41,11 +41,17 @@ def logout():
     del session["user_id"]
 
 def new_user(username, password, first_name, last_name):
-    hash_value = generate_password_hash(password)
-    sql = "INSERT INTO users (username, password, first_name, last_name) VALUES (:username, :password, :first_name, :last_name)"
-    db.session.execute(sql, {"username":username, "password":hash_value, "first_name":first_name, "last_name":last_name})
-    db.session.commit()
-    return True
+	sql="SELECT username FROM users WHERE username=:username"
+	result = db.session.execute(sql, {"username":username})
+	duplicate_user = result.fetchone()
+	if duplicate_user == None:
+		hash_value = generate_password_hash(password)
+		sql = "INSERT INTO users (username, password, first_name, last_name) VALUES (:username, :password, :first_name, :last_name)"
+		db.session.execute(sql, {"username":username, "password":hash_value, "first_name":first_name, "last_name":last_name})
+		db.session.commit()
+		return True
+	else:
+		return False
 
 
 def new_player(username, jersey, height, weight, position):

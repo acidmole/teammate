@@ -12,9 +12,9 @@ class RegistrationForm(Form):
 	first_name = StringField('Etunimi', [validators.Length(min=3, max=25)])
 	last_name = StringField('Sukunimi', [validators.Length(min=3, max=40)])
 	player = BooleanField('Olen pelaaja')
-	jersey = IntegerField('Pelinumero', [validators.DataRequired(), validators.NumberRange(min=0, max=99)], default=0)
-	height = IntegerField('Pituus', [validators.NumberRange(min=0, max=300)], default=0)
-	weight = IntegerField('Paino', [validators.NumberRange(min=0, max=300)], default=0)
+	jersey = IntegerField('Pelinumero', default=0)
+	height = IntegerField('Pituus', default=0)
+	weight = IntegerField('Paino', default=0)
 	position = SelectField('Pelipaikka', choices=[('G','Takamies'), ('F','Laituri'), ('C','Sentteri')])
 
 class EditInfoForm(Form):

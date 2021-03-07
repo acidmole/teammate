@@ -36,15 +36,23 @@ def register():
 
 	if request.method == "POST" and form.validate():
 		if users.new_user(form.username.data, form.password.data, form.first_name.data, form.last_name.data):
-			flash ('Rekisteröityminen onnistui')
 			if (form.player.data == True):
-				if players.new_player(form.username.data, form.jersey.data, form.height.data, form.weight.data, form.position.data):
+				jersey = form.jersey.data
+				if jersey < 0:
+					jersey = 0
+				height = form.height.data
+				if height < 0:
+					height = 0
+				weight = form.weight.data
+				if weight < 0:
+					weight = 0
+				if players.new_player(form.username.data, jersey, height, weight, form.position.data):
 					return redirect("/")
 				else: render_template("error.html",message="Rekisteröinti ei onnistunut")
 			else:
 					return redirect("/")
 		else:
-			return render_template("error.html",message="Rekisteröinti ei onnistunut")
+			return render_template("error.html",message="Rekisteröinti ei onnistunut. Nimimerkki saattaa olla varattu.")
 	else:
 		return render_template("error.html",message="Rekisteröinti ei onnistunut")
 

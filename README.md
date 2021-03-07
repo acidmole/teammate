@@ -7,25 +7,16 @@ The app can be tested at http://tsoha-teammate.herokuapp.com/
 - "Pelaajat" guides you to player list to view players' personal information and top performance. You can also compare players' stats with each other.
 - "Tapahtumat" guides you to events to view them. Events view has a filter with a couple of time options. Admins can also add, modify and delete events. Single event can also be viewed. Events 
 can be commented but comments can't be removed. For each event all users can declare themselves either "in" or "out".
-- "Tilastot" guides you to stats page where you can view personal or team match stats, or practice stats. Stats can be added, though only one line at the time. In case of a typo or other error 
+- "Tilastot" guides you to stats page where you can view personal or team match stats, or practice stats. Stats can be added, though only one line at a time. In case of a typo or other error 
 stat can be input, for the app will update any stat line it finds.
-- "Käyttäjät" shows every user. Admins can edit or delete any user. Deleting a user takes them to Graveyard where they can be resurrected ie. brought back. Users in graveyard can not log in 
+- "Käyttäjät" shows every user. Users can be normal users or admins. User can also be a player or not. Admins can edit or delete any user. Deleting a user takes them to Graveyard where they can 
+be resurrected ie. brought back. Users in graveyard can not log in 
 and are not shown in player list but are visible in statistics for coherence.
 - "Muokkaa tietojani" brings you to edit your information
 - "Kirjaudu ulos" for logout
 
 A short guide for Finnish basketball stat acronyms: 2P/A = 2 points shots made/attempted (1P = free throws, 3P = threepointers), PL = puolustuslevypallo = defensive rebound, HL = hyökkäyslevypallo = offensive rebound, V = virhe = foul, S = syöttö = assist, M = menetys = turnover, R = riisto = steal, B = blokki = block, P = pisteet = points.
 
-Known bugs and unfinished features:
-* null/missing stats shows None or something else weird
-
-todo:
-* event edit ja add palaa samaan sivunäkymään
-* tilastojen syöttö dynaamiseksi
-* bugit
-* top performance kaikista pelaajista
-* ehditkö flashi messaget?
-* käyttäjätietojen muutos ei onnistunut foo/bar
 
 # teammate
 Basketball team's schedule and statistics app
