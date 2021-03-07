@@ -18,6 +18,7 @@
 		  {% endif %}
 		  <p> {{ form.submit }} {{ form.cancel }}</p>
 		  {{ form.user_id(value=user[0]) }}
+		  {{ form.csrf_token(value=session.csrf_token) }}
   		</form>
   	  </div>
     </div>

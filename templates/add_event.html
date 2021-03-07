@@ -14,6 +14,7 @@
     	  <p>Aika: <input type="time" name="time" required></p>
     	  <p>Tapahtuman otsikko: <input type="text" name="name" required></p>
     	  <p>Paikka: <input type="text" name="location"></p>
+    	  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     	  <input type="submit" value="Luo tapahtuma">
   		</form>
   	  </div>

@@ -1,9 +1,8 @@
-
 from app import app
 from flask import render_template, redirect, request, flash
 from db import db
+from datetime import datetime
 from forms import RegistrationForm, CommentForm, SignForm, EditEventForm, ConfirmDeleteForm, EditInfoForm, StatForm, InsertStatForm
-
 import users, events, players, stats, forms
 
 @app.route("/")
@@ -80,40 +79,8 @@ def list_events():
 
 	if request.method == "POST":
 
-		if form.submit.data and form.validate():
-			if events.add_comment(form.user_id.data, form.event_id.data, form.message.data):
-				return redirect("/events")
-			else:
-				return render_template("error.html", message="Kommentin lisääminen ei onnistunut")
-
-		if s_form.player_in.data and s_form.validate():
-			if events.sign_up(s_form.user_id.data, s_form.event_id.data, "t"):
-				return redirect("/events")
-			else:
-				return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
-		elif s_form.validate() and s_form.player_out.data:
-				if events.sign_up(s_form.user_id.data, s_form.event_id.data, "f"):
-					return redirect("/events")
-				else:
-					return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
-
-@app.route("/event/<int:id>", methods=["GET", "POST"])
-def event_info(id):
-
-	form = CommentForm(request.form)
-	s_form = SignForm(request.form)
-
-	if request.method == "GET":
-		event = events.get_event_info(id)
-		sign_ups = events.get_sign_ups(id)
-		sign_outs = events.get_sign_outs(id)
-		comments = events.get_comments(id)
-		if users.is_admin():
-			mod_rights = True
-		else:
-			mod_rights =  False
-
-	if request.method == "POST":
+		if users.get_csrf_token() != form.csrf_token.data:
+			return render_template("error.html", message="Kielletty!")
 
 		if form.submit.data and form.validate():
 			if events.add_comment(form.user_id.data, form.event_id.data, form.message.data):
@@ -131,23 +98,30 @@ def event_info(id):
 					return redirect("/events")
 				else:
 					return render_template("error.html",message="Ilmoittautuminen ei onnistunut")
-
-	return render_template("event.html", event=event, sign_ups=sign_ups, sign_outs=sign_outs, comments=comments, form=form, s_form=s_form, mod_rights=mod_rights)
 
 @app.route("/event/edit/<int:id>", methods=["GET", "POST"])
 def event_edit(id):
 
 	if users.is_admin():
 		form = EditEventForm(request.form)
+
 		if request.method == "GET":
 			event = events.get_event_info(id)
 			return render_template("edit_event.html", event=event, form=form)
+
 		if request.method == "POST":
-			if form.submit.data:
+
+			if users.get_csrf_token() != form.csrf_token.data:
+				return render_template("error.html", message="Kielletty!")
+
+			if form.submit.data and form.validate():
+				print(form.time.data)
 				if events.update_event(id, form.type.data, form.day.data, form.time.data, form.name.data, form.location.data):
 					return redirect("/events")
 				else:
-					return render_template("error.html",message="Virhe päivityksessä")
+					return render_template("error.html", message="Virhe päivityksessä!")
+			else:
+				return render_template("error.html",message="Päivitys ei onnistunut. Tarkasta, että olet täyttänyt kaikki kohdat.")
 	else:
 		return render.template("error.html", message="Ei oikeutta")
 
@@ -157,10 +131,17 @@ def add_event():
 	if users.is_admin():
 		if request.method == "GET":
 			return render_template("add_event.html")
+
 		if request.method == "POST":
+
+			if users.get_csrf_token() != request.form["csrf_token"]:
+				return render_template("error.html", message="Kielletty!")
+
+
 			type = request.form["type"]
 			date = request.form["date"]
 			time = request.form["time"]
+			print(time)
 			name = request.form["name"]
 			location = request.form["location"]
 			if events.add_event(type, date, time, name, location):
@@ -175,13 +156,19 @@ def delete_event(id):
 	if users.is_admin():
 		form = ConfirmDeleteForm(request.form)
 		if request.method == "GET":
+			print(users.get_csrf_token())
 			event = events.get_event_info(id)
 			return render_template("delete_event.html", event=event, form=form)
+
 		if request.method == "POST":
+			if form.cancel.data:
+				return redirect("/events")
+
 			if form.confirm.data:
 				if events.delete_event(id):
 					return redirect("/events")
-				else: return render_template("error.html", message="Tapahtuman poisto ei onnistunut")
+				else:
+					return render_template("error.html", message="Tapahtuman poisto ei onnistunut")
 			else:
 				return redirect("/events")
 
@@ -199,6 +186,7 @@ def player_list():
 @app.route("/players/<int:id>")
 def player_info(id):
 	compared_id = request.args.get('compare_to', None)
+
 	player_list = players.get_players_without(id)
 	player = players.get_player(id)
 	top_points = players.get_top_points(id)
@@ -212,24 +200,36 @@ def player_info(id):
 	return render_template("player.html", person_info=player, players=player_list, top_points=top_points, top_rebs=top_rebs, top_ass=top_ass, top_steal=top_steal, top_block=top_block,
 	attendance=attendance, compared_player=compared_player)
 
+@app.route("/users")
+def list_users():
+	userlist = users.get_all_users()
+	if users.is_admin():
+		mod_rights = True
+	else:
+		mod_rights =  False
+	return render_template("users_list.html", userlist=userlist, mod_rights=mod_rights)
+
 @app.route("/users/edit/<int:id>")
 def edit_user(id):
 	if users.is_admin() or users.user_id() == id:
 		form = EditInfoForm(request.form)
-		if request.method == "GET":
-			user = users.get_user(id)
-			if players.is_player(id):
-				player_id = players.get_player_id(id)
-				player = players.get_player(player_id[0])
-				return render_template("edit_user.html", user=user, player=player, form=form)
-			else:
-				return render_template("edit_user.html", user=user, form=form)
+		user = users.get_user(id)
+		if players.is_player(id):
+			player_id = players.get_player_id(id)
+			player = players.get_player(player_id[0])
+			return render_template("edit_user.html", user=user, player=player, form=form)
+		else:
+			return render_template("edit_user.html", user=user, form=form)
 	else:
 		return render_template("error.html", message="Ei oikeutta")
 
 @app.route("/users/edit", methods=["POST"])
 def user_edit_post():
+
 	form = EditInfoForm(request.form)
+	if users.get_csrf_token() != form.csrf_token.data:
+		return render_template("error.html", message="Kielletty")
+
 	if form.submit.data and form.validate():
 		id = int(form.user_id.data)
 		if users.is_admin() or users.user_id() == id:
@@ -239,11 +239,13 @@ def user_edit_post():
 				if players.update_player(player_id[0], form.jersey.data, form.height.data, form.weight.data, form.position.data):
 					return redirect("/users")
 				else:
-					render_template("error.html", message="Päivitys ei onnistunut")
+					return render_template("error.html", message="Päivitys ei onnistunut")
 			else:
-				render_template("error.html", message="Päivitys ei onnistunut")
+				return render_template("error.html", message="Päivitys ei onnistunut")
 		else:
 			return render_template("error.html", message="Ei oikeutta")
+	else:
+		return render_template("error.html", message="Täytä kaikki lomakkeen kohdat.")
 
 @app.route("/users/delete/<int:id>", methods=["GET", "POST"])
 def delete_user(id):
@@ -255,14 +257,31 @@ def delete_user(id):
 			return render_template("delete_user.html", del_user=del_user, form=form)
 
 		if request.method == "POST":
+			if users.get_csrf_token() != form.csrf_token.data:
+				abort(403)
+
 			if form.confirm.data:
 				if users.delete_user(id):
 					return redirect("/users")
-				else: return render_template("error.html", message="Pelaajan poisto ei onnistunut")
+				else:
+					return render_template("error.html", message="Pelaajan poisto ei onnistunut")
 			else:
 				return redirect("/users")
+		else:
+			return render_template("error.html", message="Pelaajan poisto ei onnistunut")
 	else:
 		return render_template("error.html", message="Ei oikeutta")
+
+@app.route("/users/promote/<int:id>")
+def promote_user(id):
+	if users.is_admin() or users.user_id() == id:
+		if users.set_admin(id):
+			return redirect("/users")
+		else:
+			return render_template("error.html", message="Tapahtui virhe")
+	else:
+		return render_template("error.html", message="Ei oikeutta")
+
 
 # deleted players rest here
 @app.route("/graveyard")
@@ -279,14 +298,6 @@ def graveyard():
 				return render_template("error.html", message="Virhe pelaajan poistossa")
 	else: return render_template("error.html", message="Ei oikeutta")
 
-@app.route("/users")
-def list_users():
-	userlist = users.get_all_users()
-	if users.is_admin():
-		mod_rights = True
-	else:
-		mod_rights =  False
-	return render_template("users_list.html", userlist=userlist, mod_rights=mod_rights)
 
 @app.route("/stats")
 def games():
@@ -319,29 +330,34 @@ def add_stats():
 
 		if request.method == "GET":
 			games = events.get_games()
+			games_list =  [(g[2], (str(g[0]) + " " + g[1])) for g in games]
+			games_list.append([0, "Valitse ottelu"])
 			pl_list = players.get_players()
 			player_list = [(pl[3], (str(pl[2]) + " " + pl[0] + " " + pl[1])) for pl in pl_list]
 			player_list.append([0, "Valitse pelaaja"])
-
-			form = InsertStatForm(request.form)
-			print(form.entries)
-			return render_template("add_stats.html", form=form, games=games, player_list=player_list)
+			form = StatForm(request.form)
+			form.player_id.choices = player_list
+			form.event_id.choices = games_list
+			return render_template("add_stats.html", form=form)
 
 		if request.method == "POST":
-			form = InsertStatForm(request.form)
-			if form.submit.data:
-				for stat in form.statistics.data:
-					stat_line = []
-					for s in stat.values():
-						stat_line.append(s)
-					if stat_line[0] != "0":
-						stats.add_game_stats(form.event_id.data, stat_line[0], stat_line[1], stat_line[2], stat_line[3], stat_line[4], stat_line[5], stat_line[6], stat_line[7], stat_line[8],
-						stat_line[9], stat_line[10], stat_line[11], stat_line[12], stat_line[13], stat_line[14])
-			return redirect("/stats")
+			if users.get_csrf_token() != form.csrf_token.data:
+				return render_template("error.html", message="Kielletty!")
+			form = StatForm(request.form)
+			if form.submit.data and form.validate():
+				if form.event_id.data != "0" and form.player_id.data != "0":
+					stats.add_game_stats(form.event_id.data, form.player_id, form.min.data, form.fg.data, form.fg_a.data, form.three.data, form.three_a.data, form.ft.data, form.ft_a.data,
+					form.dreb.data, form.oreb.data, form.foul.data, form.ass.data, form.tover.data, form.steal.data, form.block.data)
+					return redirect("/stats")
+				else:
+					return render_template("error.html", message="Pelaaja ja tapahtuma pitää olla valittuna")
+			else:
+				return render_template("error.html", message="Virhe tilastoiden syöttämisessä")
 		else:
 			return render_template("error.html", message="Virhe tilastoiden syöttämisessä")
 	else:
 		return render_template("error.html", message="Ei oikeutta")
+
 
 @app.route("/stats/practice")
 def practice_stats():

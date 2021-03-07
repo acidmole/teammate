@@ -1,11 +1,19 @@
 {% extends "layout.html" %}
 {% block content %}
 
-  <h4>Varmistus</h4>
-    <p>Haluatko varmasti poistaa käyttäjän {{ del_user[1] }} {{ del_user[2]}}?</p>
-	<p>Poistuneet pelaajat siirtyvät <a href=/graveyard>hautuumaalle</a></p>
-	<form action="/users/delete/{{ del_user[0] }}" method="POST">
-	  {{ form.confirm }} {{ form.cancel }}
-    </form>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+  		<h4>Varmistus</h4>
+    	<p>Haluatko varmasti poistaa käyttäjän {{ del_user[1] }} {{ del_user[2]}}?</p>
+		<p>Poistuneet pelaajat siirtyvät <a href=/graveyard>hautuumaalle</a></p>
+		<form action="/users/delete/{{ del_user[0] }}" method="POST">
+	  	{{ form.confirm }} {{ form.cancel }}
+	  	{{ form.csrf_token(value=session.csrf_token) }}
+	  	</form>
+      </div>
+    </div>
+  </div>
+        
   
 {% endblock %}

@@ -14,11 +14,12 @@
 	  		  {{ subfield }} {{ subfield.label }} <br>
       		{% endfor %}
     	  </p>
-    	  <p>{{ form.day.label }} {{ form.day(value=event[1]) }}</p>
-  		  <p>{{ form.time.label }} {{ form.time(value=event[2]) }}</p>
+    	  <p>{{ form.day.label }} {{ form.day(value=event[1].strftime("%d-%m-%Y")) }}</p>
+  		  <p>{{ form.time.label }} {{ form.time(value=event[2].strftime("%H:%M")) }}</p>
   		  <p>{{ form.name.label }} {{ form.name(value=event[3]) }}</p>
   		  <p>{{ form.location.label }} {{ form.location(value=event[5]) }}</p>
   		  <p>{{ form.submit }}</p>
+  		  {{ form.csrf_token(value=session.csrf_token) }}
   		</form>
      </div>
    </div>

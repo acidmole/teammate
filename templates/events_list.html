@@ -24,7 +24,7 @@
 	</div>
 	{% if mod_rights %} 
 	  <div class="col-md-4">
-    	<h4><a href=/events/add_event> <i class="far fa-plus-square"> Lisää tapahtuma</i></a></h4>
+    	<h3><a href=/events/add_event> <i class="far fa-plus-square" style="padding-right: 8px;"></i>Lisää tapahtuma</a></h3>
   	  </div>
     {% endif %}
   </div>
@@ -32,31 +32,29 @@
 
     {% for event in events %}
 	  <div class="row">
-          <h3><a style="padding-left:16px;" href=/event/{{ event[4] }}> {{ event[1] }} {{ event[2] }} {{ event[3] }} @ {{ event[5] }}</a></h3>
+          <h3>{{ event[1].strftime("%d-%m-%Y") }} {{ event[2].strftime("%H:%M") }} {{ event[3] }} @ {{ event[5] }}</a></h3>
       </div>    
       <div class="row">
         <div class="col-md-4">
     	  <h4>Ilmoittautuneet:</h4>
-      	  <table class=table>
-      		<tr>
+      	  <table class="table">
       		  {% for sign_up in sign_ups %}
-        	    {% if sign_up[1] == event[4] %}<br>
-	  	  	      {{ sign_up[2] }}
-	  	  		  {% if sign_up[2] == "True" %}
-	  	  		    <td style="background-color:MediumSeaGreen;">{{ sign_up[0] }}</td>
-          		  {% else %}
-   	  	  		  <td style="background-color:red;">{{ sign_up[0] }}</td>
-          		  {% endif %}
-        	    {% endif %}
+        	    {% if sign_up[1] == event[4] %}
+        	      <tr><td style="background-color:MediumSeaGreen; border-radius: 1em;">{{ sign_up[0] }}</td></tr>
+          		{% endif %}
       		  {% endfor %}
-            </tr>
+      		  {% for out in sign_outs %}
+        	    {% if out[1] == event[4] %}
+        	      <tr><td style="background-color:Tomato; border-radius: 1em;">{{ out[0] }}</td></tr>
+          		{% endif %}
+      		  {% endfor %}
           </table>
       	  <form action="/events" method="post">
         	<h4>Ilmoittaudu:</h4>
 	 		{{ s_form.user_id(value=session.user_id) }}
         	{{ s_form.event_id(value=event[4]) }}
-        	{{ s_form.player_in }}
-        	{{ s_form.player_out }}
+        	<p>{{ s_form.player_in }} {{ s_form.player_out }}</p>
+        	{{ s_form.csrf_token(value=session.csrf_token) }}
       	  </form>
        </div>
        <div class="col-md-4">
@@ -69,13 +67,14 @@
 	  		  </p>
 	  	    {% endif %}
 	  	  {% endfor %}
-		<form action="/events" method="post">
 
+		<form action="/events" method="post">
 	      <p>
  		  	{{ (form.message) }}
 	 	  <br>
 	 	  	{{ form.event_id(value=event[4]) }}
 	 	  	{{ form.user_id(value=session.user_id) }}
+	 	  	{{ form.csrf_token(value=session.csrf_token) }}
 	 	  	{{ form.submit }}
 	 	  </p>
 		</form>

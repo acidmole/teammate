@@ -3,9 +3,7 @@
 
 <div class="container">
   <div class="row">
-      {% for e in event %}
-      	<h1 style="padding-left: 16px;">Ottelutilasto {{ e[3] }} {{ e[1] }}</h1>
-      {% endfor %}
+      	<h1 style="padding-left: 16px;">Ottelutilasto {{ event[3] }} {{ event[1] }}</h1>
   </div>
 
   <div class="row">
@@ -40,7 +38,7 @@
     	  <tr>
       		<td><a href=/players/{{stat[22]}}>{{ stat[0] }} {{ stat[1] }}</a></td>
 		    <td>{{ stat[2] }}</td> 
-		    <td>{{ stat[3] }}</td>
+		    <td>{{ stat[3].strftime("%M:%S") }}</td>
       		<td>{{ stat[4] }}</td>
       		<td>{{ stat[5] }}</td>
 	        <td>{{ stat[6] }}</td>

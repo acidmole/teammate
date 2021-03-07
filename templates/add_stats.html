@@ -1,4 +1,4 @@
-'{% extends "layout.html" %}
+{% extends "layout.html" %}
 {% block content %}
 
   <div class="container">
@@ -27,13 +27,13 @@
 			  <th>R</th>
 			  <th>T</th>
 		    </tr></thead>
-			    {% for field in s_form %}
-				  <td>{{ field }}</td>
-			  	{% endfor %}
+			{% for field in form %}
+			  <tr>
+			  	<td>{{ field }}</td>
 			  </tr>
+			{% endfor %}
 		  </table>
-		<p>
-		</p>
+		{{ form.csrf_token(value=session.csrf_token) }}
 		</form>
 		</div>
 	  </div>

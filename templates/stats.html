@@ -4,25 +4,28 @@
   <div class="container">
 	<div class="row">
 	  <div class="col-md-4">
-		<p><a href=stats/add_stats><i class="far fa-plus-square"> Lisää tilasto</i></a></p>
+		<h3><a href=stats/add_stats><i class="far fa-plus-square" style="font-size:24px; padding-right:8px;"></i>Lisää tilastorivi</a></h3>
 	  </div>
   	  <div class="col-md-4">
-  	    <a href=/stats/personal>Pelaajakohtaiset tilastot</a><br>
-  		<a href=/stats/team>Joukkuetilastot</a><br>
-  		<a href=/stats/practice>Harjoittelutilastot<a>
-  	  </div>
-  	</div>
   	  
-	<div class="row">
-	  <div class="col-md-4">
-	    <p>Uusimmat tilastot:
+	    <p>
+		  <h4>Uusimmat tilastot:</h4>
 		  <ul>
 		    {% for game in games %}
     		  <li><a href=/stats/{{ game[0] }}> {{ game[2] }} {{ game[1] }} </a></li>
 			{% endfor %}
 		  </ul>
 		</p>
-	  </di>
+
+  	  </div>
+  	</div>
+  	  
+	<div class="row">
+	  <div class="col-md-4">
+  	    <a href=/stats/personal>Pelaajakohtaiset tilastot</a><br>
+  		<a href=/stats/team>Joukkuetilastot</a><br>
+  		<a href=/stats/practice>Harjoittelutilastot<a>
+	  </div>
     </div>
   </div>
 

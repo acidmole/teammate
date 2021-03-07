@@ -7,7 +7,9 @@
     </div>
     <div class="row">
       <div class="col-md-4">
-        <p>Poistetut käyttäjät loytyvät <a href="/graveyard">hautuumaalta</a>.</p>
+        {% if mod_rights %}
+          <p>Poistetut käyttäjät loytyvät <a href="/graveyard">hautuumaalta</a>.</p>
+        {% endif %}
       </div>
         <table class="table table-striped" style="font-size 50%";>
           <thead>
@@ -16,6 +18,7 @@
 			  <th>Etunimi</th>
 	  		  <th>Sukunimi</th>
 	    	  {% if mod_rights %}
+	    	    <th></th>
 	    	    <th></th>
 	    	    <th></th>
 	    	  {% endif %}
@@ -28,7 +31,10 @@
 	    	  <td>{{ user[2] }}</td>
 	    	  {% if mod_rights %}
 	      	  	<td><a href="/users/edit/{{ user[0] }}">Muokkaa</a></td>
-	      	  	<td> <a href="/users/delete/{{ user[0] }}">Poista</a></td>
+	      	  	<td><a href="/users/delete/{{ user[0] }}">Poista</a></td>
+	      	  	{% if not user[3] %}
+	      	  	  <td><a href="/users/promote/{{ user[0] }}">Nosta ylläpitäjäksi</a></td>
+	      	  	{% endif %}
 	    	  {% endif %}
 	  		</tr>
     	  {% endfor %}

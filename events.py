@@ -14,7 +14,7 @@ def get_all_events(timespan):
     sql = "SELECT E.type, E.day, E.h_min, E.name, E.id, E.location "\
     "FROM events E " \
 	"WHERE " + str(timespan) + " "\
-	"ORDER BY E.day DESC LIMIT 10"
+	"ORDER BY E.day LIMIT 20"
     result = db.session.execute(sql)
     return result.fetchall()
 

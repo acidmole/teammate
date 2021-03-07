@@ -1,20 +1,25 @@
 from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
+import os
 
 def login(username, password):
-    sql = "SELECT password, id, first_name FROM users WHERE username=:username"
+    sql = "SELECT password, id, first_name, visible FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
-    if user == None:
+    if user == None or user[3] == False:
         return False
     else:
         if check_password_hash(user[0],password):
             session["user_id"] = user[1]
             session["first_name"] = user[2]
+            session["csrf_token"] = os.urandom(16).hex()
             return True
         else:
             return False
+
+def get_csrf_token():
+	return session.get("csrf_token",0)
 
 def user_id():
 	return session.get("user_id",0)
@@ -26,10 +31,11 @@ def is_admin():
 		return True
 	return False
 
-def make_admin(id):
+def set_admin(id):
 	sql = "UPDATE users SET admin='t' WHERE id=:id"
 	db.session.execute(sql, {"id":id})
 	db.session.commit()
+	return True
 
 def logout():
     del session["user_id"]
@@ -68,6 +74,7 @@ def delete_user(id):
 	db.session.commit()
 	return True
 
+# returns a list of all users
 def get_all_users():
 	result = db.session.execute("SELECT id, first_name, last_name, admin FROM users WHERE visible='t' ORDER BY last_name")
 	return result.fetchall()
