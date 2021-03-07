@@ -327,6 +327,7 @@ def single_game_stats(id):
 @app.route("/stats/add_stats", methods=["GET", "POST"])
 def add_stats():
 	if users.is_admin():
+		form = StatForm(request.form)
 
 		if request.method == "GET":
 			games = events.get_games()
@@ -335,7 +336,6 @@ def add_stats():
 			pl_list = players.get_players()
 			player_list = [(pl[3], (str(pl[2]) + " " + pl[0] + " " + pl[1])) for pl in pl_list]
 			player_list.append([0, "Valitse pelaaja"])
-			form = StatForm(request.form)
 			form.player_id.choices = player_list
 			form.event_id.choices = games_list
 			return render_template("add_stats.html", form=form)
@@ -343,10 +343,10 @@ def add_stats():
 		if request.method == "POST":
 			if users.get_csrf_token() != form.csrf_token.data:
 				return render_template("error.html", message="Kielletty!")
-			form = StatForm(request.form)
-			if form.submit.data and form.validate():
+
+			if form.submit.data:
 				if form.event_id.data != "0" and form.player_id.data != "0":
-					stats.add_game_stats(form.event_id.data, form.player_id, form.min.data, form.fg.data, form.fg_a.data, form.three.data, form.three_a.data, form.ft.data, form.ft_a.data,
+					stats.add_game_stats(form.event_id.data, form.player_id.data, form.min.data, form.fg.data, form.fg_a.data, form.three.data, form.three_a.data, form.ft.data, form.ft_a.data,
 					form.dreb.data, form.oreb.data, form.foul.data, form.ass.data, form.tover.data, form.steal.data, form.block.data)
 					return redirect("/stats")
 				else:

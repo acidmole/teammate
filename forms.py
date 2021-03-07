@@ -69,6 +69,8 @@ class StatForm(Form):
 	tover = IntegerField('M', default=0)
 	steal = IntegerField('R', default=0)
 	block = IntegerField('T', default=0)
+	submit = SubmitField('LÄHETÄ')
+	cancel = SubmitField('PERUUTA')
 	csrf_token = HiddenField('csrf_token')
 
 # this is not in use atm

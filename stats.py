@@ -73,7 +73,7 @@ def add_game_stats(event_id, player_id, mins, fg, fg_a, three, three_a, ft, ft_a
 	result = db.session.execute(sql, {"player_id":player_id, "event_id":event_id})
 	if result.fetchone() != None:
 		sql = "UPDATE game_stats SET mins=:mins, fg=:fg, fg_a=:fg_a, three=:three, three_a=:three_a, ft=:ft, ft_a=:ft_a, dreb=:dreb, oreb=:oreb, "\
-		"foul=:foul, ass=:ass, tover=:tover, steal=:steal, block=:block WHERE player_id=" + int(player_id) + " AND event_id=" + int(event_id)
+		"foul=:foul, ass=:ass, tover=:tover, steal=:steal, block=:block WHERE player_id=" + player_id + " AND event_id=" + event_id
 		db.session.execute(sql, {"mins":mins, "fg":fg, "fg_a":fg_a, "three":three, "three_a":three_a, "ft":ft,
 		"ft_a":ft_a, "dreb":dreb, "oreb":oreb, "foul":foul, "ass":ass, "tover":tover, "steal":steal, "block":block})
 		db.session.commit()

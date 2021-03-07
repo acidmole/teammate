@@ -3,41 +3,31 @@
 
   <div class="container">
     <div class="row">
-      <form action="/stats/add_stats" method="post" >
       <div class="col-md-4">
-     </div>
-   </div>
-   <div class="row">
-	  <div class="col-md-4">
-		 <table class="table table-bordered">
-		 	<thead><tr>
-			  <th>Pelaaja></th>
-			  <th>Min</th>
-			  <th>2P</th>
-			  <th>2PA</th>
-			  <th>1P</th>
-			  <th>1PA</th>
-			  <th>3P</th>
-			  <th>3PA</th>
-			  <th>PL</th>
-			  <th>HL</th>
-			  <th>V</th>
-			  <th>S</th>
-			  <th>M</th>
-			  <th>R</th>
-			  <th>T</th>
-		    </tr></thead>
-			{% for field in form %}
-			  <tr>
-			  	<td>{{ field }}</td>
-			  </tr>
-			{% endfor %}
+        <form action="/stats/add_stats" method="post" >
+          {{ form.event_id }}
+		  <table class="table">
+		    <tr><td></td><td>{{ form.player_id }}</td></tr>
+		  	<tr><td>Mins</td><td>{{ form.min(value="00:00") }}</td></tr>
+		  	<tr><td>2P</td><td>{{ form.fg }}</td></tr>
+		  	<tr><td>2PA</td><td>{{ form.fg_a }}</td></tr>
+		  	<tr><td>1P</td><td>{{ form.ft }}</td></tr>
+		  	<tr><td>1PA</td><td>{{ form.ft_a }}</td></tr>
+		  	<tr><td>3P</td><td>{{ form.three }}</td></tr>
+		  	<tr><td>3PA</td><td>{{ form.three_a }}</td></tr>
+		  	<tr><td>PL</td><td>{{ form.dreb }}</td></tr>
+		  	<tr><td>HL</td><td>{{ form.oreb }}</td></tr>
+		  	<tr><td>V</td><td>{{ form.foul }}</td></tr>
+		  	<tr><td>S</td><td>{{ form.ass }}</td></tr>
+		  	<tr><td>M</td><td>{{ form.tover }}</td></tr>
+		  	<tr><td>R</td><td>{{ form.steal }}</td></tr>
+		  	<tr><td>T</td><td>{{ form.block }}</td></tr>
 		  </table>
-		{{ form.csrf_token(value=session.csrf_token) }}
-		</form>
-		</div>
+		  {{ form.submit }} {{ form.cancel }}
+		  {{ form.csrf_token(value=session.csrf_token) }}
+	    </form>
 	  </div>
-  	</div>
+    </div>
   </div>
 
 {% endblock %}
